@@ -14,12 +14,11 @@ import java.math.BigDecimal;
 
 import co.edu.eafit.andromath.R;
 import co.edu.eafit.andromath.grapher.GrapherActivity;
+import co.edu.eafit.andromath.util.Constants;
 
 public class SingleVariableLandingActivity extends AppCompatActivity {
 
-    String tag = SingleVariableLandingActivity.class.getName();
-
-    private static final String VARIABLE = "x";
+    String tag = SingleVariableLandingActivity.class.getSimpleName();
 
     EditText function;
 
@@ -54,7 +53,7 @@ public class SingleVariableLandingActivity extends AppCompatActivity {
             double x = x0.add(delta.multiply(BigDecimal.
                     valueOf((double) i))).doubleValue();
             try {
-                expression.with(VARIABLE,
+                expression.with(Constants.VARIABLE,
                         BigDecimal.valueOf(x)).eval();
                 return true;
             } catch (Expression.ExpressionException e) {
