@@ -1,5 +1,6 @@
 package co.edu.eafit.andromath.singlevar;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import com.udojava.evalex.Expression;
 import java.math.BigDecimal;
 
 import co.edu.eafit.andromath.R;
+import co.edu.eafit.andromath.grapher.GrapherActivity;
 
 public class SingleVariableLandingActivity extends AppCompatActivity {
 
@@ -60,7 +62,9 @@ public class SingleVariableLandingActivity extends AppCompatActivity {
         }
 
         if (isEquationValid) {
-            
+            Intent intent = new Intent(this, GrapherActivity.class);
+            intent.putExtra("equation", function.getText().toString());
+            startActivity(intent);
         }
     }
 
