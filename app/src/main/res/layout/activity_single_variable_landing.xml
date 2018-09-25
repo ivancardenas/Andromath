@@ -76,8 +76,8 @@
             android:textColor="@color/textColorButton"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:onClick="parseAndVerify"
-            android:text="Parse and Verify" />
+            android:onClick="evaluate"
+            android:text="Evaluate" />
 
         <Button
             android:id="@+id/buttonGraph"

@@ -20,7 +20,9 @@
         <activity android:name=".singlevar.SingleVariableLandingActivity">
             android:theme="@style/AppTheme.NoActionBar"
         </activity>
-        <activity android:name=".grapher.GrapherActivity"></activity>
+        <activity android:name=".grapher.GrapherActivity">
+            android:theme="@style/AppTheme.NoActionBar"
+        </activity>
     </application>
 
 </manifest>

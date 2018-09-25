@@ -30,45 +30,46 @@ public class SingleVariableLandingActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        function = findViewById(R.id.editTextEquation);
+        function = (EditText) findViewById(R.id.editTextEquation);
     }
 
     public void graph(View v) {
 
         Expression expression = new Expression(function.getText().toString());
-        BigDecimal x0 = BigDecimal.valueOf(-10d), x1 = null;
+        BigDecimal x0 = BigDecimal.valueOf(-10d);
         BigDecimal delta = BigDecimal.valueOf(0.05);
 
-        boolean isEvaluationFinished = false;
-        boolean isEquationValid = false;
-
-        for (int i = 0; i < 1000 && !isEvaluationFinished; i++) {
-
-            double x = x0.add(delta.multiply(BigDecimal.
-                    valueOf((double) i))).doubleValue();
-            try {
-                expression.with(VARIABLE,
-                        BigDecimal.valueOf(x)).eval();
-                isEvaluationFinished = true;
-                isEquationValid = true;
-            } catch (Expression.ExpressionException e) {
-                Log.d(tag, "Invalid equation");
-                Toast.makeText(getApplicationContext(),
-                        "Invalid equation", Toast.LENGTH_SHORT).show();
-
-                isEvaluationFinished = true;
-                isEquationValid = false;
-            }
-        }
-
-        if (isEquationValid) {
+        if (isEquationValid(expression, x0, delta)) {
             Intent intent = new Intent(this, GrapherActivity.class);
             intent.putExtra("equation", function.getText().toString());
             startActivity(intent);
         }
     }
 
-    public void parseAndVerify(View v) {
+    private boolean isEquationValid(Expression expression, BigDecimal x0,
+                                    BigDecimal delta) {
+
+        for (int i = 0; i < 1000; i++) {
+
+            double x = x0.add(delta.multiply(BigDecimal.
+                    valueOf((double) i))).doubleValue();
+            try {
+                expression.with(VARIABLE,
+                        BigDecimal.valueOf(x)).eval();
+                return true;
+            } catch (Expression.ExpressionException e) {
+                Log.e(tag, "Invalid equation");
+                Toast.makeText(getApplicationContext(),
+                        "Invalid equation", Toast.LENGTH_SHORT).show();
+
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    public void evaluate(View v) {
 
     }
 }
