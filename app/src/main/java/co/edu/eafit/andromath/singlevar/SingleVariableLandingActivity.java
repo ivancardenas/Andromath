@@ -18,7 +18,7 @@ import co.edu.eafit.andromath.util.Constants;
 
 public class SingleVariableLandingActivity extends AppCompatActivity {
 
-    String tag = SingleVariableLandingActivity.class.getSimpleName();
+    private String tag = SingleVariableLandingActivity.class.getSimpleName();
 
     EditText function;
 
