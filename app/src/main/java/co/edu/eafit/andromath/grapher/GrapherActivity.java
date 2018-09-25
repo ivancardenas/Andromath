@@ -12,6 +12,7 @@ import com.udojava.evalex.Expression;
 import java.math.BigDecimal;
 
 import co.edu.eafit.andromath.R;
+import co.edu.eafit.andromath.util.Constants;
 
 public class GrapherActivity extends AppCompatActivity {
 
@@ -43,7 +44,7 @@ public class GrapherActivity extends AppCompatActivity {
                 x = x0.add(delta.multiply(BigDecimal.
                         valueOf((double) i))).doubleValue();
 
-                y = expression.with("x", BigDecimal.
+                y = expression.with(Constants.VARIABLE, BigDecimal.
                         valueOf(x)).eval().doubleValue();
 
                 dataPoints[i] = new DataPoint(x, y);
