@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Andromath</string>
+    <string name="professor">FRANCISCO JOSÉ CORREA ZABALA</string>
+    <string name="memberIvan">IVÁN ANTONIO CÁRDENAS OCHOA</string>
+    <string name="memberJose">JOSÉ MARÍA MIRA BARRIENTOS</string>
+    <string name="memberCamilo">ANDRÉS CAMILO PÁEZ RÍOS</string>
+    <string name="memberSantiago">SANTIAGO VÁSQUEZ ZULUAGA</string>
 </resources>
