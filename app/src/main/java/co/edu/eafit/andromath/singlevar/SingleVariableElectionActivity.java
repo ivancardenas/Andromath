@@ -10,6 +10,7 @@ import java.util.Objects;
 import co.edu.eafit.andromath.R;
 import co.edu.eafit.andromath.singlevar.methods.BisectionActivity;
 import co.edu.eafit.andromath.singlevar.methods.FalseRuleActivity;
+import co.edu.eafit.andromath.singlevar.methods.FixedPointActivity;
 import co.edu.eafit.andromath.singlevar.methods.IncrementalSearchActivity;
 
 public class SingleVariableElectionActivity extends AppCompatActivity {
@@ -46,7 +47,9 @@ public class SingleVariableElectionActivity extends AppCompatActivity {
     }
 
     public void fixedPoint(View v) {
-
+        intent = new Intent(this, FixedPointActivity.class);
+        intent.putExtra("equation", function);
+        startActivity(intent);
     }
 
     public void newton(View v) {
