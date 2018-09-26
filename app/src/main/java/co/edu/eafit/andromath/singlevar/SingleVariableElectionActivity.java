@@ -12,6 +12,7 @@ import co.edu.eafit.andromath.singlevar.methods.BisectionActivity;
 import co.edu.eafit.andromath.singlevar.methods.FalseRuleActivity;
 import co.edu.eafit.andromath.singlevar.methods.FixedPointActivity;
 import co.edu.eafit.andromath.singlevar.methods.IncrementalSearchActivity;
+import co.edu.eafit.andromath.singlevar.methods.MultipleRootsActivity;
 import co.edu.eafit.andromath.singlevar.methods.NewtonActivity;
 import co.edu.eafit.andromath.singlevar.methods.SecantActivity;
 
@@ -67,6 +68,8 @@ public class SingleVariableElectionActivity extends AppCompatActivity {
     }
 
     public void multipleRoots(View v) {
-
+        intent = new Intent(this, MultipleRootsActivity.class);
+        intent.putExtra("equation", function);
+        startActivity(intent);
     }
 }
