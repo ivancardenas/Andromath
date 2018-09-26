@@ -13,6 +13,7 @@ import co.edu.eafit.andromath.singlevar.methods.FalseRuleActivity;
 import co.edu.eafit.andromath.singlevar.methods.FixedPointActivity;
 import co.edu.eafit.andromath.singlevar.methods.IncrementalSearchActivity;
 import co.edu.eafit.andromath.singlevar.methods.NewtonActivity;
+import co.edu.eafit.andromath.singlevar.methods.SecantActivity;
 
 public class SingleVariableElectionActivity extends AppCompatActivity {
 
@@ -60,7 +61,9 @@ public class SingleVariableElectionActivity extends AppCompatActivity {
     }
 
     public void secant(View v) {
-
+        intent = new Intent(this, SecantActivity.class);
+        intent.putExtra("equation", function);
+        startActivity(intent);
     }
 
     public void multipleRoots(View v) {

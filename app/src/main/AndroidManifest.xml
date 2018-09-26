@@ -28,7 +28,8 @@
         <activity android:name=".singlevar.methods.BisectionActivity" />
         <activity android:name=".singlevar.methods.FalseRuleActivity" />
         <activity android:name=".singlevar.methods.FixedPointActivity" />
-        <activity android:name=".singlevar.methods.NewtonActivity"></activity>
+        <activity android:name=".singlevar.methods.NewtonActivity" />
+        <activity android:name=".singlevar.methods.SecantActivity"></activity>
     </application>
 
 </manifest>
