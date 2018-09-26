@@ -19,8 +19,6 @@ import co.edu.eafit.andromath.util.Constants;
 
 public class GrapherActivity extends AppCompatActivity {
 
-    private String tag = GrapherActivity.class.getSimpleName();
-
     private GraphView graphView;
 
     private Intent intent;
