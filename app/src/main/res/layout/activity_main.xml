@@ -112,5 +112,4 @@
             android:onClick="singleVariableButton"
             android:text="Single Variable Equations" />
     </LinearLayout>
-
 </android.support.constraint.ConstraintLayout>

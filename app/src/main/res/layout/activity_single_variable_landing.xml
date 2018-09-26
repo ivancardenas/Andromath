@@ -91,7 +91,5 @@
             android:onClick="graph"
             android:text="Graph"
             android:textColor="@color/textColorButton" />
-
     </LinearLayout>
-
 </android.support.constraint.ConstraintLayout>

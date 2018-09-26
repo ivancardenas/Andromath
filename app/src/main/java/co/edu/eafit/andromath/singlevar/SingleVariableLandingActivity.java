@@ -40,18 +40,42 @@ public class SingleVariableLandingActivity extends AppCompatActivity {
         Expression expression = new Expression(
                 function.getText().toString());
 
-        intent = new Intent(this, GrapherActivity.class);
+        intent = new Intent(this,
+                GrapherActivity.class);
 
-        DataPoint[] dataPoint = getGraphPoints(expression);
+        DataPoint[] dataPoints = getGraphPoints(expression);
 
-        if (dataPoint != null) {
-            intent.putExtra("points", dataPoint);
+        if (dataPoints != null) {
+            intent.putExtra("points", dataPoints);
             startActivity(intent);
         } else {
-            Log.e(tag, "Invalid equation");
-            Toast.makeText(getApplicationContext(),
-                    "Invalid equation", Toast.LENGTH_SHORT).show();
+            invalidEquation();
         }
+    }
+
+    public void evaluate(View v) {
+
+        Expression expression = new Expression(
+                function.getText().toString());
+
+        intent = new Intent(this,
+                SingleVariableElectionActivity.class);
+
+        DataPoint[] dataPoints = getGraphPoints(expression);
+
+        if (dataPoints != null) {
+            intent.putExtra("equation",
+                    function.getText().toString());
+            startActivity(intent);
+        } else {
+            invalidEquation();
+        }
+    }
+
+    private void invalidEquation() {
+        Log.e(tag, "Invalid equation");
+        Toast.makeText(getApplicationContext(),
+                "Invalid equation", Toast.LENGTH_SHORT).show();
     }
 
     private DataPoint[] getGraphPoints(Expression expression) {
@@ -92,9 +116,5 @@ public class SingleVariableLandingActivity extends AppCompatActivity {
         intent.putExtra("xAxisValueMin", xAxisValueMin);
 
         return dataPoints;
-    }
-
-    public void evaluate(View v) {
-
     }
 }

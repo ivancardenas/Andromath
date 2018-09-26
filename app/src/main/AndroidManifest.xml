@@ -23,6 +23,7 @@
         <activity android:name=".grapher.GrapherActivity">
             android:theme="@style/AppTheme.NoActionBar"
         </activity>
+        <activity android:name=".singlevar.SingleVariableElectionActivity"></activity>
     </application>
 
 </manifest>
