@@ -12,6 +12,7 @@ import co.edu.eafit.andromath.singlevar.methods.BisectionActivity;
 import co.edu.eafit.andromath.singlevar.methods.FalseRuleActivity;
 import co.edu.eafit.andromath.singlevar.methods.FixedPointActivity;
 import co.edu.eafit.andromath.singlevar.methods.IncrementalSearchActivity;
+import co.edu.eafit.andromath.singlevar.methods.NewtonActivity;
 
 public class SingleVariableElectionActivity extends AppCompatActivity {
 
@@ -53,7 +54,9 @@ public class SingleVariableElectionActivity extends AppCompatActivity {
     }
 
     public void newton(View v) {
-
+        intent = new Intent(this, NewtonActivity.class);
+        intent.putExtra("equation", function);
+        startActivity(intent);
     }
 
     public void secant(View v) {

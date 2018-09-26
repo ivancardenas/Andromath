@@ -27,7 +27,8 @@
         <activity android:name=".singlevar.methods.IncrementalSearchActivity" />
         <activity android:name=".singlevar.methods.BisectionActivity" />
         <activity android:name=".singlevar.methods.FalseRuleActivity" />
-        <activity android:name=".singlevar.methods.FixedPointActivity"></activity>
+        <activity android:name=".singlevar.methods.FixedPointActivity" />
+        <activity android:name=".singlevar.methods.NewtonActivity"></activity>
     </application>
 
 </manifest>
