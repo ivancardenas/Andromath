@@ -8,6 +8,7 @@ import android.view.View;
 import java.util.Objects;
 
 import co.edu.eafit.andromath.R;
+import co.edu.eafit.andromath.singlevar.methods.BisectionActivity;
 import co.edu.eafit.andromath.singlevar.methods.IncrementalSearchActivity;
 
 public class SingleVariableElectionActivity extends AppCompatActivity {
@@ -32,7 +33,9 @@ public class SingleVariableElectionActivity extends AppCompatActivity {
     }
 
     public void bisection(View v) {
-
+        intent = new Intent(this, BisectionActivity.class);
+        intent.putExtra("equation", function);
+        startActivity(intent);
     }
 
     public void falseRule(View v) {
