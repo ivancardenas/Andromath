@@ -16,30 +16,39 @@ import co.edu.eafit.andromath.util.Constants;
 
 public class GrapherActivity extends AppCompatActivity {
 
-    private LineGraphSeries lineGraphSeries;
-    private DataPoint dataPoints[];
-    private Expression expression;
     private GraphView graphView;
-    private BigDecimal delta;
+
+    private Intent intent;
+
+    private double xAxisValueMax = 50d;
+    private double xAxisValueMin = -50d;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grapher);
 
+        getSupportActionBar().hide();
+
+        intent = getIntent();
         graphView = (GraphView) findViewById(R.id.graph);
 
-        Intent intent = getIntent();
-        expression = new Expression(intent.getStringExtra("equation"));
+        graph();
+    }
 
-        BigDecimal x0 = new BigDecimal(-10d);
+    private void graph() {
 
-        delta = new BigDecimal(0.05);
-        dataPoints = new DataPoint[400];
+        BigDecimal x0 = new BigDecimal(xAxisValueMin);
+
+        BigDecimal delta = new BigDecimal(0.1);
+        DataPoint dataPoints[] = new DataPoint[1000];
+
+        Expression expression = new Expression(
+                intent.getStringExtra("equation"));
 
         double highest = 0.0d, lowest = 0.0d, x, y;
 
-        for (int i = 0; i < 400; i++) {
+        for (int i = 0; i < 1000; i++) {
             try {
                 x = x0.add(delta.multiply(BigDecimal.
                         valueOf((double) i))).doubleValue();
@@ -48,21 +57,23 @@ public class GrapherActivity extends AppCompatActivity {
                         valueOf(x)).eval().doubleValue();
 
                 dataPoints[i] = new DataPoint(x, y);
-                if (y > highest) highest = y;
-                if (y < lowest) lowest = y;
-            } catch (Exception e){
+                if (y > highest && y < xAxisValueMax) highest = y;
+                if (y < lowest && y > xAxisValueMin) lowest = y;
+            } catch (Expression.ExpressionException e){
                 dataPoints[i] = null;
             }
         }
 
-        lineGraphSeries = new LineGraphSeries(dataPoints);
+        LineGraphSeries lineGraphSeries = new
+                LineGraphSeries(dataPoints);
+
         graphView.addSeries(lineGraphSeries);
 
         graphView.getViewport().setXAxisBoundsManual(true);
+        graphView.getViewport().setMaxX(xAxisValueMax);
+        graphView.getViewport().setMinX(xAxisValueMin);
 
-        graphView.getViewport().setMaxX(x0.doubleValue() + 20d);
-        graphView.getViewport().setMinX(x0.doubleValue());
-
+        graphView.getViewport().setYAxisBoundsManual(true);
         graphView.getViewport().setMaxY(highest);
         graphView.getViewport().setMinY(lowest);
     }
