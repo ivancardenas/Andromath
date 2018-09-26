@@ -9,6 +9,7 @@ import java.util.Objects;
 
 import co.edu.eafit.andromath.R;
 import co.edu.eafit.andromath.singlevar.methods.BisectionActivity;
+import co.edu.eafit.andromath.singlevar.methods.FalseRuleActivity;
 import co.edu.eafit.andromath.singlevar.methods.IncrementalSearchActivity;
 
 public class SingleVariableElectionActivity extends AppCompatActivity {
@@ -39,7 +40,9 @@ public class SingleVariableElectionActivity extends AppCompatActivity {
     }
 
     public void falseRule(View v) {
-
+        intent = new Intent(this, FalseRuleActivity.class);
+        intent.putExtra("equation", function);
+        startActivity(intent);
     }
 
     public void fixedPoint(View v) {
