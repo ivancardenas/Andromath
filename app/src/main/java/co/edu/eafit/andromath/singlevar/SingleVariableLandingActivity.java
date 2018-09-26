@@ -8,9 +8,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.jjoe64.graphview.series.DataPoint;
 import com.udojava.evalex.Expression;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import co.edu.eafit.andromath.R;
 import co.edu.eafit.andromath.grapher.GrapherActivity;
@@ -20,52 +22,76 @@ public class SingleVariableLandingActivity extends AppCompatActivity {
 
     private String tag = SingleVariableLandingActivity.class.getSimpleName();
 
-    EditText function;
+    private EditText function;
+
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_variable_landing);
-
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         function = (EditText) findViewById(R.id.editTextEquation);
     }
 
     public void graph(View v) {
 
-        Expression expression = new Expression(function.getText().toString());
-        BigDecimal x0 = BigDecimal.valueOf(-10d);
-        BigDecimal delta = BigDecimal.valueOf(0.05);
+        Expression expression = new Expression(
+                function.getText().toString());
 
-        if (isEquationValid(expression, x0, delta)) {
-            Intent intent = new Intent(this, GrapherActivity.class);
-            intent.putExtra("equation", function.getText().toString());
+        intent = new Intent(this, GrapherActivity.class);
+
+        DataPoint[] dataPoint = getGraphPoints(expression);
+
+        if (dataPoint != null) {
+            intent.putExtra("points", dataPoint);
             startActivity(intent);
+        } else {
+            Log.e(tag, "Invalid equation");
+            Toast.makeText(getApplicationContext(),
+                    "Invalid equation", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private boolean isEquationValid(Expression expression, BigDecimal x0,
-                                    BigDecimal delta) {
+    private DataPoint[] getGraphPoints(Expression expression) {
+
+        double xAxisValueMax = 50d, xAxisValueMin = -50d;
+        double highestY = 0.0d, lowestY = 0.0d, x, y;
+
+        BigDecimal x0 = new BigDecimal(xAxisValueMin);
+        BigDecimal delta = new BigDecimal(0.1);
+
+        DataPoint dataPoints[] = new DataPoint[1000];
 
         for (int i = 0; i < 1000; i++) {
 
-            double x = x0.add(delta.multiply(BigDecimal.
-                    valueOf((double) i))).doubleValue();
             try {
-                expression.with(Constants.VARIABLE,
-                        BigDecimal.valueOf(x)).eval();
-                return true;
-            } catch (Expression.ExpressionException e) {
-                Log.e(tag, "Invalid equation");
-                Toast.makeText(getApplicationContext(),
-                        "Invalid equation", Toast.LENGTH_SHORT).show();
+                x = x0.add(delta.multiply(BigDecimal.
+                        valueOf((double) i))).doubleValue();
 
-                return false;
+                y = expression.with(Constants.VARIABLE, BigDecimal.
+                        valueOf(x)).eval().doubleValue();
+
+                dataPoints[i] = new DataPoint(x, y);
+
+                if (y > highestY && y < xAxisValueMax) highestY = y;
+                if (y < lowestY && y > xAxisValueMin) lowestY = y;
+
+            } catch (Expression.ExpressionException
+                    | ArithmeticException | NumberFormatException e) {
+
+                return null;
             }
         }
 
-        return false;
+        intent.putExtra("highestY", highestY);
+        intent.putExtra("lowestY", lowestY);
+
+        intent.putExtra("xAxisValueMax", xAxisValueMax);
+        intent.putExtra("xAxisValueMin", xAxisValueMin);
+
+        return dataPoints;
     }
 
     public void evaluate(View v) {
