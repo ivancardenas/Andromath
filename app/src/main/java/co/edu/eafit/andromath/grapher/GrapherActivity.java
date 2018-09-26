@@ -34,13 +34,12 @@ public class GrapherActivity extends AppCompatActivity {
         intent = getIntent();
         graphView = (GraphView) findViewById(R.id.graph);
 
-        graph();
+        this.graph();
     }
 
     private void graph() {
 
-        DataPoint[] dataPoints =  (DataPoint[]) intent.
-                getSerializableExtra("points");
+        DataPoint[] dataPoints =  (DataPoint[]) intent.getSerializableExtra("points");
 
         double xAxisValueMax = intent.getDoubleExtra("xAxisValueMax", 50);
         double xAxisValueMin = intent.getDoubleExtra("xAxisValueMin", -50);
