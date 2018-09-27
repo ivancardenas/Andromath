@@ -17,10 +17,11 @@ import java.util.Objects;
 import co.edu.eafit.andromath.R;
 import co.edu.eafit.andromath.grapher.GrapherActivity;
 import co.edu.eafit.andromath.util.Constants;
+import co.edu.eafit.andromath.util.Messages;
 
 public class SingleVariableLandingActivity extends AppCompatActivity {
 
-    private String tag = SingleVariableLandingActivity.class.getSimpleName();
+    private static final String tag = SingleVariableLandingActivity.class.getSimpleName();
 
     private EditText function;
 
@@ -49,7 +50,7 @@ public class SingleVariableLandingActivity extends AppCompatActivity {
             intent.putExtra("points", dataPoints);
             startActivity(intent);
         } else {
-            invalidEquation();
+            Messages.invalidEquation(tag, getApplicationContext());
         }
     }
 
@@ -64,18 +65,12 @@ public class SingleVariableLandingActivity extends AppCompatActivity {
         DataPoint[] dataPoints = getGraphPoints(expression);
 
         if (dataPoints != null) {
-            intent.putExtra("equation",
+            intent.putExtra(Constants.EQUATION,
                     function.getText().toString());
             startActivity(intent);
         } else {
-            invalidEquation();
+            Messages.invalidEquation(tag, getApplicationContext());
         }
-    }
-
-    private void invalidEquation() {
-        Log.e(tag, "Invalid equation");
-        Toast.makeText(getApplicationContext(),
-                "Invalid equation", Toast.LENGTH_SHORT).show();
     }
 
     private DataPoint[] getGraphPoints(Expression expression) {

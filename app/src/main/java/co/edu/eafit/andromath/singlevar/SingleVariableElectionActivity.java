@@ -15,6 +15,7 @@ import co.edu.eafit.andromath.singlevar.methods.IncrementalSearchActivity;
 import co.edu.eafit.andromath.singlevar.methods.MultipleRootsActivity;
 import co.edu.eafit.andromath.singlevar.methods.NewtonActivity;
 import co.edu.eafit.andromath.singlevar.methods.SecantActivity;
+import co.edu.eafit.andromath.util.Constants;
 
 public class SingleVariableElectionActivity extends AppCompatActivity {
 
@@ -28,48 +29,48 @@ public class SingleVariableElectionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_single_variable_election);
         Objects.requireNonNull(getSupportActionBar()).hide();
 
-        function = getIntent().getStringExtra("equation");
+        function = getIntent().getStringExtra(Constants.EQUATION);
     }
 
     public void incrementalSearch(View v) {
         intent = new Intent(this, IncrementalSearchActivity.class);
-        intent.putExtra("equation", function);
+        intent.putExtra(Constants.EQUATION, function);
         startActivity(intent);
     }
 
     public void bisection(View v) {
         intent = new Intent(this, BisectionActivity.class);
-        intent.putExtra("equation", function);
+        intent.putExtra(Constants.EQUATION, function);
         startActivity(intent);
     }
 
     public void falseRule(View v) {
         intent = new Intent(this, FalseRuleActivity.class);
-        intent.putExtra("equation", function);
+        intent.putExtra(Constants.EQUATION, function);
         startActivity(intent);
     }
 
     public void fixedPoint(View v) {
         intent = new Intent(this, FixedPointActivity.class);
-        intent.putExtra("equation", function);
+        intent.putExtra(Constants.EQUATION, function);
         startActivity(intent);
     }
 
     public void newton(View v) {
         intent = new Intent(this, NewtonActivity.class);
-        intent.putExtra("equation", function);
+        intent.putExtra(Constants.EQUATION, function);
         startActivity(intent);
     }
 
     public void secant(View v) {
         intent = new Intent(this, SecantActivity.class);
-        intent.putExtra("equation", function);
+        intent.putExtra(Constants.EQUATION, function);
         startActivity(intent);
     }
 
     public void multipleRoots(View v) {
         intent = new Intent(this, MultipleRootsActivity.class);
-        intent.putExtra("equation", function);
+        intent.putExtra(Constants.EQUATION, function);
         startActivity(intent);
     }
 }
