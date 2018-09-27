@@ -1,7 +1,5 @@
 package co.edu.eafit.andromath.singlevar.methods;
 
-import static co.edu.eafit.andromath.util.Constants.ErrorCodes.INVALID_DELTA;
-
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,9 +19,11 @@ import java.util.List;
 import java.util.Objects;
 
 import co.edu.eafit.andromath.R;
-import co.edu.eafit.andromath.util.Constants;
 import co.edu.eafit.andromath.util.Messages;
 
+import static co.edu.eafit.andromath.util.Constants.EQUATION;
+import static co.edu.eafit.andromath.util.Constants.VARIABLE;
+import static co.edu.eafit.andromath.util.Constants.ErrorCodes.INVALID_DELTA;
 import static co.edu.eafit.andromath.util.Constants.ErrorCodes.INVALID_ITER;
 import static co.edu.eafit.andromath.util.Constants.ErrorCodes.X_ROOT;
 
@@ -60,11 +60,11 @@ public class IncrementalSearchActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String equation = "f(x) = " + intent.
-                getStringExtra(Constants.EQUATION);
+                getStringExtra(EQUATION);
         function.setText(equation);
 
         expression = new Expression(intent.
-                getStringExtra(Constants.EQUATION));
+                getStringExtra(EQUATION));
 
         procedure.setStretchAllColumns(true);
     }
@@ -77,9 +77,12 @@ public class IncrementalSearchActivity extends AppCompatActivity {
         result.setVisibility(View.VISIBLE);
 
         tableIterations = new ArrayList<>();
-        procedure.removeViews(1, procedure.getChildCount() - 1);
 
-        Pair<String, Boolean> solution = incrementalSearch();
+        procedure.removeViews(1,
+                procedure.getChildCount() - 1);
+
+        Pair<String, Boolean> solution =
+                incrementalSearch(tableIterations);
 
         if (solution != null) {
             result.setText(solution.first);
@@ -97,7 +100,7 @@ public class IncrementalSearchActivity extends AppCompatActivity {
      *     String parameter is the message.
      *     Boolean parameter is a flag to show the procedure.
      */
-    private Pair<String, Boolean> incrementalSearch() {
+    private Pair<String, Boolean> incrementalSearch(List<TableRow> tableIterations) {
 
         String message;
 
@@ -121,34 +124,31 @@ public class IncrementalSearchActivity extends AppCompatActivity {
                     message = INVALID_ITER.getMessage();
                     displayProcedure = INVALID_ITER.isDisplayProcedure();
                 } else {
-                    BigDecimal y0 = expression.with(
-                            Constants.VARIABLE, x0).eval();
+                    BigDecimal y0 = expression.with(VARIABLE, x0).eval();
 
                     if (y0.compareTo(BigDecimal.ZERO) == 0) {
                         message = X_ROOT.getMessage();
                         displayProcedure = X_ROOT.isDisplayProcedure();
                     } else {
                         BigDecimal x1 = x0.add(delta);
-                        BigDecimal y1 = expression.with(
-                                Constants.VARIABLE, x1).eval();
+                        BigDecimal y1 = expression.with(VARIABLE, x1).eval();
 
                         int count = 1;
 
                         while (y1.compareTo(BigDecimal.ZERO) != 0 && y0.multiply(y1).
                                 compareTo(BigDecimal.ZERO) > 0 && count < iterations) {
 
-                            tableIterations.add(createProcedureRow(count, x1, y0, y1));
+                            tableIterations.add(createProcedureIteration(count, x1, y0, y1));
 
                             x0 = x1;
                             y0 = y1;
                             x1 = x0.add(delta);
-                            y1 = expression.with(Constants.
-                                    VARIABLE, x1).eval();
+                            y1 = expression.with(VARIABLE, x1).eval();
                             count++;
                         }
 
                         if (y1.compareTo(BigDecimal.ZERO) == 0) {
-                            tableIterations.add(createProcedureRow(count, x0, x1, y1));
+                            tableIterations.add(createProcedureIteration(count, x0, x1, y1));
                             message = "x = " + x1.toString() + " is a root";
                             displayProcedure = true;
                         } else if (y0.multiply(y1).compareTo(BigDecimal.ZERO) < 0) {
@@ -171,8 +171,8 @@ public class IncrementalSearchActivity extends AppCompatActivity {
         return new Pair(message, displayProcedure);
     }
 
-    private TableRow createProcedureRow(int count, BigDecimal x1,
-                                        BigDecimal y0, BigDecimal y1) {
+    private TableRow createProcedureIteration(int count, BigDecimal x1,
+                                              BigDecimal y0, BigDecimal y1) {
 
         TableRow iterationResult = new TableRow(this);
 
