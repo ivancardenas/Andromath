@@ -7,10 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.jjoe64.graphview.series.DataPoint;
 import com.udojava.evalex.Expression;
-
 import java.math.BigDecimal;
 import java.util.Objects;
 
