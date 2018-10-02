@@ -141,6 +141,7 @@
                     android:textAlignment="center"
                     android:textAllCaps="true"
                     android:layout_weight="1"
+                    android:textStyle="bold"
                     android:text="Iter" />
 
                 <TextView
@@ -150,6 +151,7 @@
                     android:textAlignment="center"
                     android:textAllCaps="true"
                     android:layout_weight="1"
+                    android:textStyle="bold"
                     android:text="X" />
 
                 <TextView
@@ -159,16 +161,8 @@
                     android:textAlignment="center"
                     android:textAllCaps="true"
                     android:layout_weight="1"
+                    android:textStyle="bold"
                     android:text="f(x)" />
-
-                <TextView
-                    android:id="@+id/textViewError"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:textAlignment="center"
-                    android:textAllCaps="true"
-                    android:layout_weight="1"
-                    android:text="E" />
             </TableRow>
         </TableLayout>
     </LinearLayout>

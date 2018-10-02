@@ -31,7 +31,7 @@ public class IncrementalSearchActivity extends AppCompatActivity {
 
     private static final String tag = IncrementalSearchActivity.class.getSimpleName();
 
-    TextView function, result, iterations, xValue, solution, error;
+    TextView function, result, iterations, xValue, solution;
     EditText x0Input, deltaInput, iterationsInput;
     TableLayout procedure;
     Expression expression;
@@ -135,20 +135,24 @@ public class IncrementalSearchActivity extends AppCompatActivity {
 
                         int count = 1;
 
+                        tableIterations.add(createProcedureIteration(count, x0, y0, y1));
+
                         while (y1.compareTo(BigDecimal.ZERO) != 0 && y0.multiply(y1).
                                 compareTo(BigDecimal.ZERO) > 0 && count < iterations) {
 
-                            tableIterations.add(createProcedureIteration(count, x1, y0, y1));
+
 
                             x0 = x1;
                             y0 = y1;
                             x1 = x0.add(delta);
                             y1 = expression.with(VARIABLE, x1).eval();
                             count++;
+
+                            tableIterations.add(createProcedureIteration(count, x0, y0, y1));
                         }
 
                         if (y1.compareTo(BigDecimal.ZERO) == 0) {
-                            tableIterations.add(createProcedureIteration(count, x0, x1, y1));
+                            tableIterations.add(createProcedureIteration(count + 1, x1, y1, y1));
                             message = "x = " + x1.toString() + " is a root";
                             displayProcedure = true;
                         } else if (y0.multiply(y1).compareTo(BigDecimal.ZERO) < 0) {
@@ -186,16 +190,11 @@ public class IncrementalSearchActivity extends AppCompatActivity {
 
         solution = new TextView(this);
         solution.setGravity(Gravity.CENTER);
-        solution.setText(y1.toString());
-
-        error = new TextView(this);
-        error.setGravity(Gravity.CENTER);
-        error.setText(y1.subtract(y0).toString());
+        solution.setText(y0.toString());
 
         iterationResult.addView(iterations);
         iterationResult.addView(xValue);
         iterationResult.addView(solution);
-        iterationResult.addView(error);
 
         return iterationResult;
     }
