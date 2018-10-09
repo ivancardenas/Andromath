@@ -102,8 +102,8 @@ public class BisectionActivity extends AppCompatActivity {
 
         String message;
 
-        boolean displayProcedure;
-        //results.setVisibility(View.VISIBLE);
+        boolean displayProcedure=true;
+        results.setVisibility(View.VISIBLE);
 
         InputMethodManager inputManager = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);

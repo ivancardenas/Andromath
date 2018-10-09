@@ -103,7 +103,7 @@ public class SecantActivity extends AppCompatActivity {
         InputMethodManager inputManager = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
-        //results.setVisibility(View.VISIBLE);
+        results.setVisibility(View.VISIBLE);
 
         String temp;
         BigDecimal x0 = BigDecimal.valueOf(Double.parseDouble(x0_et.getText().toString()));
@@ -152,7 +152,7 @@ public class SecantActivity extends AppCompatActivity {
             } else {
                 message = "The method failed after "
                         + count + " iterations";
-                displayProcedure = false;
+                displayProcedure = true;
             }
         }
         return new Pair(message, displayProcedure);

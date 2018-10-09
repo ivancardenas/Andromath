@@ -99,12 +99,12 @@ public class FixedPointActivity extends AppCompatActivity {
 
         String message;
 
-        boolean displayProcedure;
+        boolean displayProcedure=true;
 
         InputMethodManager inputManager = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
-        //results.setVisibility(View.VISIBLE);
+        results.setVisibility(View.VISIBLE);
 
         String temp;
         BigDecimal xa = BigDecimal.valueOf(Double.parseDouble(xa_et.getText().toString()));

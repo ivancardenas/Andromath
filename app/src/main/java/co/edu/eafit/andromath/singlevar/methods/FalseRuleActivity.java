@@ -102,12 +102,12 @@ public class FalseRuleActivity extends AppCompatActivity {
 
         String message;
 
-        boolean displayProcedure;
+        boolean displayProcedure=true;
 
         InputMethodManager inputManager = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
-        //results.setVisibility(View.VISIBLE);
+        results.setVisibility(View.VISIBLE);
 
         String temp;
         BigDecimal xi = BigDecimal.valueOf(Double.parseDouble(xmin_et.getText().toString()));

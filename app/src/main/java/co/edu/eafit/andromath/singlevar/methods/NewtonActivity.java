@@ -88,7 +88,7 @@ public class NewtonActivity extends AppCompatActivity {
         public Pair<String, Boolean> runNewton(List<TableRow> tableIterations){
 
             String message="NOT SUITABLE RANGE";
-            boolean displayProcedure = false;
+            boolean displayProcedure = true;
 
 
             InputMethodManager inputManager = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
@@ -143,6 +143,7 @@ public class NewtonActivity extends AppCompatActivity {
                     displayProcedure = true;
                 } else if (dy.compareTo(BigDecimal.ZERO) == 0) {
                     message = "at x = " + x0.toString() + " there are possibly multiple roots";
+                    displayProcedure = false;
                 } else {
                     message = "The method failed after "
                             + count + " iterations";
