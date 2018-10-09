@@ -171,6 +171,16 @@
                     android:text="Xi" />
 
                 <TextView
+                    android:id="@+id/textViewFa"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:text="F(Xi)" />
+
+                <TextView
                     android:id="@+id/textViewXs"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
@@ -179,6 +189,16 @@
                     android:layout_weight="1"
                     android:textStyle="bold"
                     android:text="Xs" />
+
+                <TextView
+                    android:id="@+id/textViewFb"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:text="F(Xs)" />
 
                 <TextView
                     android:id="@+id/textViewXm"

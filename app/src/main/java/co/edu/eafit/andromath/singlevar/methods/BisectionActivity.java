@@ -38,7 +38,7 @@ public class BisectionActivity extends AppCompatActivity {
     private static final String tag = BisectionActivity.class.getSimpleName();   //
 
     EditText xmin_et, xmax_et, tol_et, niter_et;
-    TextView func, results, iterations, solution, xmin, xmax, xmed, tol;
+    TextView func, results, iterations, solution, xmin, xmax, xmed, tol, fa, fb;
     Expression expr;
 
     TableLayout procedure;  //
@@ -200,17 +200,17 @@ public class BisectionActivity extends AppCompatActivity {
         xmin.setGravity(Gravity.CENTER);
         xmin.setText(xi.toString());
 
-        /*solution = new TextView(this);
-        solution.setGravity(Gravity.CENTER);
-        solution.setText(yi.toString());*/
+        fa = new TextView(this);
+        fa.setGravity(Gravity.CENTER);
+        fa.setText(yi.toString());
 
         xmax = new TextView(this);
         xmax.setGravity(Gravity.CENTER);
         xmax.setText(xs.toString());
 
-       /* solution = new TextView(this);
-        solution.setGravity(Gravity.CENTER);
-        solution.setText(ys.toString());*/
+        fb = new TextView(this);
+        fb.setGravity(Gravity.CENTER);
+        fb.setText(ys.toString());
 
         xmed = new TextView(this);
         xmed.setGravity(Gravity.CENTER);
@@ -226,7 +226,9 @@ public class BisectionActivity extends AppCompatActivity {
 
         iterationResult.addView(iterations);
         iterationResult.addView(xmin);
+        iterationResult.addView(fa);
         iterationResult.addView(xmax);
+        iterationResult.addView(fb);
         iterationResult.addView(xmed);
         iterationResult.addView(solution);
         iterationResult.addView(tol);
