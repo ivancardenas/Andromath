@@ -173,7 +173,7 @@ public class BisectionActivity extends AppCompatActivity {
                     displayProcedure = true;
                 } else {
                     message = "The method failed after "
-                            + iterations + " iterations";
+                            + count + " iterations";
                     displayProcedure = false;
                 }
             } else {
