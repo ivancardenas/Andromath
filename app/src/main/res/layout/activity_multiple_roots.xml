@@ -126,12 +126,6 @@
             android:text="CONTINUE" />
 
         <!---->
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1" />
-
         <TextView
             android:id="@+id/multiple_root_result"
             android:layout_width="match_parent"
@@ -142,6 +136,90 @@
             android:enabled="false"
             android:visibility="gone"
             android:textAlignment="center" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1" />
+
+
+        <TableLayout
+            android:id="@+id/tableLayoutProcedure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" >
+
+            <TableRow
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/tableRowLegend"
+                android:padding="10dp" >
+
+                <TextView
+                    android:id="@+id/textViewIterations"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:text="Iter" />
+
+                <TextView
+                    android:id="@+id/textViewX"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:text="X" />
+
+                <TextView
+                    android:id="@+id/textViewFx"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:text="F(X)" />
+
+
+                <TextView
+                    android:id="@+id/textViewGx"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:text="F'(X)" />
+
+                <TextView
+                    android:id="@+id/textViewJx"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:text="F''(X)" />
+
+
+                <TextView
+                    android:id="@+id/textViewTol"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:text="error" />
+
+            </TableRow>
+        </TableLayout>
+
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

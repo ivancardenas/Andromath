@@ -6,24 +6,38 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.udojava.evalex.Expression;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Objects;
 
 import co.edu.eafit.andromath.R;
 
 public class MultipleRootsActivity extends AppCompatActivity {
 
+    private static final String tag = MultipleRootsActivity.class.getSimpleName();
     EditText xa_et, gx_et, jx_et, tol_et, niter_et;
-    TextView func, results;
+    TextView func, results, iterations,xa, ya, dya,ddya, tol;
     Expression expr, gexpr, jexpr;
+
+    private List<TableRow> tableIterations;
+    TableLayout procedure;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiple_roots);
+
+        Objects.requireNonNull(getSupportActionBar()).hide();   //
+        procedure = (TableLayout) findViewById(R.id.tableLayoutProcedure);
+
+
+
         xa_et = (EditText)findViewById(R.id.multiple_root_xa);
         gx_et = (EditText)findViewById(R.id.multiple_root_gx);
         jx_et = (EditText)findViewById(R.id.multiple_root_jx);
@@ -40,6 +54,8 @@ public class MultipleRootsActivity extends AppCompatActivity {
         String s = "f(x) = " + i.getStringExtra("equation");
         func.setText(s);
         expr = new Expression(i.getStringExtra("equation"));
+
+        procedure.setStretchAllColumns(true);
     }
 
     public void runMultipleRoot(View v){
