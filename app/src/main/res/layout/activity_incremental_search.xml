@@ -163,6 +163,7 @@
                     android:layout_weight="1"
                     android:textStyle="bold"
                     android:text="f(x)" />
+
             </TableRow>
         </TableLayout>
     </LinearLayout>
