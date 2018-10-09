@@ -142,6 +142,7 @@ public class BisectionActivity extends AppCompatActivity {
                 //error = tol + 1
                 BigDecimal error = tol.add(BigDecimal.ONE);
                 //error > tol && ym != 0 && count < niter
+                tableIterations.add(createProcedureIteration(count, xi, xs, yi, ys, xm, ym, error));
                 while (error.compareTo(tol) > 0 && ym.compareTo(BigDecimal.ZERO) != 0 && count < niter) {
                     //yi*ys < 0
                     if (yi.multiply(ym).compareTo(BigDecimal.ZERO) < 0) {
@@ -159,6 +160,8 @@ public class BisectionActivity extends AppCompatActivity {
                     //error = abs(xm-xaux)
                     error = xm.subtract(xaux).abs();
                     count++;
+
+                    tableIterations.add(createProcedureIteration(count, xi, xs, yi, ys, xm, ym, error));
                 }
                 if (ym.compareTo(BigDecimal.ZERO) == 0) {
                     tableIterations.add(createProcedureIteration(count + 1, xi, xs, yi, ys, xm, ym, error));

@@ -141,9 +141,8 @@ public class FalseRuleActivity extends AppCompatActivity {
                 BigDecimal ym = expr.with("x", xm).eval();
                 int count = 1;
                 BigDecimal error = tol.add(BigDecimal.ONE);
-                tableIterations.add(createProcedureIteration(count, xi, xs, yi, ys, xm, ym, error));
-                //error = tol + 1
-                //error > tol && ym != 0 && count < niter
+                tableIterations.add(createProcedureIteration(count, xi, xs, yi, ys, xm, ym,BigDecimal.ZERO));
+
                 while (error.compareTo(tol) > 0 && ym.compareTo(BigDecimal.ZERO) != 0 && count < iterations) {
                     //yi*ys < 0
                     if (yi.multiply(ym).compareTo(BigDecimal.ZERO) < 0) {
