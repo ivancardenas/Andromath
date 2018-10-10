@@ -35,7 +35,7 @@ public class SecantActivity extends AppCompatActivity {
     private static final String tag = SecantActivity.class.getSimpleName();   //
 
     EditText x0_et, x1_et, tol_et, niter_et;
-    TextView func, results, x0, x1, fx0, fx1, tol, iterations;
+    TextView func, results, x1a, x2a, fx1, fx2, tol, iterations;
     Expression expr;
 
     TableLayout procedure;  //
@@ -76,7 +76,7 @@ public class SecantActivity extends AppCompatActivity {
                 procedure.getChildCount() - 1);
 
         Pair<String, Boolean> solution =
-                Secant(tableIterations);
+                runSecant(tableIterations);
 
         if (solution != null) {
             results.setText(solution.first);
@@ -95,7 +95,7 @@ public class SecantActivity extends AppCompatActivity {
      * Boolean parameter is a flag to show the procedure.
      */
 
-    private Pair<String, Boolean> Secant(List<TableRow> tableIterations){
+    public Pair<String, Boolean> runSecant(List<TableRow> tableIterations){
 
         String message;
         boolean displayProcedure;
@@ -158,7 +158,7 @@ public class SecantActivity extends AppCompatActivity {
         return new Pair(message, displayProcedure);
     }
 
-    private TableRow createProcedureIteration(int count, BigDecimal x,
+    private TableRow createProcedureIteration(int count, BigDecimal x1,
                                               BigDecimal x2, BigDecimal y1, BigDecimal y2,
                                               BigDecimal Error) {
         TableRow iterationResult = new TableRow(this);
@@ -167,31 +167,31 @@ public class SecantActivity extends AppCompatActivity {
         iterations.setGravity(Gravity.CENTER);
         iterations.setText(String.valueOf(count));
 
-        x0 = new TextView(this);
-        x0.setGravity(Gravity.CENTER);
-        x0.setText(x1.toString());
-
-        fx0 = new TextView(this);
-        fx0.setGravity(Gravity.CENTER);
-        fx0.setText(y1.toString());
-
-        x1 = new TextView(this);
-        x1.setGravity(Gravity.CENTER);
-        x1.setText(x2.toString());
+        x1a = new TextView(this);
+        x1a.setGravity(Gravity.CENTER);
+        x1a.setText(x1.toString());
 
         fx1 = new TextView(this);
         fx1.setGravity(Gravity.CENTER);
-        fx1.setText(y2.toString());
+        fx1.setText(y1.toString());
+
+        x2a = new TextView(this);
+        x2a.setGravity(Gravity.CENTER);
+        x2a.setText(x2.toString());
+
+        fx2 = new TextView(this);
+        fx2.setGravity(Gravity.CENTER);
+        fx2.setText(y2.toString());
 
         tol = new TextView(this);
         tol.setGravity(Gravity.CENTER);
         tol.setText(Error.toString());
 
         iterationResult.addView(iterations);
-        iterationResult.addView(x0);
-        iterationResult.addView(fx0);
-        iterationResult.addView(x1);
+        iterationResult.addView(x1a);
         iterationResult.addView(fx1);
+        iterationResult.addView(x2a);
+        iterationResult.addView(fx2);
         iterationResult.addView(tol);
 
         return iterationResult;
