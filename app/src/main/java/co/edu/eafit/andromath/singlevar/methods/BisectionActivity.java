@@ -143,7 +143,7 @@ public class BisectionActivity extends AppCompatActivity {
                 //error = tol + 1
                 BigDecimal error = tol.add(BigDecimal.ONE);
                 //error > tol && ym != 0 && count < niter
-                tableIterations.add(createProcedureIteration(count, xi, xs, yi, ys, xm, ym, error));
+                tableIterations.add(createProcedureIteration(count, xi.setScale(5), xs.setScale(5), yi.setScale(5), ys.setScale(5), xm.setScale(5), ym.setScale(5), error.setScale(5)));
                 //while ( ym != 0 and e > tol and count < iter) do
                 while (ym.compareTo(BigDecimal.ZERO) != 0 && error.compareTo(tol) > 0 && count < niter) {
                     //yi*ys < 0
@@ -163,7 +163,7 @@ public class BisectionActivity extends AppCompatActivity {
                     error = xm.subtract(xaux).abs();
                     count++;
 
-                    tableIterations.add(createProcedureIteration(count, xi, xs, yi, ys, xm, ym, error));
+                    tableIterations.add(createProcedureIteration(count, xi.setScale(5), xs.setScale(5), yi.setScale(5), ys.setScale(5), xm.setScale(5), ym.setScale(5), error.setScale(5)));
                 }
                 if (ym.compareTo(BigDecimal.ZERO) == 0) {
                     tableIterations.add(createProcedureIteration(count + 1, xi, xs, yi, ys, xm, ym, error));

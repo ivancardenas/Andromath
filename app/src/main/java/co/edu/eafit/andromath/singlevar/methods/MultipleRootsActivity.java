@@ -102,8 +102,11 @@ public class MultipleRootsActivity extends AppCompatActivity {
         int niter = Integer.parseInt(niter_et.getText().toString());
         //We have to trust in whoever set up the expression to not screw things up
         //TODO: We have to add checks to this function, otherwise this might crash the app.
-        gexpr = new Expression(gx_et.getText().toString());
-        jexpr = new Expression(jx_et.getText().toString());
+        //gexpr = new Expression(gx_et.getText().toString());
+        //jexpr = new Expression(jx_et.getText().toString());
+        expr = new Expression("(x^3)+(4*x^2)-10");
+        gexpr = new Expression("(3*x^2)+(8*x)");
+        jexpr = new Expression("(6*x)+8");
         if (niter < 1) {
             message = INVALID_ITER.getMessage();
             displayProcedure = INVALID_ITER.isDisplayProcedure();
@@ -117,11 +120,11 @@ public class MultipleRootsActivity extends AppCompatActivity {
         BigDecimal den = dy.pow(2).subtract(y.multiply(ddy));
         int count = 0;
         BigDecimal error = tol.add(BigDecimal.ONE);
-        tableIterations.add(createProcedureIteration(count+1, x0, y, dy,ddy, error));
+        tableIterations.add(createProcedureIteration(count+1, x0.setScale(5), y.setScale(5), dy.setScale(5),ddy.setScale(5), error.setScale(5)));
 
         while(error.compareTo(tol) > 0 && y.compareTo(BigDecimal.ZERO) != 0 && den.compareTo(BigDecimal.ZERO) != 0 && count < niter){
             //x1 = x0 - (y*dy)/den
-            x1 = x0.subtract(y.multiply(dy).divide(den, BigDecimal.ROUND_HALF_EVEN));
+            x1 = x0.subtract(y.multiply(dy).divide(den,5, BigDecimal.ROUND_HALF_EVEN));
             y = expr.with("x",x1).eval();
             dy = gexpr.with("x",x1).eval();
             ddy = jexpr.with("x",x1).eval();
@@ -129,7 +132,7 @@ public class MultipleRootsActivity extends AppCompatActivity {
             error = x1.subtract(x0).abs();
             x0 = x1;
             count++;
-            tableIterations.add(createProcedureIteration(count+1, x0, y, dy,ddy, error));
+            tableIterations.add(createProcedureIteration(count+1, x0.setScale(5), y.setScale(5), dy.setScale(5),ddy.setScale(5), error.setScale(5)));
 
         }
         if(y.compareTo(BigDecimal.ZERO) == 0){
