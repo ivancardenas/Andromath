@@ -107,46 +107,48 @@ public class MultipleRootsActivity extends AppCompatActivity {
         if (niter < 1) {
             message = INVALID_ITER.getMessage();
             displayProcedure = INVALID_ITER.isDisplayProcedure();
-
         }
-        //Method Begins
-        BigDecimal y = expr.with("x",x0).eval();
-        BigDecimal dy = gexpr.with("x",x0).eval();
-        BigDecimal ddy = jexpr.with("x",x0).eval();
-        //dy^2 - y*ddy
-        BigDecimal den = dy.pow(2).subtract(y.multiply(ddy));
-        int count = 0;
-        BigDecimal error = tol.add(BigDecimal.ONE);
-        tableIterations.add(createProcedureIteration(count+1, x0, y, dy,ddy, error));
+            BigDecimal y = expr.with("x", x0).eval();
 
-        while(error.compareTo(tol) > 0 && y.compareTo(BigDecimal.ZERO) != 0 && den.compareTo(BigDecimal.ZERO) != 0 && count < niter){
-            //x1 = x0 - (y*dy)/den
-            x1 = x0.subtract(y.multiply(dy).divide(den, BigDecimal.ROUND_HALF_EVEN));
-            y = expr.with("x",x1).eval();
-            dy = gexpr.with("x",x1).eval();
-            ddy = jexpr.with("x",x1).eval();
-            den = dy.pow(2).subtract(y.multiply(ddy));
-            error = x1.subtract(x0).abs();
-            x0 = x1;
-            count++;
-            tableIterations.add(createProcedureIteration(count+1, x0, y, dy,ddy, error));
+                //Method Begins
+                BigDecimal dy = gexpr.with("x", x0).eval();
+                BigDecimal ddy = jexpr.with("x", x0).eval();
+                //dy^2 - y*ddy
+                BigDecimal den = dy.pow(2).subtract(y.multiply(ddy));
+                int count = 0;
+                BigDecimal error = tol.add(BigDecimal.ONE);
+                tableIterations.add(createProcedureIteration(count + 1, x0, y, dy, ddy, error));
 
-        }
-        if(y.compareTo(BigDecimal.ZERO) == 0){
-            message = "x = " + x0.toString() + " is a root";
-            tableIterations.add(createProcedureIteration(count+1, x0, y, dy,ddy, error));
-            displayProcedure = true;
-        } else if(error.compareTo(tol) < 0) {
-            message = "x = " + x0.toString() + " is an approximated root\nwith E = " + error.toString();
-            tableIterations.add(createProcedureIteration(count+1, x0, y, dy,ddy, error));
-            displayProcedure = true;
-        } else if(den.compareTo(BigDecimal.ZERO) == 0) {
-            //TODO: Buscar la explicacion de este caso
-            message = "at x = " + x0.toString() + " the function behaves incorrectly";
-        } else {
-            temp = "the method failed after " + niter + " iterations";
-            displayProcedure = false;
-        }
+                while (y.compareTo(BigDecimal.ZERO) != 0 && error.compareTo(tol) > 0 && den.compareTo(BigDecimal.ZERO) != 0 && count < niter) {
+                    //x1 = x0 - (y*dy)/den
+                    x1 = x0.subtract(y.multiply(dy).divide(den,BigDecimal.ROUND_HALF_EVEN));
+                    y = expr.with("x", x1).eval();
+                    dy = gexpr.with("x", x1).eval();
+                    ddy = jexpr.with("x", x1).eval();
+                    den = dy.pow(2).subtract(y.multiply(ddy));
+                    error = x1.subtract(x0).abs();
+                    x0 = x1;
+                    count++;
+                    tableIterations.add(createProcedureIteration(count + 1, x0, y, dy, ddy, error));
+
+                }
+                if (y.compareTo(BigDecimal.ZERO) == 0) {
+                    message = "x = " + x0.toString() + " is a root";
+                    tableIterations.add(createProcedureIteration(count + 1, x0, y, dy, ddy, error));
+                    displayProcedure = true;
+                } else if (error.compareTo(tol) < 0) {
+                    message = "x = " + x0.toString() + " is an approximated root\nwith E = " + error.toString();
+                    tableIterations.add(createProcedureIteration(count + 1, x0, y, dy, ddy, error));
+                    displayProcedure = true;
+                } else if (den.compareTo(BigDecimal.ZERO) == 0) {
+                    //TODO: Buscar la explicacion de este caso
+                    message = "at x = " + x0.toString() + " the function behaves incorrectly";
+                } else {
+                    temp = "the method failed after " + niter + " iterations";
+                    displayProcedure = false;
+                }
+            
+
 
         return new Pair(message, displayProcedure);
     }
