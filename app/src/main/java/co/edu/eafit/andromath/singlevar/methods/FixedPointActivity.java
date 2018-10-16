@@ -106,7 +106,6 @@ public class FixedPointActivity extends AppCompatActivity {
 
         results.setVisibility(View.VISIBLE);
 
-        String temp;
         BigDecimal xa = BigDecimal.valueOf(Double.parseDouble(xa_et.getText().toString()));
         BigDecimal tol = BigDecimal.valueOf(Double.parseDouble(tol_et.getText().toString()));
         BigDecimal xn;
@@ -114,36 +113,46 @@ public class FixedPointActivity extends AppCompatActivity {
         //We have to trust in whoever set up the expression to not screw things up
         //TODO: We have to add checks to this function, otherwise this might crash the app.
         gexpr = new Expression(gx_et.getText().toString());
-        if (niter < 1) {
-            message = INVALID_ITER.getMessage();
-            displayProcedure = INVALID_ITER.isDisplayProcedure();
-        }
-        //Method Begins
-        BigDecimal y = expr.with("x",xa).eval();
-        int count = 0;
-        BigDecimal error = tol.add(BigDecimal.ONE);
-        tableIterations.add(createProcedureIteration(count, xa, y, error));
-        while(error.compareTo(tol) > 0 && y.compareTo(BigDecimal.ZERO) != 0 && count < niter){
-            xn = gexpr.with("x",xa).eval();
-            y = expr.with("x",xn).eval();
-            error = xn.subtract(xa).abs();
-            xa = xn;
-            count++;
+        try{
+            BigDecimal y = expr.with("x", xa).eval();
+            int count = 0;
+            BigDecimal error = tol.add(BigDecimal.ONE);
+            tableIterations.add(createProcedureIteration(count, xa, y, error));
 
-            tableIterations.add(createProcedureIteration(count, xa, y, error));
-        }
-        if(y.compareTo(BigDecimal.ZERO) == 0){
-            tableIterations.add(createProcedureIteration(count, xa, y, error));
-            message = "x = " + xa.toString() + " is a root";
-            displayProcedure = true;
-        }else if(error.compareTo(tol) < 0) {
-            tableIterations.add(createProcedureIteration(count, xa, y, error));
-            message = "x = " + xa.toString() + " is an approximated root\nwith E = " + error.toString();
-            displayProcedure = true;
-        }else{
-            message = "The method failed after "
-                    + iterations + " iterations";
-            displayProcedure = false;
+            if (niter < 1) {
+                message = INVALID_ITER.getMessage();
+                displayProcedure = INVALID_ITER.isDisplayProcedure();
+            }else if (y.compareTo(BigDecimal.ZERO)==0) {
+                message=X_ROOT.getMessage();
+                displayProcedure = X_ROOT.isDisplayProcedure();
+            }else{
+                //Method Begins
+                while (y.compareTo(BigDecimal.ZERO) != 0 && error.compareTo(tol) > 0 && count < niter) {
+                    xn = gexpr.with("x", xa).eval();
+                    y = expr.with("x", xn).eval();
+                    error = xn.subtract(xa).abs();
+                    xa = xn;
+                    count++;
+
+                    tableIterations.add(createProcedureIteration(count, xa, y, error));
+                }
+                if (y.compareTo(BigDecimal.ZERO) == 0) {
+                    tableIterations.add(createProcedureIteration(count, xa, y, error));
+                    message = "x = " + xa.toString() + " is a root";
+                    displayProcedure = true;
+                } else if (error.compareTo(tol) < 0) {
+                    tableIterations.add(createProcedureIteration(count, xa, y, error));
+                    message = "x = " + xa.toString() + " is an approximated root\nwith E = " + error.toString();
+                    displayProcedure = true;
+                } else {
+                    message = "The method failed after "
+                            + niter + " iterations";
+                    displayProcedure = false;
+                }
+            }
+        }catch (Expression.ExpressionException
+                | ArithmeticException | NumberFormatException e) {
+            return null; // The equation is not valid.
         }
         return new Pair(message, displayProcedure);
     }
