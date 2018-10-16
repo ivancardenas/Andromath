@@ -123,7 +123,7 @@ public class NewtonActivity extends AppCompatActivity {
                     displayProcedure = X_ROOT.isDisplayProcedure();
                 }
 
-                tableIterations.add(createProcedureIteration(count+1, x0.setScale(5), y.setScale(5), dy.setScale(5), error.setScale(5)));
+                tableIterations.add(createProcedureIteration(count+1, x0, y, dy, error));
                 while (error.compareTo(tol) > 0 && y.compareTo(BigDecimal.ZERO) != 0 && dy.compareTo(BigDecimal.ZERO) != 0 && count < niter) {
                     //x1 = x0 - (y/dy)
                     BigDecimal div= new BigDecimal(y.divide(dy,5,BigDecimal.ROUND_HALF_EVEN).toString());
@@ -134,7 +134,7 @@ public class NewtonActivity extends AppCompatActivity {
                     x0 = x1;
                     count++;
 
-                    tableIterations.add(createProcedureIteration(count+1, x0.setScale(5), y.setScale(5), dy.setScale(5), error.setScale(5)));
+                    tableIterations.add(createProcedureIteration(count+1, x0, y, dy, error));
                 }
 
                 if (y.compareTo(BigDecimal.ZERO) == 0) {
