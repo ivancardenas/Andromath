@@ -105,7 +105,8 @@ public class NewtonActivity extends AppCompatActivity {
             //We have to trust in whoever set up the expression to not screw things up
             //TODO: We have to add checks to this function, otherwise this might crash the app.
             gexpr = new Expression(gx_et.getText().toString());
-
+            //expr = new Expression("(x^3)+(4*x^2)-10");
+            //gexpr = new Expression("(3*x^2)+(8*x)");
             //Method Begins
             try {
                 BigDecimal y = expr.with("x", x0).eval();
@@ -122,17 +123,18 @@ public class NewtonActivity extends AppCompatActivity {
                     displayProcedure = X_ROOT.isDisplayProcedure();
                 }
 
-                tableIterations.add(createProcedureIteration(count+1, x0, y, dy, error));
+                tableIterations.add(createProcedureIteration(count+1, x0.setScale(5), y.setScale(5), dy.setScale(5), error.setScale(5)));
                 while (error.compareTo(tol) > 0 && y.compareTo(BigDecimal.ZERO) != 0 && dy.compareTo(BigDecimal.ZERO) != 0 && count < niter) {
                     //x1 = x0 - (y/dy)
-                    x1 = x0.subtract(y.divide(dy, BigDecimal.ROUND_HALF_EVEN));
+                    BigDecimal div= new BigDecimal(y.divide(dy,5,BigDecimal.ROUND_HALF_EVEN).toString());
+                    x1 = x0.subtract(div);
                     y = expr.with("x", x1).eval();
                     dy = gexpr.with("x", x1).eval();
                     error = x1.subtract(x0).abs();
                     x0 = x1;
                     count++;
 
-                    tableIterations.add(createProcedureIteration(count+1, x0, y, dy, error));
+                    tableIterations.add(createProcedureIteration(count+1, x0.setScale(5), y.setScale(5), dy.setScale(5), error.setScale(5)));
                 }
 
                 if (y.compareTo(BigDecimal.ZERO) == 0) {

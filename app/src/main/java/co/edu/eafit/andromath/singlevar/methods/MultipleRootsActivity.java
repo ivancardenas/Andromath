@@ -104,6 +104,9 @@ public class MultipleRootsActivity extends AppCompatActivity {
         //TODO: We have to add checks to this function, otherwise this might crash the app.
         gexpr = new Expression(gx_et.getText().toString());
         jexpr = new Expression(jx_et.getText().toString());
+        //expr = new Expression("(x^3)+(4*x^2)-10");
+        //gexpr = new Expression("(3*x^2)+(8*x)");
+        //jexpr = new Expression("(6*x)+8");
         if (niter < 1) {
             message = INVALID_ITER.getMessage();
             displayProcedure = INVALID_ITER.isDisplayProcedure();
@@ -147,8 +150,6 @@ public class MultipleRootsActivity extends AppCompatActivity {
                     temp = "the method failed after " + niter + " iterations";
                     displayProcedure = false;
                 }
-            
-
 
         return new Pair(message, displayProcedure);
     }

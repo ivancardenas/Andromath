@@ -122,49 +122,54 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.1" />
 
-        <TableLayout
-            android:id="@+id/tableLayoutProcedure"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" >
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-            <TableRow
-                android:layout_height="wrap_content"
+            <TableLayout
+                android:id="@+id/tableLayoutProcedure"
                 android:layout_width="match_parent"
-                android:id="@+id/tableRowLegend"
-                android:padding="10dp" >
+                android:layout_height="wrap_content"
+                android:visibility="gone" >
 
-                <TextView
-                    android:id="@+id/textViewIterations"
+                <TableRow
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:textAlignment="center"
-                    android:textAllCaps="true"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="Iter" />
+                    android:id="@+id/tableRowLegend"
+                    android:padding="10dp" >
 
-                <TextView
-                    android:id="@+id/textViewXi"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:textAlignment="center"
-                    android:textAllCaps="true"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="X" />
+                    <TextView
+                        android:id="@+id/textViewIterations"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:textAlignment="center"
+                        android:textAllCaps="true"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="Iter" />
 
-                <TextView
-                    android:id="@+id/textViewEvaluation"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:textAlignment="center"
-                    android:textAllCaps="true"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="f(x)" />
+                    <TextView
+                        android:id="@+id/textViewXi"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:textAlignment="center"
+                        android:textAllCaps="true"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="X" />
 
-            </TableRow>
-        </TableLayout>
+                    <TextView
+                        android:id="@+id/textViewEvaluation"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:textAlignment="center"
+                        android:textAllCaps="true"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="f(x)" />
+
+                </TableRow>
+            </TableLayout>
+        </HorizontalScrollView>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
