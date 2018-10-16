@@ -89,6 +89,7 @@ public class MultipleRootsActivity extends AppCompatActivity {
         String message="NOT SUITABLE RANGE";
         boolean displayProcedure = true;
 
+
         InputMethodManager inputManager = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 

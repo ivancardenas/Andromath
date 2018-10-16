@@ -91,6 +91,7 @@ public class NewtonActivity extends AppCompatActivity {
             boolean displayProcedure = true;
 
 
+
             InputMethodManager inputManager = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
@@ -104,10 +105,7 @@ public class NewtonActivity extends AppCompatActivity {
             //We have to trust in whoever set up the expression to not screw things up
             //TODO: We have to add checks to this function, otherwise this might crash the app.
             gexpr = new Expression(gx_et.getText().toString());
-            if (niter < 1) {
-                message = INVALID_ITER.getMessage();
-                displayProcedure = INVALID_ITER.isDisplayProcedure();
-            }
+
             //Method Begins
             try {
                 BigDecimal y = expr.with("x", x0).eval();
@@ -115,7 +113,11 @@ public class NewtonActivity extends AppCompatActivity {
                 int count = 0;
                 BigDecimal error = tol.add(BigDecimal.ONE);
 
-                if(y.compareTo(BigDecimal.ZERO)==0){
+                if (niter < 1) {
+                    message = INVALID_ITER.getMessage();
+                    displayProcedure = INVALID_ITER.isDisplayProcedure();
+                }
+                else if(y.compareTo(BigDecimal.ZERO)==0){
                     message=X_ROOT.getMessage();
                     displayProcedure = X_ROOT.isDisplayProcedure();
                 }

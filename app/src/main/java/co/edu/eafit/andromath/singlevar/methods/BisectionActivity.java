@@ -108,34 +108,35 @@ public class BisectionActivity extends AppCompatActivity {
         InputMethodManager inputManager = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
-        String temp;
         BigDecimal xi = BigDecimal.valueOf(Double.parseDouble(xmin_et.getText().toString()));
         BigDecimal xs = BigDecimal.valueOf(Double.parseDouble(xmax_et.getText().toString()));
         BigDecimal tol = BigDecimal.valueOf(Double.parseDouble(tol_et.getText().toString()));
         BigDecimal xaux;
         int niter = Integer.parseInt(niter_et.getText().toString());
-        if(niter < 1) {
-            message = INVALID_ITER.getMessage();
-            displayProcedure = INVALID_ITER.isDisplayProcedure();
-        }
+
         //Method Begins
         //yi = f(xi)
         //ys = f(xs)
         try {
+
             BigDecimal yi = expr.with("x", xi).eval();
             BigDecimal ys = expr.with("x", xs).eval();
             //yi = 0
-            if (yi.compareTo(BigDecimal.ZERO) == 0) {
+            if(niter < 1) {
+                message = INVALID_ITER.getMessage();
+                displayProcedure = INVALID_ITER.isDisplayProcedure();
+            }else if (yi.compareTo(BigDecimal.ZERO) == 0) {
                 message = X_ROOT.getMessage();
                 displayProcedure = X_ROOT.isDisplayProcedure();
                 //ys = 0
+
             } else if (ys.compareTo(BigDecimal.ZERO) == 0) {
                 message = X_ROOT.getMessage();
                 displayProcedure = X_ROOT.isDisplayProcedure();
                 // ys*yi < 0
             } else if (yi.multiply(ys).compareTo(BigDecimal.ZERO) < 0) {
                 //xm = (xi + xs)/2
-                BigDecimal xm = (xi.add(xs)).divide(BigDecimal.valueOf(2), BigDecimal.ROUND_HALF_EVEN);
+                BigDecimal xm = (xi.add(xs)).divide(BigDecimal.valueOf(2)/*, BigDecimal.ROUND_HALF_EVEN*/);
                 //ym = f(xm)
                 BigDecimal ym = expr.with("x", xm).eval();
                 int count = 1;
@@ -143,7 +144,8 @@ public class BisectionActivity extends AppCompatActivity {
                 BigDecimal error = tol.add(BigDecimal.ONE);
                 //error > tol && ym != 0 && count < niter
                 tableIterations.add(createProcedureIteration(count, xi, xs, yi, ys, xm, ym, error));
-                while (error.compareTo(tol) > 0 && ym.compareTo(BigDecimal.ZERO) != 0 && count < niter) {
+                //while ( ym != 0 and e > tol and count < iter) do
+                while (ym.compareTo(BigDecimal.ZERO) != 0 && error.compareTo(tol) > 0 && count < niter) {
                     //yi*ys < 0
                     if (yi.multiply(ym).compareTo(BigDecimal.ZERO) < 0) {
                         xs = xm;
@@ -154,7 +156,7 @@ public class BisectionActivity extends AppCompatActivity {
                     }
                     xaux = xm;
                     //xm = (xi + xs)/2
-                    xm = (xi.add(xs)).divide(BigDecimal.valueOf(2), BigDecimal.ROUND_HALF_EVEN);
+                    xm = (xi.add(xs)).divide(BigDecimal.valueOf(2)/*, BigDecimal.ROUND_HALF_EVEN*/);
                     //ym = f(xm)
                     ym = expr.with("x", xm).eval();
                     //error = abs(xm-xaux)

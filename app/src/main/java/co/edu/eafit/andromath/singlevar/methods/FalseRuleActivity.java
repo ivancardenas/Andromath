@@ -93,7 +93,7 @@ public class FalseRuleActivity extends AppCompatActivity {
     }
 
     /**
-     * @return Pair<String ,   B oolean>
+     * @return Pair<String ,   Boolean>
      * String parameter is the message.
      * Boolean parameter is a flag to show the procedure.
      */
@@ -103,6 +103,7 @@ public class FalseRuleActivity extends AppCompatActivity {
         String message;
 
         boolean displayProcedure=true;
+
 
         InputMethodManager inputManager = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
@@ -115,18 +116,22 @@ public class FalseRuleActivity extends AppCompatActivity {
         BigDecimal tol = BigDecimal.valueOf(Double.parseDouble(tol_et.getText().toString()));
         BigDecimal xaux;
         int iterations = Integer.parseInt(niter_et.getText().toString());
-        if (iterations < 1) {
-            message = INVALID_ITER.getMessage();
-            displayProcedure = INVALID_ITER.isDisplayProcedure();
-        }
+
         //Method Begins
-        //yi = f(xi)
-        //ys = f(xs)
-        BigDecimal yi = expr.with("x", xi).eval();
-        BigDecimal ys = expr.with("x", xs).eval();
-        //yi = 0
+
+
+
         try {
-            if (yi.compareTo(BigDecimal.ZERO) == 0) {
+            //yi = f(xi)
+            //ys = f(xs)
+            BigDecimal yi = expr.with("x", xi).eval();
+            BigDecimal ys = expr.with("x", xs).eval();
+            //yi = 0
+            if (iterations < 1) {
+                message = INVALID_ITER.getMessage();
+                displayProcedure = INVALID_ITER.isDisplayProcedure();
+            }
+            else if (yi.compareTo(BigDecimal.ZERO) == 0) {
                 message = X_ROOT.getMessage();
                 displayProcedure = X_ROOT.isDisplayProcedure();
                 //ys = 0
@@ -141,9 +146,9 @@ public class FalseRuleActivity extends AppCompatActivity {
                 BigDecimal ym = expr.with("x", xm).eval();
                 int count = 1;
                 BigDecimal error = tol.add(BigDecimal.ONE);
-                tableIterations.add(createProcedureIteration(count, xi, xs, yi, ys, xm, ym,BigDecimal.ZERO));
+                tableIterations.add(createProcedureIteration(count, xi, xs, yi, ys, xm, ym,error));
 
-                while (error.compareTo(tol) > 0 && ym.compareTo(BigDecimal.ZERO) != 0 && count < iterations) {
+                while (ym.compareTo(BigDecimal.ZERO) != 0 && error.compareTo(tol) > 0 && count < iterations) {
                     //yi*ys < 0
                     if (yi.multiply(ym).compareTo(BigDecimal.ZERO) < 0) {
                         xs = xm;

@@ -98,7 +98,8 @@ public class SecantActivity extends AppCompatActivity {
     public Pair<String, Boolean> runSecant(List<TableRow> tableIterations){
 
         String message;
-        boolean displayProcedure;
+        boolean displayProcedure = true;
+
 
         InputMethodManager inputManager = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
@@ -111,49 +112,56 @@ public class SecantActivity extends AppCompatActivity {
         BigDecimal tol = BigDecimal.valueOf(Double.parseDouble(tol_et.getText().toString()));
         BigDecimal x2;
         int niter = Integer.parseInt(niter_et.getText().toString());
-        if (niter < 1) {
-            message = INVALID_ITER.getMessage();
-            displayProcedure = INVALID_ITER.isDisplayProcedure();
-        }
-        //Method Begins
-        BigDecimal y0 = expr.with("x",x0).eval();
-        if(y0.compareTo(BigDecimal.ZERO) == 0){
-            message = X_ROOT.getMessage();
-            displayProcedure = X_ROOT.isDisplayProcedure();
-        } else {
-            BigDecimal y1 = expr.with("x",x1).eval();
-            int count = 0;
-            BigDecimal error = tol.add(BigDecimal.ONE);
-            BigDecimal den = y1.subtract(y0);
 
-            tableIterations.add(createProcedureIteration(count, x0, x1, y0, y1, error));
-            while(error.compareTo(tol) > 0 && y1.compareTo(BigDecimal.ZERO) != 0 && den.compareTo(BigDecimal.ZERO) != 0 && count < niter){
-                //x2 = x1 - (y1*(x1-x0)/den)
-                x2 = x1.subtract(y1.multiply(x1.subtract(x0)).divide(den,BigDecimal.ROUND_HALF_EVEN));
-                error = x2.subtract(x1).abs();
-                x0 = x1;
-                y0 = y1;
-                x1 = x2;
-                y1 = expr.with("x",x1).eval();
-                den = y1.subtract(y0);
-                count++;
+        //Method Begins
+        try{
+            BigDecimal y0 = expr.with("x",x0).eval();
+
+            if (niter < 1) {
+                message = INVALID_ITER.getMessage();
+                displayProcedure = INVALID_ITER.isDisplayProcedure();
+            }
+            else if(y0.compareTo(BigDecimal.ZERO) == 0){
+                message = X_ROOT.getMessage();
+                displayProcedure = X_ROOT.isDisplayProcedure();
+            } else {
+                BigDecimal y1 = expr.with("x",x1).eval();
+                int count = 0;
+                BigDecimal error = tol.add(BigDecimal.ONE);
+                BigDecimal den = y1.subtract(y0);
 
                 tableIterations.add(createProcedureIteration(count, x0, x1, y0, y1, error));
+                while(error.compareTo(tol) > 0 && y1.compareTo(BigDecimal.ZERO) != 0 && den.compareTo(BigDecimal.ZERO) != 0 && count < niter){
+                    //x2 = x1 - (y1*(x1-x0)/den)
+                    x2 = x1.subtract(y1.multiply(x1.subtract(x0)).divide(den,BigDecimal.ROUND_HALF_EVEN));
+                    error = x2.subtract(x1).abs();
+                    x0 = x1;
+                    y0 = y1;
+                    x1 = x2;
+                    y1 = expr.with("x",x1).eval();
+                    den = y1.subtract(y0);
+                    count++;
+
+                    tableIterations.add(createProcedureIteration(count, x0, x1, y0, y1, error));
+                }
+                if (y1.compareTo(BigDecimal.ZERO) == 0) {
+                    message = "x = " + x1.toString() + " is a root";
+                    displayProcedure = true;
+                } else if (error.compareTo(tol) < 0) {
+                    message = "x = " + x1.toString() + " is an approximated root\nwith E = " + error.toString();
+                    displayProcedure = true;
+                } else if(den.compareTo(BigDecimal.ZERO) == 0){
+                    message = "There are possibly multiple roots";
+                    displayProcedure = false;
+                } else {
+                    message = "The method failed after "
+                            + count + " iterations";
+                    displayProcedure = true;
+                }
             }
-            if (y1.compareTo(BigDecimal.ZERO) == 0) {
-                message = "x = " + x1.toString() + " is a root";
-                displayProcedure = true;
-            } else if (error.compareTo(tol) < 0) {
-                message = "x = " + x1.toString() + " is an approximated root\nwith E = " + error.toString();
-                displayProcedure = true;
-            } else if(den.compareTo(BigDecimal.ZERO) == 0){
-                message = "There are possibly multiple roots";
-                displayProcedure = false;
-            } else {
-                message = "The method failed after "
-                        + count + " iterations";
-                displayProcedure = true;
-            }
+        }catch (Expression.ExpressionException
+                | ArithmeticException | NumberFormatException e) {
+            return null; // The equation is not valid.
         }
         return new Pair(message, displayProcedure);
     }
