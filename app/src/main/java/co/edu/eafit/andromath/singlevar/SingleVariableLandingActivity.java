@@ -42,7 +42,7 @@ public class SingleVariableLandingActivity extends AppCompatActivity {
         intent = new Intent(this,
                 GrapherActivity.class);
 
-        DataPoint[] dataPoints = getGraphPoints(expression);
+        DataPoint[] dataPoints = getGraphPoints(expression,50d, -50d);
 
         if (dataPoints != null) {
             intent.putExtra("points", dataPoints);
@@ -60,7 +60,7 @@ public class SingleVariableLandingActivity extends AppCompatActivity {
         intent = new Intent(this,
                 SingleVariableElectionActivity.class);
 
-        DataPoint[] dataPoints = getGraphPoints(expression);
+        DataPoint[] dataPoints = getGraphPoints(expression,50d,-50d);
 
         if (dataPoints != null) {
             intent.putExtra(Constants.EQUATION,
@@ -71,9 +71,9 @@ public class SingleVariableLandingActivity extends AppCompatActivity {
         }
     }
 
-    private DataPoint[] getGraphPoints(Expression expression) {
+    private DataPoint[] getGraphPoints(Expression expression,double xAxisValueMax ,double xAxisValueMin ) {
 
-        double xAxisValueMax = 50d, xAxisValueMin = -50d;
+
         double highestY = 0.0d, lowestY = 0.0d, x, y;
 
         BigDecimal x0 = new BigDecimal(xAxisValueMin);
@@ -96,9 +96,12 @@ public class SingleVariableLandingActivity extends AppCompatActivity {
                 if (y < lowestY && y > xAxisValueMin) lowestY = y;
 
             } catch (Expression.ExpressionException
-                    | ArithmeticException | NumberFormatException e) {
+                     e) {
 
                 return null;
+            } catch (ArithmeticException | NumberFormatException e){
+
+                return getGraphPoints(expression,xAxisValueMax , xAxisValueMin+1d );
             }
         }
 

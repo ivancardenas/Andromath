@@ -40,7 +40,7 @@ public class FalseRuleActivity extends AppCompatActivity {
     EditText xmin_et, xmax_et, tol_et, niter_et;
     TextView func, results, iterations, solution, xmin, xmax, xmed, tol, fa, fb; //
     Expression expr;
-
+    int scale=5;
     TableLayout procedure;  //
     Expression expression;  //
 
@@ -114,6 +114,9 @@ public class FalseRuleActivity extends AppCompatActivity {
         BigDecimal xi = BigDecimal.valueOf(Double.parseDouble(xmin_et.getText().toString()));
         BigDecimal xs = BigDecimal.valueOf(Double.parseDouble(xmax_et.getText().toString()));
         BigDecimal tol = BigDecimal.valueOf(Double.parseDouble(tol_et.getText().toString()));
+        String tempscale=tol_et.getText().toString();
+        scale=tempscale.substring(tempscale.indexOf('.')).length();
+
         BigDecimal xaux;
         int iterations = Integer.parseInt(niter_et.getText().toString());
 
@@ -166,7 +169,15 @@ public class FalseRuleActivity extends AppCompatActivity {
                     error = xm.subtract(xaux).abs();
                     count++;
 
-                    tableIterations.add(createProcedureIteration(count, xi, xs, yi, ys, xm, ym, error));
+                    BigDecimal xii= xi.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                    BigDecimal xss= xs.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                    BigDecimal yii= yi.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                    BigDecimal yss= ys.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                    BigDecimal xmm= xm.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                    BigDecimal ymm= ym.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                    BigDecimal errorr= error.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+
+                    tableIterations.add(createProcedureIteration(count, xii, xss, yii, yss, xmm, ymm, errorr));
                 }
                 if (ym.compareTo(BigDecimal.ZERO) == 0) {
                     tableIterations.add(createProcedureIteration(count + 1, xi, xs, yi, ys, xm, ym, error));

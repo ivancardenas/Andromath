@@ -37,7 +37,7 @@ public class FixedPointActivity extends AppCompatActivity {
     EditText xa_et, gx_et, tol_et, niter_et;
     TextView func,results, iterations, tol, x, fx;
     Expression expr, gexpr;
-
+    int scale=5;
     TableLayout procedure;  //
     Expression expression;  //
 
@@ -76,7 +76,7 @@ public class FixedPointActivity extends AppCompatActivity {
                 procedure.getChildCount() - 1);
 
         Pair<String, Boolean> solution =
-                FixedPoint(tableIterations);
+                runFixedPoint(tableIterations);
 
         if (solution != null) {
             results.setText(solution.first);
@@ -95,7 +95,7 @@ public class FixedPointActivity extends AppCompatActivity {
      * Boolean parameter is a flag to show the procedure.
      */
 
-    private Pair<String, Boolean> FixedPoint(List<TableRow> tableIterations){
+    private Pair<String, Boolean> runFixedPoint(List<TableRow> tableIterations){
 
         String message;
 
@@ -110,6 +110,8 @@ public class FixedPointActivity extends AppCompatActivity {
         BigDecimal tol = BigDecimal.valueOf(Double.parseDouble(tol_et.getText().toString()));
         BigDecimal xn;
         int niter = Integer.parseInt(niter_et.getText().toString());
+        String tempscale=tol_et.getText().toString();
+        scale=tempscale.substring(tempscale.indexOf('.')).length();
         //We have to trust in whoever set up the expression to not screw things up
         //TODO: We have to add checks to this function, otherwise this might crash the app.
         gexpr = new Expression(gx_et.getText().toString());
@@ -134,7 +136,11 @@ public class FixedPointActivity extends AppCompatActivity {
                     xa = xn;
                     count++;
 
-                    tableIterations.add(createProcedureIteration(count, xa, y, error));
+
+                    BigDecimal xaa= xa.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                    BigDecimal yaa= y.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                    BigDecimal errorr= error.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                    tableIterations.add(createProcedureIteration(count, xaa, yaa, errorr));
                 }
                 if (y.compareTo(BigDecimal.ZERO) == 0) {
                     tableIterations.add(createProcedureIteration(count, xa, y, error));

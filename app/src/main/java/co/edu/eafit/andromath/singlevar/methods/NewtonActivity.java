@@ -33,7 +33,7 @@ public class NewtonActivity extends AppCompatActivity {
     EditText xa_et, gx_et, tol_et, niter_et;
         TextView func, results, iterations, xa,ya, dya, tol;
         Expression expr, gexpr;
-
+        int scale=5;
         private List<TableRow> tableIterations;
         TableLayout procedure;  //
 
@@ -122,7 +122,8 @@ public class NewtonActivity extends AppCompatActivity {
                     message=X_ROOT.getMessage();
                     displayProcedure = X_ROOT.isDisplayProcedure();
                 }
-
+                String tempscale=tol_et.getText().toString();
+                scale=tempscale.substring(tempscale.indexOf('.')).length();
                 tableIterations.add(createProcedureIteration(count+1, x0, y, dy, error));
                 while (error.compareTo(tol) > 0 && y.compareTo(BigDecimal.ZERO) != 0 && dy.compareTo(BigDecimal.ZERO) != 0 && count < niter) {
                     //x1 = x0 - (y/dy)
@@ -133,8 +134,12 @@ public class NewtonActivity extends AppCompatActivity {
                     error = x1.subtract(x0).abs();
                     x0 = x1;
                     count++;
+                    BigDecimal x00= x0.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                    BigDecimal yy= y.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                    BigDecimal dyy= dy.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                    BigDecimal errorr= error.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
 
-                    tableIterations.add(createProcedureIteration(count+1, x0, y, dy, error));
+                    tableIterations.add(createProcedureIteration(count+1, x00, yy, dyy, errorr));
                 }
 
                 if (y.compareTo(BigDecimal.ZERO) == 0) {

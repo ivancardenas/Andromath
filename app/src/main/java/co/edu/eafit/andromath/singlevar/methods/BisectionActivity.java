@@ -40,7 +40,7 @@ public class BisectionActivity extends AppCompatActivity {
     EditText xmin_et, xmax_et, tol_et, niter_et;
     TextView func, results, iterations, solution, xmin, xmax, xmed, tol, fa, fb;
     Expression expr;
-    int scale=3;
+    int scale=5;
     TableLayout procedure;  //
     Expression expression;  //
 
@@ -67,6 +67,7 @@ public class BisectionActivity extends AppCompatActivity {
         Intent i = getIntent();
         String s = "f(x) = " + i.getStringExtra("equation");
         func.setText(s);
+        //System.out.println(i.getStringExtra("equation"));
         expr = new Expression(i.getStringExtra("equation"));
 
         procedure.setStretchAllColumns(true);   //
@@ -142,6 +143,8 @@ public class BisectionActivity extends AppCompatActivity {
                 int count = 1;
                 //error = tol + 1
                 BigDecimal error = tol.add(BigDecimal.ONE);
+                String tempscale=tol_et.getText().toString();
+                scale=tempscale.substring(tempscale.indexOf('.')).length();
                 //error > tol && ym != 0 && count < niter
                 tableIterations.add(createProcedureIteration(count, xi, xs, yi, ys, xm, ym, error));
                 //while ( ym != 0 and e > tol and count < iter) do

@@ -5,13 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".singlevar.methods.IncrementalSearchActivity">
+    <ScrollView
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" >
 
     <LinearLayout
         android:weightSum="1"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center_vertical"
+        android:layout_marginTop="50dp"
 
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
@@ -122,11 +129,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.1" />
 
-        <HorizontalScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <ScrollView
 
-            <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" >
+
+
+        <TableLayout
                 android:id="@+id/tableLayoutProcedure"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -170,6 +181,7 @@
 
                 </TableRow>
             </TableLayout>
-        </HorizontalScrollView>
+        </ScrollView>
     </LinearLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>
