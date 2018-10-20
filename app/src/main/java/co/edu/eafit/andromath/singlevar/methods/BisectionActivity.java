@@ -148,13 +148,13 @@ public class BisectionActivity extends AppCompatActivity {
 
 
 
-                BigDecimal xii= xi.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                BigDecimal xss= xs.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                BigDecimal yii= yi.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                BigDecimal yss= ys.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                BigDecimal xmm= xm.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                BigDecimal ymm= ym.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                BigDecimal errorr= error.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                String xii= conversion(xi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String xss= conversion(xs.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String yii= conversion(yi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String yss= conversion(ys.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String xmm= conversion(xm.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String ymm= conversion(ym.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String errorr= conversion(error.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
                 //error > tol && ym != 0 && count < niter
                 tableIterations.add(createProcedureIteration(count, xii, xss, yii, yss, xmm, ymm, errorr));
                 //while ( ym != 0 and e > tol and count < iter) do
@@ -176,24 +176,24 @@ public class BisectionActivity extends AppCompatActivity {
                     //error = abs(xm-xaux)
                     error = xm.subtract(xaux).abs();
                     count++;
-                     xii= xi.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                     xss= xs.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                     yii= yi.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                     yss= ys.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                     xmm= xm.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                     ymm= ym.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                     errorr= error.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                     xii= conversion(xi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     xss= conversion(xs.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     yii= conversion(yi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     yss= conversion(ys.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     xmm= conversion(xm.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     ymm= conversion(ym.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     errorr= conversion(error.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
 
 
 
                     tableIterations.add(createProcedureIteration(count, xii, xss, yii, yss, xmm, ymm, errorr));
                 }
                 if (ym.compareTo(BigDecimal.ZERO) == 0) {
-                    tableIterations.add(createProcedureIteration(count + 1, xi, xs, yi, ys, xm, ym, error));
+                    tableIterations.add(createProcedureIteration(count + 1, xii, xss, yii, yss, xmm, ymm, errorr));
                     message = "x = " + xm.toString() + " is a root";
                     displayProcedure = true;
                 } else if (error.compareTo(tol) < 0) {
-                    tableIterations.add(createProcedureIteration(count + 1, xi, xs, yi, ys, xm, ym, error));
+                    tableIterations.add(createProcedureIteration(count + 1, xii, xss, yii, yss, xmm, ymm, errorr));
                     message = "x = " + xm.toString() + " is an approximated root\nwith E = " + error.toString();
                     displayProcedure = true;
                 } else {
@@ -212,9 +212,9 @@ public class BisectionActivity extends AppCompatActivity {
         return new Pair(message, displayProcedure);
     }
 
-    private TableRow createProcedureIteration(int count, BigDecimal xi,
-                                              BigDecimal xs, BigDecimal yi, BigDecimal ys,
-                                              BigDecimal xm, BigDecimal ym, BigDecimal Error) {
+    private TableRow createProcedureIteration(int count, String xi,
+                                              String xs, String yi, String ys,
+                                              String xm, String ym, String Error) {
         TableRow iterationResult = new TableRow(this);
 
         iterations = new TextView(this);
@@ -260,11 +260,29 @@ public class BisectionActivity extends AppCompatActivity {
 
         return iterationResult;
     }
-
+    int veces=0;
     private void createTableProcedure(List<TableRow> tableIterations) {
 
         for (TableRow tableRow : tableIterations) {
             procedure.addView(tableRow);
         }
+    }
+    public  String conversionAux(BigDecimal l){
+
+        if(l.toString().charAt(0)=='0' || (l.toString().length()>1 && l.toString().substring(0,2).equals("-0"))){
+            veces++;
+            return conversionAux(l.movePointRight(1));
+        }
+        else{
+            if(veces!=0){
+            return l+"E-"+veces;}
+            else{return l.toString();}
+        }
+
+    }
+    public String conversion(BigDecimal l, int zero){
+        veces=zero;
+        return conversionAux(l);
+
     }
 }
