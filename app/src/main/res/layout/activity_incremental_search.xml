@@ -179,6 +179,27 @@
                         android:textStyle="bold"
                         android:text="f(x)" />
 
+                    <TextView
+                        android:id="@+id/textViewXi1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:textAlignment="center"
+                        android:textAllCaps="true"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="X1" />
+
+                    <TextView
+                        android:id="@+id/textViewEvaluation1"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:textAlignment="center"
+                        android:textAllCaps="true"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="f(x1)" />
+
+
                 </TableRow>
             </TableLayout>
         </ScrollView>

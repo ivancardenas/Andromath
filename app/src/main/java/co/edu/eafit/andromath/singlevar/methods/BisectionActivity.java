@@ -145,8 +145,18 @@ public class BisectionActivity extends AppCompatActivity {
                 BigDecimal error = tol.add(BigDecimal.ONE);
                 String tempscale=tol_et.getText().toString();
                 scale=tempscale.substring(tempscale.indexOf('.')).length();
+
+
+
+                BigDecimal xii= xi.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                BigDecimal xss= xs.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                BigDecimal yii= yi.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                BigDecimal yss= ys.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                BigDecimal xmm= xm.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                BigDecimal ymm= ym.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                BigDecimal errorr= error.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
                 //error > tol && ym != 0 && count < niter
-                tableIterations.add(createProcedureIteration(count, xi, xs, yi, ys, xm, ym, error));
+                tableIterations.add(createProcedureIteration(count, xii, xss, yii, yss, xmm, ymm, errorr));
                 //while ( ym != 0 and e > tol and count < iter) do
                 while (ym.compareTo(BigDecimal.ZERO) != 0 && error.compareTo(tol) > 0 && count < niter) {
                     //yi*ys < 0
@@ -166,13 +176,15 @@ public class BisectionActivity extends AppCompatActivity {
                     //error = abs(xm-xaux)
                     error = xm.subtract(xaux).abs();
                     count++;
-                    BigDecimal xii= xi.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                    BigDecimal xss= xs.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                    BigDecimal yii= yi.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                    BigDecimal yss= ys.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                    BigDecimal xmm= xm.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                    BigDecimal ymm= ym.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                    BigDecimal errorr= error.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                     xii= xi.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                     xss= xs.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                     yii= yi.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                     yss= ys.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                     xmm= xm.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                     ymm= ym.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                     errorr= error.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+
+
 
                     tableIterations.add(createProcedureIteration(count, xii, xss, yii, yss, xmm, ymm, errorr));
                 }
