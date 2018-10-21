@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 import co.edu.eafit.andromath.R;
+import co.edu.eafit.andromath.util.Constants;
 import co.edu.eafit.andromath.util.Messages;
 
 import static co.edu.eafit.andromath.util.Constants.EQUATION;
@@ -31,7 +32,7 @@ public class IncrementalSearchActivity extends AppCompatActivity {
 
     private static final String tag = IncrementalSearchActivity.class.getSimpleName();
 
-    TextView function, result, iterations, xValue, solution;
+    TextView function, result, iterations, xValue,x1Value, solution1,solution2;
     EditText x0Input, deltaInput, iterationsInput;
     TableLayout procedure;
     Expression expression;
@@ -82,7 +83,8 @@ public class IncrementalSearchActivity extends AppCompatActivity {
                 procedure.getChildCount() - 1);
 
         Pair<String, Boolean> solution =
-                incrementalSearch(tableIterations);
+                incrementalSearch(tableIterations,BigDecimal.valueOf(Double.
+                        parseDouble(x0Input.getText().toString())));
 
         if (solution != null) {
             result.setText(solution.first);
@@ -100,14 +102,13 @@ public class IncrementalSearchActivity extends AppCompatActivity {
      *     String parameter is the message.
      *     Boolean parameter is a flag to show the procedure.
      */
-    private Pair<String, Boolean> incrementalSearch(List<TableRow> tableIterations) {
+    private Pair<String, Boolean> incrementalSearch(List<TableRow> tableIterations, BigDecimal x0) {
 
         String message;
 
         boolean displayProcedure;
 
-        BigDecimal x0 = BigDecimal.valueOf(Double.
-                parseDouble(x0Input.getText().toString()));
+
 
         BigDecimal delta = BigDecimal.valueOf(Double.
                 parseDouble(deltaInput.getText().toString()));
@@ -135,7 +136,7 @@ public class IncrementalSearchActivity extends AppCompatActivity {
 
                         int count = 1;
 
-                        tableIterations.add(createProcedureIteration(count, x0, y0, y1));
+                        tableIterations.add(createProcedureIteration(count, x0, y0, x1, y1));
 
                         while (y1.compareTo(BigDecimal.ZERO) != 0 && y0.multiply(y1).
                                 compareTo(BigDecimal.ZERO) > 0 && count < iterations) {
@@ -148,11 +149,11 @@ public class IncrementalSearchActivity extends AppCompatActivity {
                             y1 = expression.with(VARIABLE, x1).eval();
                             count++;
 
-                            tableIterations.add(createProcedureIteration(count, x0, y0, y1));
+                            tableIterations.add(createProcedureIteration(count, x0, y0,x1, y1));
                         }
 
                         if (y1.compareTo(BigDecimal.ZERO) == 0) {
-                            tableIterations.add(createProcedureIteration(count + 1, x1, y1, y1));
+                            tableIterations.add(createProcedureIteration(count + 1, x0, y0,x1, y1));
                             message = "x = " + x1.toString() + " is a root";
                             displayProcedure = true;
                         } else if (y0.multiply(y1).compareTo(BigDecimal.ZERO) < 0) {
@@ -167,16 +168,17 @@ public class IncrementalSearchActivity extends AppCompatActivity {
                     }
                 }
             }
-        } catch (Expression.ExpressionException
-                | ArithmeticException | NumberFormatException e) {
+        } catch (Expression.ExpressionException e) {
             return null; // The equation is not valid.
+        }catch(ArithmeticException | NumberFormatException e){
+            return incrementalSearch(tableIterations,x0.add(delta));
         }
 
         return new Pair(message, displayProcedure);
     }
 
-    private TableRow createProcedureIteration(int count, BigDecimal x1,
-                                              BigDecimal y0, BigDecimal y1) {
+    private TableRow createProcedureIteration(int count, BigDecimal x0,
+                                              BigDecimal y0,BigDecimal x1, BigDecimal y1) {
 
         TableRow iterationResult = new TableRow(this);
 
@@ -186,15 +188,27 @@ public class IncrementalSearchActivity extends AppCompatActivity {
 
         xValue = new TextView(this);
         xValue.setGravity(Gravity.CENTER);
-        xValue.setText(x1.toString());
+        xValue.setText(x0.toString());
 
-        solution = new TextView(this);
-        solution.setGravity(Gravity.CENTER);
-        solution.setText(y0.toString());
+        solution1 = new TextView(this);
+        solution1.setGravity(Gravity.CENTER);
+        solution1.setText(y0.toString());
+
+        x1Value = new TextView(this);
+
+        x1Value.setText(x1.toString());
+
+        solution2 = new TextView(this);
+        solution2.setGravity(Gravity.CENTER);
+        solution2.setText(y1.toString());
 
         iterationResult.addView(iterations);
         iterationResult.addView(xValue);
-        iterationResult.addView(solution);
+
+        iterationResult.addView(solution1);
+
+        iterationResult.addView(x1Value);
+        iterationResult.addView(solution2);
 
         return iterationResult;
     }

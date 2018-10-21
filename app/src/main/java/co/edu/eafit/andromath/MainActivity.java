@@ -8,6 +8,7 @@ import android.view.View;
 import java.util.Objects;
 
 import co.edu.eafit.andromath.singlevar.SingleVariableLandingActivity;
+import co.edu.eafit.andromath.LinealSystems.LinearSystemLandingActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,6 +21,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void singleVariableButton(View v) {
         Intent intent = new Intent(this, SingleVariableLandingActivity.class);
+        startActivity(intent);
+    }
+
+    public void LinealSystemsButton(View v) {
+        Intent intent = new Intent(this, LinearSystemLandingActivity.class);
         startActivity(intent);
     }
 }

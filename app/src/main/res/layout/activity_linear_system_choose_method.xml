@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context="co.edu.eafit.andromath.LinealSystems.LinearSystemChooseMethodActivity">
 
     <LinearLayout
+
         android:weightSum="1"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -21,75 +22,31 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" >
 
         <TextView
-            android:id="@+id/textViewAppName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="[ ANDROMATH ]"
-            android:textColor="@color/colorAccent"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:layout_marginBottom="15dp"
-            android:textSize="45dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:layout_marginBottom="5dp"
-            android:textSize="16dp"
-            android:text="SUPERVISED BY"
-            android:textAlignment="center" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/professor"
-            android:textAlignment="center" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_marginBottom="5dp"
-            android:text="@string/memberIvan"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_marginBottom="5dp"
-            android:text="@string/memberJose"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_marginBottom="5dp"
-            android:text="@string/memberCamilo"/>
-
-
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.25" />
-
-        <TextView
-            android:id="@+id/textViewNavigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAllCaps="true"
-            android:text="choose one of the following topics"
             android:textStyle="bold"
-            android:textAlignment="center" />
+            android:textColor="@color/colorAccent"
+            android:text="Linear Equations Systems"
+            android:textAlignment="center"
+            android:textSize="36dp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:text="Which method do you want to run?"
+            android:textAlignment="center"
+            android:textSize="16dp" />
 
         <Space
             android:layout_width="match_parent"
@@ -97,32 +54,51 @@
             android:layout_weight="0.1" />
 
         <Button
-            android:id="@+id/buttonSingleVariable"
+            android:id="@+id/button2"
             android:background="@drawable/button_shape"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/textColorButton"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:layout_marginBottom="10dp"
-            android:onClick="singleVariableButton"
-            android:text="Single Variable Equations" />
-
-        <Space
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.1" />
+            android:onClick="gaussianElimination"
+            android:textColor="@color/textColorButton"
+            android:layout_marginBottom="10dp"
+            android:text="Gaussian Elimination" />
 
         <Button
-            android:id="@+id/buttonLinealSystems"
+            android:id="@+id/button8"
             android:background="@drawable/button_shape"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:textColor="@color/textColorButton"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="luFactorization"
+            android:text="LU Factorization" />
+
+        <Button
+            android:id="@+id/button10"
+            android:background="@drawable/button_shape"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/textColorButton"
+            android:onClick="directFactorization"
+            android:layout_marginBottom="10dp"
+            android:text="Direct Factorization" />
+
+        <Button
+            android:id="@+id/button6"
+            android:background="@drawable/button_shape"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:layout_marginBottom="10dp"
-            android:onClick="LinealSystemsButton"
-            android:text="Linear System Equations" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColorButton"
+            android:onClick="iterativeMethods"
+            android:text="ITERATIVE METHODS" />
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

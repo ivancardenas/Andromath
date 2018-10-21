@@ -40,7 +40,7 @@ public class BisectionActivity extends AppCompatActivity {
     EditText xmin_et, xmax_et, tol_et, niter_et;
     TextView func, results, iterations, solution, xmin, xmax, xmed, tol, fa, fb;
     Expression expr;
-
+    int scale=5;
     TableLayout procedure;  //
     Expression expression;  //
 
@@ -67,6 +67,7 @@ public class BisectionActivity extends AppCompatActivity {
         Intent i = getIntent();
         String s = "f(x) = " + i.getStringExtra("equation");
         func.setText(s);
+        //System.out.println(i.getStringExtra("equation"));
         expr = new Expression(i.getStringExtra("equation"));
 
         procedure.setStretchAllColumns(true);   //
@@ -142,8 +143,20 @@ public class BisectionActivity extends AppCompatActivity {
                 int count = 1;
                 //error = tol + 1
                 BigDecimal error = tol.add(BigDecimal.ONE);
+                String tempscale=tol_et.getText().toString();
+                scale=tempscale.substring(tempscale.indexOf('.')).length();
+
+
+
+                String xii= conversion(xi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String xss= conversion(xs.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String yii= conversion(yi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String yss= conversion(ys.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String xmm= conversion(xm.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String ymm= conversion(ym.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String errorr= conversion(error.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
                 //error > tol && ym != 0 && count < niter
-                tableIterations.add(createProcedureIteration(count, xi, xs, yi, ys, xm, ym, error));
+                tableIterations.add(createProcedureIteration(count, xii, xss, yii, yss, xmm, ymm, errorr));
                 //while ( ym != 0 and e > tol and count < iter) do
                 while (ym.compareTo(BigDecimal.ZERO) != 0 && error.compareTo(tol) > 0 && count < niter) {
                     //yi*ys < 0
@@ -155,22 +168,32 @@ public class BisectionActivity extends AppCompatActivity {
                         yi = ym;
                     }
                     xaux = xm;
-                    //xm = (xi + xs)/2
-                    xm = (xi.add(xs)).divide(BigDecimal.valueOf(2)/*, BigDecimal.ROUND_HALF_EVEN*/);
+                    //xm = (xi + xs)/
+                    /*, BigDecimal.ROUND_HALF_EVEN*/
+                    xm = (xi.add(xs)).divide(BigDecimal.valueOf(2));
                     //ym = f(xm)
                     ym = expr.with("x", xm).eval();
                     //error = abs(xm-xaux)
                     error = xm.subtract(xaux).abs();
                     count++;
+                     xii= conversion(xi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     xss= conversion(xs.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     yii= conversion(yi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     yss= conversion(ys.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     xmm= conversion(xm.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     ymm= conversion(ym.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     errorr= conversion(error.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
 
-                    tableIterations.add(createProcedureIteration(count, xi, xs, yi, ys, xm, ym, error));
+
+
+                    tableIterations.add(createProcedureIteration(count, xii, xss, yii, yss, xmm, ymm, errorr));
                 }
                 if (ym.compareTo(BigDecimal.ZERO) == 0) {
-                    tableIterations.add(createProcedureIteration(count + 1, xi, xs, yi, ys, xm, ym, error));
+                    tableIterations.add(createProcedureIteration(count + 1, xii, xss, yii, yss, xmm, ymm, errorr));
                     message = "x = " + xm.toString() + " is a root";
                     displayProcedure = true;
                 } else if (error.compareTo(tol) < 0) {
-                    tableIterations.add(createProcedureIteration(count + 1, xi, xs, yi, ys, xm, ym, error));
+                    tableIterations.add(createProcedureIteration(count + 1, xii, xss, yii, yss, xmm, ymm, errorr));
                     message = "x = " + xm.toString() + " is an approximated root\nwith E = " + error.toString();
                     displayProcedure = true;
                 } else {
@@ -189,9 +212,9 @@ public class BisectionActivity extends AppCompatActivity {
         return new Pair(message, displayProcedure);
     }
 
-    private TableRow createProcedureIteration(int count, BigDecimal xi,
-                                              BigDecimal xs, BigDecimal yi, BigDecimal ys,
-                                              BigDecimal xm, BigDecimal ym, BigDecimal Error) {
+    private TableRow createProcedureIteration(int count, String xi,
+                                              String xs, String yi, String ys,
+                                              String xm, String ym, String Error) {
         TableRow iterationResult = new TableRow(this);
 
         iterations = new TextView(this);
@@ -237,11 +260,29 @@ public class BisectionActivity extends AppCompatActivity {
 
         return iterationResult;
     }
-
+    int veces=0;
     private void createTableProcedure(List<TableRow> tableIterations) {
 
         for (TableRow tableRow : tableIterations) {
             procedure.addView(tableRow);
         }
+    }
+    public  String conversionAux(BigDecimal l){
+
+        if(l.toString().charAt(0)=='0' || (l.toString().length()>1 && l.toString().substring(0,2).equals("-0"))){
+            veces++;
+            return conversionAux(l.movePointRight(1));
+        }
+        else{
+            if(veces!=0){
+            return l+"E-"+veces;}
+            else{return l.toString();}
+        }
+
+    }
+    public String conversion(BigDecimal l, int zero){
+        veces=zero;
+        return conversionAux(l);
+
     }
 }

@@ -37,7 +37,7 @@ public class SecantActivity extends AppCompatActivity {
     EditText x0_et, x1_et, tol_et, niter_et;
     TextView func, results, x1a, x2a, fx1, fx2, tol, iterations;
     Expression expr;
-
+    int scale=5;
     TableLayout procedure;  //
     Expression expression;  //
 
@@ -129,7 +129,8 @@ public class SecantActivity extends AppCompatActivity {
                 int count = 0;
                 BigDecimal error = tol.add(BigDecimal.ONE);
                 BigDecimal den = y1.subtract(y0);
-
+                String tempscale=tol_et.getText().toString();
+                scale=tempscale.substring(tempscale.indexOf('.')).length();
                 tableIterations.add(createProcedureIteration(count, x0, x1, y0, y1, error));
                 while(error.compareTo(tol) > 0 && y1.compareTo(BigDecimal.ZERO) != 0 && den.compareTo(BigDecimal.ZERO) != 0 && count < niter){
                     //x2 = x1 - (y1*(x1-x0)/den)
@@ -142,7 +143,14 @@ public class SecantActivity extends AppCompatActivity {
                     den = y1.subtract(y0);
                     count++;
 
-                    tableIterations.add(createProcedureIteration(count, x0, x1, y0, y1, error));
+                    BigDecimal x00= x0.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                    BigDecimal x11= x1.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                    BigDecimal y00= y0.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                    BigDecimal y11= y1.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+
+                    BigDecimal errorr= error.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+
+                    tableIterations.add(createProcedureIteration(count, x00, x11, y00, y11, errorr));
                 }
                 if (y1.compareTo(BigDecimal.ZERO) == 0) {
                     message = "x = " + x1.toString() + " is a root";
