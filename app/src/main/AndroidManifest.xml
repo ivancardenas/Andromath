@@ -20,6 +20,9 @@
         <activity android:name=".singlevar.SingleVariableLandingActivity">
             android:theme="@style/AppTheme.NoActionBar"
         </activity>
+        <activity android:name=".LinealSystems.LinearSystemLandingActivity">
+            android:theme="@style/AppTheme.NoActionBar"
+        </activity>
         <activity android:name=".grapher.GrapherActivity">
             android:theme="@style/AppTheme.NoActionBar"
         </activity>
@@ -30,7 +33,19 @@
         <activity android:name=".singlevar.methods.FixedPointActivity" />
         <activity android:name=".singlevar.methods.NewtonActivity" />
         <activity android:name=".singlevar.methods.SecantActivity" />
-        <activity android:name=".singlevar.methods.MultipleRootsActivity"></activity>
+        <activity android:name=".singlevar.methods.MultipleRootsActivity"/>
+
+        <activity android:name=".LinealSystems.methods.DirectLUActivity"/>
+        <activity android:name=".LinealSystems.methods.GaussActivity"/>
+        <activity android:name=".LinealSystems.methods.GaussSeidelActivity"/>
+        <activity android:name=".LinealSystems.methods.JacobiActivity"/>
+        <activity android:name=".LinealSystems.methods.LUGaussActivity"/>
+        <activity android:name=".LinealSystems.methods.LUPivotGaussActivity"/>
+        <activity android:name=".LinealSystems.methods.PartialPivotGaussActivity"/>
+        <activity android:name=".LinealSystems.methods.TotalPivotGaussActivity"/>
+        <activity android:name=".LinealSystems.LinearSystemChooseMethodActivity"/>
+        <activity android:name=".LinealSystems.ResultsActivity">
+        </activity>
     </application>
 
 </manifest>
