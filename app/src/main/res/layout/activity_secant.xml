@@ -163,60 +163,54 @@
                     <TextView
                         android:id="@+id/textViewIterations"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="35dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="Iter" />
 
                     <TextView
                         android:id="@+id/textViewX1"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="90dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="X1" />
 
                     <TextView
                         android:id="@+id/textViewFX1"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="90dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="F(X1)" />
 
                     <TextView
                         android:id="@+id/textViewX2"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="90dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="X2" />
 
                     <TextView
                         android:id="@+id/textViewFX2"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="90dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="F(X2)" />
 
                     <TextView
                         android:id="@+id/textViewTol"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="90dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="error" />
                 </TableRow>

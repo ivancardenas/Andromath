@@ -158,30 +158,27 @@
                     <TextView
                         android:id="@+id/textViewIterations"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="35dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="Iter" />
 
                     <TextView
                         android:id="@+id/textViewX"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="90dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="X" />
 
                     <TextView
                         android:id="@+id/textViewFx"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="90dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="F(X)" />
 
@@ -189,10 +186,9 @@
                     <TextView
                         android:id="@+id/textViewGx"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="90dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="F'(X)" />
 
@@ -200,10 +196,9 @@
                     <TextView
                         android:id="@+id/textViewTol"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="90dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="error" />
 

@@ -2,12 +2,8 @@ package co.edu.eafit.andromath.singlevar.methods;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
 import java.util.Objects;
-
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.util.Pair;
 import android.view.Gravity;
@@ -16,20 +12,12 @@ import android.widget.TableRow;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.udojava.evalex.Expression;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-
 import co.edu.eafit.andromath.R;
 import co.edu.eafit.andromath.util.Messages;
-
-import static co.edu.eafit.andromath.util.Constants.EQUATION;
-import static co.edu.eafit.andromath.util.Constants.VARIABLE;
 import static co.edu.eafit.andromath.util.Constants.ErrorCodes.INVALID_ITER;
 import static co.edu.eafit.andromath.util.Constants.ErrorCodes.X_ROOT;
 
@@ -87,6 +75,9 @@ public class BisectionActivity extends AppCompatActivity {
             createTableProcedure(tableIterations);
             procedure.setVisibility(solution.second ?
                     View.VISIBLE : View.INVISIBLE);
+            //HorizontalScrollView scrool = (HorizontalScrollView) findViewById(R.id.bisection_scroll);
+            //scrool.setVisibility(View.VISIBLE);
+
         } else {
             Messages.invalidEquation(tag,
                     getApplicationContext());
@@ -109,106 +100,117 @@ public class BisectionActivity extends AppCompatActivity {
         InputMethodManager inputManager = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
-        BigDecimal xi = BigDecimal.valueOf(Double.parseDouble(xmin_et.getText().toString()));
-        BigDecimal xs = BigDecimal.valueOf(Double.parseDouble(xmax_et.getText().toString()));
-        BigDecimal tol = BigDecimal.valueOf(Double.parseDouble(tol_et.getText().toString()));
-        BigDecimal xaux;
-        int niter = Integer.parseInt(niter_et.getText().toString());
-
-        //Method Begins
-        //yi = f(xi)
-        //ys = f(xs)
-        try {
-
-            BigDecimal yi = expr.with("x", xi).eval();
-            BigDecimal ys = expr.with("x", xs).eval();
-            //yi = 0
-            if(niter < 1) {
-                message = INVALID_ITER.getMessage();
-                displayProcedure = INVALID_ITER.isDisplayProcedure();
-            }else if (yi.compareTo(BigDecimal.ZERO) == 0) {
-                message = X_ROOT.getMessage();
-                displayProcedure = X_ROOT.isDisplayProcedure();
-                //ys = 0
-
-            } else if (ys.compareTo(BigDecimal.ZERO) == 0) {
-                message = X_ROOT.getMessage();
-                displayProcedure = X_ROOT.isDisplayProcedure();
-                // ys*yi < 0
-            } else if (yi.multiply(ys).compareTo(BigDecimal.ZERO) < 0) {
-                //xm = (xi + xs)/2
-                BigDecimal xm = (xi.add(xs)).divide(BigDecimal.valueOf(2)/*, BigDecimal.ROUND_HALF_EVEN*/);
-                //ym = f(xm)
-                BigDecimal ym = expr.with("x", xm).eval();
-                int count = 1;
-                //error = tol + 1
-                BigDecimal error = tol.add(BigDecimal.ONE);
-                String tempscale=tol_et.getText().toString();
-                scale=tempscale.substring(tempscale.indexOf('.')).length();
 
 
 
-                String xii= conversion(xi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                String xss= conversion(xs.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                String yii= conversion(yi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                String yss= conversion(ys.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                String xmm= conversion(xm.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                String ymm= conversion(ym.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                String errorr= conversion(error.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                //error > tol && ym != 0 && count < niter
-                tableIterations.add(createProcedureIteration(count, xii, xss, yii, yss, xmm, ymm, errorr));
-                //while ( ym != 0 and e > tol and count < iter) do
-                while (ym.compareTo(BigDecimal.ZERO) != 0 && error.compareTo(tol) > 0 && count < niter) {
-                    //yi*ys < 0
-                    if (yi.multiply(ym).compareTo(BigDecimal.ZERO) < 0) {
-                        xs = xm;
-                        ys = ym;
-                    } else {
-                        xi = xm;
-                        yi = ym;
-                    }
-                    xaux = xm;
-                    //xm = (xi + xs)/
-                    /*, BigDecimal.ROUND_HALF_EVEN*/
-                    xm = (xi.add(xs)).divide(BigDecimal.valueOf(2));
+
+            //Method Begins
+            //yi = f(xi)
+            //ys = f(xs)
+            try {
+                BigDecimal xi = BigDecimal.valueOf(Double.parseDouble(xmin_et.getText().toString()));
+                BigDecimal xs = BigDecimal.valueOf(Double.parseDouble(xmax_et.getText().toString()));
+                BigDecimal tol = BigDecimal.valueOf(Double.parseDouble(tol_et.getText().toString()));
+                int niter = Integer.parseInt(niter_et.getText().toString());
+                BigDecimal xaux;
+
+                BigDecimal yi = expr.with("x", xi).eval();
+                BigDecimal ys = expr.with("x", xs).eval();
+                //yi = 0
+                if(niter < 0) {
+                    message = INVALID_ITER.getMessage();
+                    displayProcedure = INVALID_ITER.isDisplayProcedure();
+                }else if (yi.compareTo(BigDecimal.ZERO) == 0) {
+                    message = X_ROOT.getMessage();
+                    displayProcedure = X_ROOT.isDisplayProcedure();
+                    //ys = 0
+
+                } else if (ys.compareTo(BigDecimal.ZERO) == 0) {
+                    message = X_ROOT.getMessage();
+                    displayProcedure = X_ROOT.isDisplayProcedure();
+                    // ys*yi < 0
+                } else if (yi.multiply(ys).compareTo(BigDecimal.ZERO) < 0) {
+                    //xm = (xi + xs)/2
+                    BigDecimal xm = (xi.add(xs)).divide(BigDecimal.valueOf(2)/*, BigDecimal.ROUND_HALF_EVEN*/);
                     //ym = f(xm)
-                    ym = expr.with("x", xm).eval();
-                    //error = abs(xm-xaux)
-                    error = xm.subtract(xaux).abs();
-                    count++;
-                     xii= conversion(xi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                     xss= conversion(xs.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                     yii= conversion(yi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                     yss= conversion(ys.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                     xmm= conversion(xm.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                     ymm= conversion(ym.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                     errorr= conversion(error.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                    BigDecimal ym = expr.with("x", xm).eval();
+                    int count = 1;
+                    //error = tol + 1
+                    BigDecimal error = tol.add(BigDecimal.ONE);
+                    String tempscale=tol_et.getText().toString();
+                    scale=tempscale.substring(tempscale.indexOf('.')).length();
 
 
 
+                    String xii= conversion(xi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                    String xss= conversion(xs.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                    String yii= conversion(yi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                    String yss= conversion(ys.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                    String xmm= conversion(xm.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                    String ymm= conversion(ym.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                    String errorr= conversion(error.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+
+
+                    //error > tol && ym != 0 && count < niter
                     tableIterations.add(createProcedureIteration(count, xii, xss, yii, yss, xmm, ymm, errorr));
-                }
-                if (ym.compareTo(BigDecimal.ZERO) == 0) {
-                    tableIterations.add(createProcedureIteration(count + 1, xii, xss, yii, yss, xmm, ymm, errorr));
-                    message = "x = " + xm.toString() + " is a root";
-                    displayProcedure = true;
-                } else if (error.compareTo(tol) < 0) {
-                    tableIterations.add(createProcedureIteration(count + 1, xii, xss, yii, yss, xmm, ymm, errorr));
-                    message = "x = " + xm.toString() + " is an approximated root\nwith E = " + error.toString();
-                    displayProcedure = true;
+                    //while ( ym != 0 and e > tol and count < iter) do
+                    while (ym.compareTo(BigDecimal.ZERO) != 0 && error.compareTo(tol) > 0 && count < niter) {
+                        //yi*ys < 0
+                        if (yi.multiply(ym).compareTo(BigDecimal.ZERO) < 0) {
+                            xs = xm;
+                            ys = ym;
+                        } else {
+                            xi = xm;
+                            yi = ym;
+                        }
+                        xaux = xm;
+                        //xm = (xi + xs)/
+                        /*, BigDecimal.ROUND_HALF_EVEN*/
+                        xm = (xi.add(xs)).divide(BigDecimal.valueOf(2));
+                        //ym = f(xm)
+                        ym = expr.with("x", xm).eval();
+                        //error = abs(xm-xaux)
+                        error = xm.subtract(xaux).abs();
+                        count++;
+                         xii= conversion(xi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                         xss= conversion(xs.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                         yii= conversion(yi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                         yss= conversion(ys.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                         xmm= conversion(xm.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                         ymm= conversion(ym.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                         errorr= conversion(error.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+
+
+
+                        tableIterations.add(createProcedureIteration(count, xii, xss, yii, yss, xmm, ymm, errorr));
+                    }
+                    if (ym.compareTo(BigDecimal.ZERO) == 0) {
+                        tableIterations.add(createProcedureIteration(count + 1, xii, xss, yii, yss, xmm, ymm, errorr));
+                        message = "x = " + xm.toString() + " is a root";
+                        displayProcedure = true;
+                    } else if (error.compareTo(tol) < 0) {
+                        tableIterations.add(createProcedureIteration(count + 1, xii, xss, yii, yss, xmm, ymm, errorr));
+                        message = "x = " + xm.toString() + " is an approximated root\nwith E = " + error.toString();
+                        displayProcedure = true;
+                    } else {
+                        message = "The method failed after "
+                                + count + " iterations";
+                        displayProcedure = false;
+                    }
                 } else {
-                    message = "The method failed after "
-                            + count + " iterations";
+                    message = "NOT SUITABLE RANGE";
                     displayProcedure = false;
                 }
-            } else {
-                message = "NOT SUITABLE RANGE";
-                displayProcedure = false;
+            }catch (Expression.ExpressionException e) {
+                    return null; // The equation is not valid.
+
+
+            }catch ( ArithmeticException | NumberFormatException e){
+                displayProcedure=false;
+                message="OUT RANGE OR ARE MISSING DATA FIELDS";
+
             }
-        }catch (Expression.ExpressionException
-                | ArithmeticException | NumberFormatException e) {
-            return null; // The equation is not valid.
-        }
+
         return new Pair(message, displayProcedure);
     }
 
@@ -260,13 +262,14 @@ public class BisectionActivity extends AppCompatActivity {
 
         return iterationResult;
     }
-    int veces=0;
+
     private void createTableProcedure(List<TableRow> tableIterations) {
 
         for (TableRow tableRow : tableIterations) {
             procedure.addView(tableRow);
         }
     }
+    int veces=0;
     public  String conversionAux(BigDecimal l){
 
         if(l.toString().charAt(0)=='0' || (l.toString().length()>1 && l.toString().substring(0,2).equals("-0"))){
