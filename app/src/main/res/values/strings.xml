@@ -4,5 +4,9 @@
     <string name="memberIvan">IVÁN ANTONIO CÁRDENAS OCHOA</string>
     <string name="memberJose">JOSÉ MARÍA MIRA BARRIENTOS</string>
     <string name="memberCamilo">ANDRÉS CAMILO PÁEZ RÍOS</string>
-    <string name="memberSantiago">SANTIAGO VÁSQUEZ ZULUAGA</string>
+
+    <string name="enter_parameters">ENTER THE FOLLOWING PARAMETERS</string>
+    <string name="function">FUNCTION</string>
+    <string name="iterations">ITERATIONS</string>
+    <string name="continue_button">CONTINUE</string>
 </resources>

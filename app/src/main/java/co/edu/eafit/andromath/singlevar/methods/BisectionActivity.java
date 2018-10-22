@@ -1,23 +1,27 @@
 package co.edu.eafit.andromath.singlevar.methods;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import java.util.Objects;
 import android.content.Intent;
-import android.view.View;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
 import android.view.Gravity;
-import android.widget.TableLayout;
-import android.widget.TableRow;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
+
 import com.udojava.evalex.Expression;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import co.edu.eafit.andromath.R;
 import co.edu.eafit.andromath.util.Messages;
+
 import static co.edu.eafit.andromath.util.Constants.ErrorCodes.INVALID_ITER;
 import static co.edu.eafit.andromath.util.Constants.ErrorCodes.X_ROOT;
 
@@ -142,13 +146,13 @@ public class BisectionActivity extends AppCompatActivity {
 
 
 
-                    String xii= conversion(xi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                    String xss= conversion(xs.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                    String yii= conversion(yi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                    String yss= conversion(ys.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                    String xmm= conversion(xm.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                    String ymm= conversion(ym.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                    String errorr= conversion(error.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                    String xii= String.valueOf(xi.setScale(scale,BigDecimal.ROUND_HALF_EVEN));
+                    String xss= String.valueOf(xs.setScale(scale,BigDecimal.ROUND_HALF_EVEN));
+                    String yii= String.valueOf(yi.setScale(scale,BigDecimal.ROUND_HALF_EVEN));
+                    String yss= String.valueOf(ys.setScale(scale,BigDecimal.ROUND_HALF_EVEN));
+                    String xmm= String.valueOf(xm.setScale(scale,BigDecimal.ROUND_HALF_EVEN));
+                    String ymm= String.valueOf(ym.setScale(scale,BigDecimal.ROUND_HALF_EVEN));
+                    String errorr= String.valueOf(error.setScale(scale,BigDecimal.ROUND_HALF_EVEN));
 
 
                     //error > tol && ym != 0 && count < niter
@@ -172,13 +176,13 @@ public class BisectionActivity extends AppCompatActivity {
                         //error = abs(xm-xaux)
                         error = xm.subtract(xaux).abs();
                         count++;
-                         xii= conversion(xi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                         xss= conversion(xs.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                         yii= conversion(yi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                         yss= conversion(ys.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                         xmm= conversion(xm.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                         ymm= conversion(ym.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                         errorr= conversion(error.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                         xii= String.valueOf(xi.setScale(scale,BigDecimal.ROUND_HALF_EVEN));
+                         xss= String.valueOf(xs.setScale(scale,BigDecimal.ROUND_HALF_EVEN));
+                         yii= String.valueOf(yi.setScale(scale,BigDecimal.ROUND_HALF_EVEN));
+                         yss= String.valueOf(ys.setScale(scale,BigDecimal.ROUND_HALF_EVEN));
+                         xmm= String.valueOf(xm.setScale(scale,BigDecimal.ROUND_HALF_EVEN));
+                         ymm= String.valueOf(ym.setScale(scale,BigDecimal.ROUND_HALF_EVEN));
+                         errorr= String.valueOf(error.setScale(scale,BigDecimal.ROUND_HALF_EVEN));
 
 
 
@@ -270,22 +274,5 @@ public class BisectionActivity extends AppCompatActivity {
         }
     }
     int veces=0;
-    public  String conversionAux(BigDecimal l){
 
-        if(l.toString().charAt(0)=='0' || (l.toString().length()>1 && l.toString().substring(0,2).equals("-0"))){
-            veces++;
-            return conversionAux(l.movePointRight(1));
-        }
-        else{
-            if(veces!=0){
-            return l+"E-"+veces;}
-            else{return l.toString();}
-        }
-
-    }
-    public String conversion(BigDecimal l, int zero){
-        veces=zero;
-        return conversionAux(l);
-
-    }
 }

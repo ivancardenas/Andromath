@@ -4,6 +4,7 @@ public class Constants {
 
     public static final String VARIABLE = "x";
     public static final String EQUATION = "equation";
+    public static final String POINTS = "points";
 
     public enum ErrorCodes {
         X_ROOT("The entered X is a root", false),
