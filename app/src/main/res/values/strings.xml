@@ -9,4 +9,5 @@
     <string name="function">FUNCTION</string>
     <string name="iterations">ITERATIONS</string>
     <string name="continue_button">CONTINUE</string>
+    <string name="tolerance">TOLERANCE</string>
 </resources>

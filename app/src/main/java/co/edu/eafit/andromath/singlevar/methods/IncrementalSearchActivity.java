@@ -14,6 +14,9 @@ import android.widget.TextView;
 import com.udojava.evalex.Expression;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -185,6 +188,10 @@ public class IncrementalSearchActivity extends AppCompatActivity {
 
         TableRow iterationResult = new TableRow(this);
 
+        NumberFormat formatter = new DecimalFormat("0.0E0");
+        formatter.setRoundingMode(RoundingMode.HALF_UP);
+        formatter.setMinimumFractionDigits(3);
+
         iterations = new TextView(this);
         iterations.setGravity(Gravity.CENTER);
         iterations.setText(String.valueOf(count));
@@ -195,7 +202,7 @@ public class IncrementalSearchActivity extends AppCompatActivity {
 
         solution0 = new TextView(this);
         solution0.setGravity(Gravity.CENTER);
-        solution0.setText(y0.toString());
+        solution0.setText(formatter.format(y0));
 
         x1Value = new TextView(this);
         x1Value.setGravity(Gravity.CENTER);
@@ -203,7 +210,7 @@ public class IncrementalSearchActivity extends AppCompatActivity {
 
         solution1 = new TextView(this);
         solution1.setGravity(Gravity.CENTER);
-        solution1.setText(y1.toString());
+        solution1.setText(formatter.format(y1));
 
         iterationResult.addView(iterations);
         iterationResult.addView(x0Value);

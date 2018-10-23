@@ -152,6 +152,7 @@
                 android:id="@+id/tableLayoutProcedure"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="50dp"
                 android:visibility="gone" >
 
                 <TableRow
@@ -163,7 +164,7 @@
                     <TextView
                         android:id="@+id/textViewIterations"
                         android:layout_height="wrap_content"
-                        android:layout_width="35dp"
+                        android:layout_width="50dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
                         android:textStyle="bold"
@@ -172,7 +173,7 @@
                     <TextView
                         android:id="@+id/textViewXi"
                         android:layout_height="wrap_content"
-                        android:layout_width="90dp"
+                        android:layout_width="100dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
                         android:textStyle="bold"
@@ -181,7 +182,7 @@
                     <TextView
                         android:id="@+id/textViewFa"
                         android:layout_height="wrap_content"
-                        android:layout_width="90dp"
+                        android:layout_width="100dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
                         android:textStyle="bold"
@@ -190,7 +191,7 @@
                     <TextView
                         android:id="@+id/textViewXs"
                         android:layout_height="wrap_content"
-                        android:layout_width="90dp"
+                        android:layout_width="100dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
                         android:textStyle="bold"
@@ -199,7 +200,7 @@
                     <TextView
                         android:id="@+id/textViewFb"
                         android:layout_height="wrap_content"
-                        android:layout_width="90dp"
+                        android:layout_width="100dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
                         android:textStyle="bold"
@@ -208,7 +209,7 @@
                     <TextView
                         android:id="@+id/textViewXm"
                         android:layout_height="wrap_content"
-                        android:layout_width="90dp"
+                        android:layout_width="100dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
                         android:textStyle="bold"
@@ -217,7 +218,7 @@
                     <TextView
                         android:id="@+id/textViewSolution"
                         android:layout_height="wrap_content"
-                        android:layout_width="90dp"
+                        android:layout_width="100dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
                         android:textStyle="bold"
@@ -226,7 +227,7 @@
                     <TextView
                         android:id="@+id/textViewTol"
                         android:layout_height="wrap_content"
-                        android:layout_width="90dp"
+                        android:layout_width="100dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
                         android:textStyle="bold"

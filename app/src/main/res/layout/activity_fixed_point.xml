@@ -154,6 +154,7 @@
                 android:id="@+id/tableLayoutProcedure"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="50dp"
                 android:visibility="gone" >
 
                 <TableRow
@@ -165,7 +166,7 @@
                     <TextView
                         android:id="@+id/textViewIterations"
                         android:layout_height="wrap_content"
-                        android:layout_width="35dp"
+                        android:layout_width="50dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
                         android:textStyle="bold"
@@ -174,7 +175,7 @@
                     <TextView
                         android:id="@+id/textViewX"
                         android:layout_height="wrap_content"
-                        android:layout_width="90dp"
+                        android:layout_width="100dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
                         android:textStyle="bold"
@@ -183,7 +184,7 @@
                     <TextView
                         android:id="@+id/textViewFX1"
                         android:layout_height="wrap_content"
-                        android:layout_width="90dp"
+                        android:layout_width="100dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
                         android:textStyle="bold"
@@ -192,7 +193,7 @@
                     <TextView
                         android:id="@+id/textViewTol"
                         android:layout_height="wrap_content"
-                        android:layout_width="90dp"
+                        android:layout_width="100dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
                         android:textStyle="bold"
@@ -200,7 +201,6 @@
                 </TableRow>
             </TableLayout>
         </HorizontalScrollView>
-
     </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

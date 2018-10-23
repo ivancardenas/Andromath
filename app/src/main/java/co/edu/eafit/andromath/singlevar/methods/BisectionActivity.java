@@ -49,7 +49,7 @@ public class BisectionActivity extends AppCompatActivity {
         xmax_et = (EditText)findViewById(R.id.bisection_xmax);
         tol_et  = (EditText)findViewById(R.id.bisection_tolerance);
         niter_et = (EditText)findViewById(R.id.bisection_niter);
-        func = (TextView)findViewById(R.id.bisection_func);
+        func = (TextView)findViewById(R.id.textViewFunction);
         results = (TextView)findViewById(R.id.bisection_result);
     }
 
