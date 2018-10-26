@@ -1,14 +1,14 @@
 package co.edu.eafit.andromath.singlevar;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
+
 import com.jjoe64.graphview.series.DataPoint;
 import com.udojava.evalex.Expression;
+
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -42,10 +42,10 @@ public class SingleVariableLandingActivity extends AppCompatActivity {
         intent = new Intent(this,
                 GrapherActivity.class);
 
-        DataPoint[] dataPoints = getGraphPoints(expression);
+        DataPoint[] dataPoints = getGraphPoints(expression, 50d, -50d);
 
         if (dataPoints != null) {
-            intent.putExtra("points", dataPoints);
+            intent.putExtra(Constants.POINTS, dataPoints);
             startActivity(intent);
         } else {
             Messages.invalidEquation(tag, getApplicationContext());
@@ -60,7 +60,7 @@ public class SingleVariableLandingActivity extends AppCompatActivity {
         intent = new Intent(this,
                 SingleVariableElectionActivity.class);
 
-        DataPoint[] dataPoints = getGraphPoints(expression);
+        DataPoint[] dataPoints = getGraphPoints(expression, 50d, -50d);
 
         if (dataPoints != null) {
             intent.putExtra(Constants.EQUATION,
@@ -71,9 +71,9 @@ public class SingleVariableLandingActivity extends AppCompatActivity {
         }
     }
 
-    private DataPoint[] getGraphPoints(Expression expression) {
+    private DataPoint[] getGraphPoints(Expression expression,
+                                       double xAxisValueMax, double xAxisValueMin ) {
 
-        double xAxisValueMax = 50d, xAxisValueMin = -50d;
         double highestY = 0.0d, lowestY = 0.0d, x, y;
 
         BigDecimal x0 = new BigDecimal(xAxisValueMin);
@@ -95,10 +95,10 @@ public class SingleVariableLandingActivity extends AppCompatActivity {
                 if (y > highestY && y < xAxisValueMax) highestY = y;
                 if (y < lowestY && y > xAxisValueMin) lowestY = y;
 
-            } catch (Expression.ExpressionException
-                    | ArithmeticException | NumberFormatException e) {
-
-                return null;
+            } catch (Expression.ExpressionException e) {
+                return null; // Invalid equation, badly formed.
+            } catch (ArithmeticException | NumberFormatException e) {
+                return getGraphPoints(expression, xAxisValueMax, xAxisValueMin + 1D);
             }
         }
 

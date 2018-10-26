@@ -37,7 +37,7 @@ public class FixedPointActivity extends AppCompatActivity {
     EditText xa_et, gx_et, tol_et, niter_et;
     TextView func,results, iterations, tol, x, fx;
     Expression expr, gexpr;
-
+    int scale=5;
     TableLayout procedure;  //
     Expression expression;  //
 
@@ -76,7 +76,7 @@ public class FixedPointActivity extends AppCompatActivity {
                 procedure.getChildCount() - 1);
 
         Pair<String, Boolean> solution =
-                FixedPoint(tableIterations);
+                runFixedPoint(tableIterations);
 
         if (solution != null) {
             results.setText(solution.first);
@@ -95,7 +95,7 @@ public class FixedPointActivity extends AppCompatActivity {
      * Boolean parameter is a flag to show the procedure.
      */
 
-    private Pair<String, Boolean> FixedPoint(List<TableRow> tableIterations){
+    private Pair<String, Boolean> runFixedPoint(List<TableRow> tableIterations){
 
         String message;
 
@@ -106,18 +106,27 @@ public class FixedPointActivity extends AppCompatActivity {
 
         results.setVisibility(View.VISIBLE);
 
-        BigDecimal xa = BigDecimal.valueOf(Double.parseDouble(xa_et.getText().toString()));
-        BigDecimal tol = BigDecimal.valueOf(Double.parseDouble(tol_et.getText().toString()));
-        BigDecimal xn;
-        int niter = Integer.parseInt(niter_et.getText().toString());
-        //We have to trust in whoever set up the expression to not screw things up
-        //TODO: We have to add checks to this function, otherwise this might crash the app.
-        gexpr = new Expression(gx_et.getText().toString());
+
         try{
+            BigDecimal xa = BigDecimal.valueOf(Double.parseDouble(xa_et.getText().toString()));
+            BigDecimal tol = BigDecimal.valueOf(Double.parseDouble(tol_et.getText().toString()));
+            BigDecimal xn;
+            int niter = Integer.parseInt(niter_et.getText().toString());
+            String tempscale=tol_et.getText().toString();
+            scale=tempscale.substring(tempscale.indexOf('.')).length();
+            //We have to trust in whoever set up the expression to not screw things up
+            //TODO: We have to add checks to this function, otherwise this might crash the app.
+            gexpr = new Expression(gx_et.getText().toString());
+
+
             BigDecimal y = expr.with("x", xa).eval();
             int count = 0;
             BigDecimal error = tol.add(BigDecimal.ONE);
-            tableIterations.add(createProcedureIteration(count, xa, y, error));
+            String xaa= conversion(xa.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+            String yaa= conversion(y.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+            String errorr= conversion(error.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+
+            tableIterations.add(createProcedureIteration(count, xaa, yaa, errorr));
 
             if (niter < 1) {
                 message = INVALID_ITER.getMessage();
@@ -134,14 +143,18 @@ public class FixedPointActivity extends AppCompatActivity {
                     xa = xn;
                     count++;
 
-                    tableIterations.add(createProcedureIteration(count, xa, y, error));
+                     xaa= conversion(xa.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     yaa= conversion(y.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     errorr= conversion(error.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+
+                    tableIterations.add(createProcedureIteration(count, xaa, yaa, errorr));
                 }
                 if (y.compareTo(BigDecimal.ZERO) == 0) {
-                    tableIterations.add(createProcedureIteration(count, xa, y, error));
+                    tableIterations.add(createProcedureIteration(count, xaa, yaa, errorr));
                     message = "x = " + xa.toString() + " is a root";
                     displayProcedure = true;
                 } else if (error.compareTo(tol) < 0) {
-                    tableIterations.add(createProcedureIteration(count, xa, y, error));
+                    tableIterations.add(createProcedureIteration(count, xaa, yaa, errorr));
                     message = "x = " + xa.toString() + " is an approximated root\nwith E = " + error.toString();
                     displayProcedure = true;
                 } else {
@@ -150,15 +163,16 @@ public class FixedPointActivity extends AppCompatActivity {
                     displayProcedure = false;
                 }
             }
-        }catch (Expression.ExpressionException
-                | ArithmeticException | NumberFormatException e) {
-            return null; // The equation is not valid.
-        }
+        }catch (Expression.ExpressionException e) {
+            return null;
+        }catch ( ArithmeticException | NumberFormatException e){
+            displayProcedure=false;
+            message="OUT RANGE OR ARE MISSING DATA FIELDS";}
         return new Pair(message, displayProcedure);
     }
 
-    private TableRow createProcedureIteration(int count, BigDecimal xa,
-                                               BigDecimal y, BigDecimal Error) {
+    private TableRow createProcedureIteration(int count, String xa,
+                                              String y, String Error) {
         TableRow iterationResult = new TableRow(this);
 
         iterations = new TextView(this);
@@ -190,5 +204,24 @@ public class FixedPointActivity extends AppCompatActivity {
         for (TableRow tableRow : tableIterations) {
             procedure.addView(tableRow);
         }
+    }
+    int veces=0;
+    public  String conversionAux(BigDecimal l){
+
+        if(l.toString().charAt(0)=='0' || (l.toString().length()>1 && l.toString().substring(0,2).equals("-0"))){
+            veces++;
+            return conversionAux(l.movePointRight(1));
+        }
+        else{
+            if(veces!=0){
+                return l+"E-"+veces;}
+            else{return l.toString();}
+        }
+
+    }
+    public String conversion(BigDecimal l, int zero){
+        veces=zero;
+        return conversionAux(l);
+
     }
 }

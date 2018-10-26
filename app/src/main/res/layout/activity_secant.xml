@@ -5,13 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".singlevar.methods.SecantActivity">
+    <ScrollView
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" >
+
     <LinearLayout
 
         android:weightSum="1"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center_vertical"
+        android:layout_marginTop="50dp"
 
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
@@ -144,75 +152,71 @@
                 android:id="@+id/tableLayoutProcedure"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="50dp"
                 android:visibility="gone" >
 
                 <TableRow
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:id="@+id/tableRowLegend"
-                    android:padding="10dp" >
+                    android:padding="0dp" >
 
                     <TextView
                         android:id="@+id/textViewIterations"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="50dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="Iter" />
 
                     <TextView
                         android:id="@+id/textViewX1"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="100dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="X1" />
 
                     <TextView
                         android:id="@+id/textViewFX1"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="100dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="F(X1)" />
 
                     <TextView
                         android:id="@+id/textViewX2"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="100dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="X2" />
 
                     <TextView
                         android:id="@+id/textViewFX2"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="100dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="F(X2)" />
 
                     <TextView
                         android:id="@+id/textViewTol"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="100dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="error" />
                 </TableRow>
             </TableLayout>
         </HorizontalScrollView>
     </LinearLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>
