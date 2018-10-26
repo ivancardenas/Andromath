@@ -106,15 +106,17 @@ public class SecantActivity extends AppCompatActivity {
 
         results.setVisibility(View.VISIBLE);
 
-        String temp;
-        BigDecimal x0 = BigDecimal.valueOf(Double.parseDouble(x0_et.getText().toString()));
-        BigDecimal x1 = BigDecimal.valueOf(Double.parseDouble(x1_et.getText().toString()));
-        BigDecimal tol = BigDecimal.valueOf(Double.parseDouble(tol_et.getText().toString()));
-        BigDecimal x2;
-        int niter = Integer.parseInt(niter_et.getText().toString());
 
         //Method Begins
         try{
+            String temp;
+            BigDecimal x0 = BigDecimal.valueOf(Double.parseDouble(x0_et.getText().toString()));
+            BigDecimal x1 = BigDecimal.valueOf(Double.parseDouble(x1_et.getText().toString()));
+            BigDecimal tol = BigDecimal.valueOf(Double.parseDouble(tol_et.getText().toString()));
+            BigDecimal x2;
+            int niter = Integer.parseInt(niter_et.getText().toString());
+
+
             BigDecimal y0 = expr.with("x",x0).eval();
 
             if (niter < 1) {
@@ -131,7 +133,14 @@ public class SecantActivity extends AppCompatActivity {
                 BigDecimal den = y1.subtract(y0);
                 String tempscale=tol_et.getText().toString();
                 scale=tempscale.substring(tempscale.indexOf('.')).length();
-                tableIterations.add(createProcedureIteration(count, x0, x1, y0, y1, error));
+
+                String x00= conversion(x0.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String x11= conversion(x1.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String y00= conversion(y0.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String y11= conversion(y1.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String errorr= conversion(error.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+
+                tableIterations.add(createProcedureIteration(count, x00, x11, y00, y11, errorr));
                 while(error.compareTo(tol) > 0 && y1.compareTo(BigDecimal.ZERO) != 0 && den.compareTo(BigDecimal.ZERO) != 0 && count < niter){
                     //x2 = x1 - (y1*(x1-x0)/den)
                     x2 = x1.subtract(y1.multiply(x1.subtract(x0)).divide(den,BigDecimal.ROUND_HALF_EVEN));
@@ -143,12 +152,12 @@ public class SecantActivity extends AppCompatActivity {
                     den = y1.subtract(y0);
                     count++;
 
-                    BigDecimal x00= x0.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                    BigDecimal x11= x1.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                    BigDecimal y00= y0.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                    BigDecimal y11= y1.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                     x00= conversion(x0.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     x11= conversion(x1.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     y00= conversion(y0.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     y11= conversion(y1.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
 
-                    BigDecimal errorr= error.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+
 
                     tableIterations.add(createProcedureIteration(count, x00, x11, y00, y11, errorr));
                 }
@@ -167,16 +176,17 @@ public class SecantActivity extends AppCompatActivity {
                     displayProcedure = true;
                 }
             }
-        }catch (Expression.ExpressionException
-                | ArithmeticException | NumberFormatException e) {
-            return null; // The equation is not valid.
-        }
+        }catch (Expression.ExpressionException e) {
+            return null;
+        }catch ( ArithmeticException | NumberFormatException e){
+            displayProcedure=false;
+            message="OUT RANGE OR ARE MISSING DATA FIELDS";}
         return new Pair(message, displayProcedure);
     }
 
-    private TableRow createProcedureIteration(int count, BigDecimal x1,
-                                              BigDecimal x2, BigDecimal y1, BigDecimal y2,
-                                              BigDecimal Error) {
+    private TableRow createProcedureIteration(int count, String x1,
+                                              String x2, String y1, String y2,
+                                              String Error) {
         TableRow iterationResult = new TableRow(this);
 
         iterations = new TextView(this);
@@ -218,5 +228,24 @@ public class SecantActivity extends AppCompatActivity {
         for (TableRow tableRow : tableIterations) {
             procedure.addView(tableRow);
         }
+    }
+    int veces=0;
+    public  String conversionAux(BigDecimal l){
+
+        if(l.toString().charAt(0)=='0' || (l.toString().length()>1 && l.toString().substring(0,2).equals("-0"))){
+            veces++;
+            return conversionAux(l.movePointRight(1));
+        }
+        else{
+            if(veces!=0){
+                return l+"E-"+veces;}
+            else{return l.toString();}
+        }
+
+    }
+    public String conversion(BigDecimal l, int zero){
+        veces=zero;
+        return conversionAux(l);
+
     }
 }

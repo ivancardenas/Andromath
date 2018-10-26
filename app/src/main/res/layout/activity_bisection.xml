@@ -6,60 +6,49 @@
     android:layout_height="match_parent"
     tools:context=".singlevar.methods.BisectionActivity">
 
-
     <ScrollView
-        android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" >
+        android:layout_height="match_parent" >
 
         <LinearLayout
-
+            android:weightSum="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
             android:orientation="vertical"
-            android:weightSum="1"
-            android:layout_marginTop="50dp"
+            android:gravity="center_vertical"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
 
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-
+            tools:layout_constraintTop_creator="1"
+            tools:layout_constraintRight_creator="1"
             tools:layout_constraintBottom_creator="1"
             tools:layout_constraintLeft_creator="1"
-            tools:layout_constraintRight_creator="1"
-            tools:layout_constraintTop_creator="1">
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" >
 
 
             <TextView
-                android:id="@+id/textView13"
+                android:id="@+id/textViewParameters"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Enter the following paramaters"
-                android:textAlignment="center"
-                android:textAllCaps="true" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.05" />
+                android:paddingBottom="10dp"
+                android:paddingTop="20dp"
+                android:textAllCaps="true"
+                android:text="@string/enter_parameters"
+                android:textAlignment="center" />
 
             <TextView
-                android:id="@+id/bisection_func"
+                android:id="@+id/textViewFunction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="-func-"
-                android:textAlignment="center"
-                android:textAllCaps="true" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.05" />
-
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:textAllCaps="true"
+                android:text="@string/function"
+                android:textAlignment="center" />
 
             <EditText
                 android:id="@+id/bisection_xmin"
@@ -67,9 +56,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
+                android:paddingBottom="20dp"
+                android:paddingTop="10dp"
                 android:hint="XMIN"
                 android:inputType="numberSigned|numberDecimal"
-                android:paddingBottom="20dp"
                 android:textAlignment="center"
                 android:textAllCaps="true" />
 
@@ -82,6 +72,7 @@
                 android:hint="XMAX"
                 android:inputType="numberSigned|numberDecimal"
                 android:paddingBottom="20dp"
+                android:paddingTop="10dp"
                 android:textAlignment="center"
                 android:textAllCaps="true" />
 
@@ -91,9 +82,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
-                android:hint="TOLERANCE"
+                android:hint="@string/tolerance"
                 android:inputType="numberDecimal"
                 android:paddingBottom="20dp"
+                android:paddingTop="10dp"
                 android:textAlignment="center"
                 android:textAllCaps="true" />
 
@@ -103,16 +95,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
-                android:hint="ITERATIONS"
+                android:hint="@string/iterations"
                 android:inputType="number"
                 android:paddingBottom="20dp"
+                android:paddingTop="10dp"
                 android:textAlignment="center"
                 android:textAllCaps="true" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.05" />
 
             <Button
                 android:id="@+id/button9"
@@ -120,17 +108,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/button_shape"
                 android:onClick="Bisection"
-                android:text="CONTINUE"
+                android:text="@string/continue_button"
                 android:textColor="@color/textColorButton" />
-
-            <!---->
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1" />
 
             <TextView
                 android:id="@+id/bisection_result"
@@ -139,29 +122,22 @@
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:enabled="false"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:visibility="gone" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_weight="0.1" />
-
-
             <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-
+                android:layout_height="wrap_content">
 
                 <TableLayout
                     android:id="@+id/tableLayoutProcedure"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="visible">
-
+                    android:paddingBottom="50dp"
+                    android:visibility="gone">
 
                     <TableRow
                         android:id="@+id/tableRowLegend"
@@ -172,7 +148,7 @@
 
                         <TextView
                             android:id="@+id/textViewIterations"
-                            android:layout_width="35dp"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
                             android:text="Iter"
                             android:textAlignment="center"
@@ -181,9 +157,8 @@
 
                         <TextView
                             android:id="@+id/textViewXi"
-                            android:layout_width="90dp"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
-
                             android:text="Xi"
                             android:textAlignment="center"
                             android:textAllCaps="true"
@@ -191,9 +166,8 @@
 
                         <TextView
                             android:id="@+id/textViewFa"
-                            android:layout_width="90dp"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
-
                             android:text="F(Xi)"
                             android:textAlignment="center"
                             android:textAllCaps="true"
@@ -201,9 +175,8 @@
 
                         <TextView
                             android:id="@+id/textViewXs"
-                            android:layout_width="90dp"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
-
                             android:text="Xs"
                             android:textAlignment="center"
                             android:textAllCaps="true"
@@ -211,9 +184,8 @@
 
                         <TextView
                             android:id="@+id/textViewFb"
-                            android:layout_width="90dp"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
-
                             android:text="F(Xs)"
                             android:textAlignment="center"
                             android:textAllCaps="true"
@@ -221,9 +193,8 @@
 
                         <TextView
                             android:id="@+id/textViewXm"
-                            android:layout_width="90dp"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
-
                             android:text="Xm"
                             android:textAlignment="center"
                             android:textAllCaps="true"
@@ -231,9 +202,8 @@
 
                         <TextView
                             android:id="@+id/textViewSolution"
-                            android:layout_width="90dp"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
-
                             android:text="F(Xm)"
                             android:textAlignment="center"
                             android:textAllCaps="true"
@@ -241,24 +211,15 @@
 
                         <TextView
                             android:id="@+id/textViewTol"
-                            android:layout_width="90dp"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
-
-                            android:text="error"
+                            android:text="E"
                             android:textAlignment="center"
                             android:textAllCaps="true"
                             android:textStyle="bold" />
                     </TableRow>
-
-
                 </TableLayout>
-
             </HorizontalScrollView>
-
         </LinearLayout>
-
     </ScrollView>
-
-
-
 </android.support.constraint.ConstraintLayout>

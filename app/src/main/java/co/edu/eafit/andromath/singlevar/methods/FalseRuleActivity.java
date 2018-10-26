@@ -110,21 +110,18 @@ public class FalseRuleActivity extends AppCompatActivity {
 
         results.setVisibility(View.VISIBLE);
 
-        String temp;
-        BigDecimal xi = BigDecimal.valueOf(Double.parseDouble(xmin_et.getText().toString()));
-        BigDecimal xs = BigDecimal.valueOf(Double.parseDouble(xmax_et.getText().toString()));
-        BigDecimal tol = BigDecimal.valueOf(Double.parseDouble(tol_et.getText().toString()));
-        String tempscale=tol_et.getText().toString();
-        scale=tempscale.substring(tempscale.indexOf('.')).length();
-
-        BigDecimal xaux;
-        int iterations = Integer.parseInt(niter_et.getText().toString());
-
         //Method Begins
 
-
-
         try {
+            String temp;
+            BigDecimal xi = BigDecimal.valueOf(Double.parseDouble(xmin_et.getText().toString()));
+            BigDecimal xs = BigDecimal.valueOf(Double.parseDouble(xmax_et.getText().toString()));
+            BigDecimal tol = BigDecimal.valueOf(Double.parseDouble(tol_et.getText().toString()));
+            String tempscale=tol_et.getText().toString();
+            scale=tempscale.substring(tempscale.indexOf('.')).length();
+
+            BigDecimal xaux;
+            int iterations = Integer.parseInt(niter_et.getText().toString());
             //yi = f(xi)
             //ys = f(xs)
             BigDecimal yi = expr.with("x", xi).eval();
@@ -149,7 +146,17 @@ public class FalseRuleActivity extends AppCompatActivity {
                 BigDecimal ym = expr.with("x", xm).eval();
                 int count = 1;
                 BigDecimal error = tol.add(BigDecimal.ONE);
-                tableIterations.add(createProcedureIteration(count, xi, xs, yi, ys, xm, ym,error));
+
+                String xii= conversion(xi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String xss= conversion(xs.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String yii= conversion(yi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String yss= conversion(ys.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String xmm= conversion(xm.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String ymm= conversion(ym.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String errorr= conversion(error.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+
+
+                tableIterations.add(createProcedureIteration(count, xii, xss, yii, yss, xmm, ymm,errorr));
 
                 while (ym.compareTo(BigDecimal.ZERO) != 0 && error.compareTo(tol) > 0 && count < iterations) {
                     //yi*ys < 0
@@ -169,22 +176,22 @@ public class FalseRuleActivity extends AppCompatActivity {
                     error = xm.subtract(xaux).abs();
                     count++;
 
-                    BigDecimal xii= xi.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                    BigDecimal xss= xs.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                    BigDecimal yii= yi.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                    BigDecimal yss= ys.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                    BigDecimal xmm= xm.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                    BigDecimal ymm= ym.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                    BigDecimal errorr= error.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                     xii= conversion(xi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     xss= conversion(xs.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     yii= conversion(yi.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     yss= conversion(ys.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     xmm= conversion(xm.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     ymm= conversion(ym.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     errorr= conversion(error.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
 
                     tableIterations.add(createProcedureIteration(count, xii, xss, yii, yss, xmm, ymm, errorr));
                 }
                 if (ym.compareTo(BigDecimal.ZERO) == 0) {
-                    tableIterations.add(createProcedureIteration(count + 1, xi, xs, yi, ys, xm, ym, error));
+                    tableIterations.add(createProcedureIteration(count + 1, xii, xss, yii, yss, xmm, ymm, errorr));
                     message = "x = " + xm.toString() + " is a root";
                     displayProcedure = true;
                 } else if (error.compareTo(tol) < 0) {
-                    tableIterations.add(createProcedureIteration(count + 1, xi, xs, yi, ys, xm, ym, error));
+                    tableIterations.add(createProcedureIteration(count + 1, xii, xss, yii, yss, xmm, ymm, errorr));
                     message = "x = " + xm.toString() + " is an approximated root\nwith E = " + error.toString();
                     displayProcedure = true;
                 } else {
@@ -196,16 +203,19 @@ public class FalseRuleActivity extends AppCompatActivity {
                 message = "NOT SUITABLE RANGE";
                 displayProcedure = false;
             }
-        }catch (Expression.ExpressionException
-                | ArithmeticException | NumberFormatException e) {
+        }catch (Expression.ExpressionException e) {
             return null; // The equation is not valid.
+        }catch (ArithmeticException | NumberFormatException e){
+            displayProcedure=false;
+            message="OUT RANGE OR ARE MISSING DATA FIELDS";
+
         }
         return new Pair(message, displayProcedure);
     }
 
-    private TableRow createProcedureIteration(int count, BigDecimal xi,
-                                              BigDecimal xs, BigDecimal yi, BigDecimal ys,
-                                              BigDecimal xm, BigDecimal ym, BigDecimal Error) {
+    private TableRow createProcedureIteration(int count, String xi,
+                                              String xs, String yi, String ys,
+                                              String xm, String ym, String Error) {
         TableRow iterationResult = new TableRow(this);
 
         iterations = new TextView(this);
@@ -257,6 +267,25 @@ public class FalseRuleActivity extends AppCompatActivity {
             for (TableRow tableRow : tableIterations) {
                 procedure.addView(tableRow);
             }
+        }
+        int veces=0;
+        public  String conversionAux(BigDecimal l){
+
+            if(l.toString().charAt(0)=='0' || (l.toString().length()>1 && l.toString().substring(0,2).equals("-0"))){
+                veces++;
+                return conversionAux(l.movePointRight(1));
+            }
+            else{
+                if(veces!=0){
+                    return l+"E-"+veces;}
+                else{return l.toString();}
+            }
+
+        }
+        public String conversion(BigDecimal l, int zero){
+            veces=zero;
+            return conversionAux(l);
+
         }
     }
 

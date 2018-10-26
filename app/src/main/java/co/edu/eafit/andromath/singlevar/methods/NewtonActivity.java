@@ -14,17 +14,12 @@ import android.widget.TextView;
 import com.udojava.evalex.Expression;
 import java.math.BigDecimal;
 import co.edu.eafit.andromath.R;
-
-import co.edu.eafit.andromath.R;
 import co.edu.eafit.andromath.util.Messages;
 import static co.edu.eafit.andromath.util.Constants.ErrorCodes.INVALID_ITER;
 import static co.edu.eafit.andromath.util.Constants.ErrorCodes.X_ROOT;
-import static com.udojava.evalex.Expression.e;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 
 public class NewtonActivity extends AppCompatActivity {
 
@@ -97,18 +92,19 @@ public class NewtonActivity extends AppCompatActivity {
 
             results.setVisibility(View.VISIBLE);
 
-            String temp;
-            BigDecimal x0 = BigDecimal.valueOf(Double.parseDouble(xa_et.getText().toString()));
-            BigDecimal tol = BigDecimal.valueOf(Double.parseDouble(tol_et.getText().toString()));
-            BigDecimal x1;
-            int niter = Integer.parseInt(niter_et.getText().toString());
-            //We have to trust in whoever set up the expression to not screw things up
-            //TODO: We have to add checks to this function, otherwise this might crash the app.
-            gexpr = new Expression(gx_et.getText().toString());
             //expr = new Expression("(x^3)+(4*x^2)-10");
             //gexpr = new Expression("(3*x^2)+(8*x)");
             //Method Begins
             try {
+                String temp;
+                BigDecimal x0 = BigDecimal.valueOf(Double.parseDouble(xa_et.getText().toString()));
+                BigDecimal tol = BigDecimal.valueOf(Double.parseDouble(tol_et.getText().toString()));
+                BigDecimal x1;
+                int niter = Integer.parseInt(niter_et.getText().toString());
+                //We have to trust in whoever set up the expression to not screw things up
+                //TODO: We have to add checks to this function, otherwise this might crash the app.
+                //gexpr = new Expression(gx_et.getText().toString());
+
                 BigDecimal y = expr.with("x", x0).eval();
                 BigDecimal dy = gexpr.with("x", x0).eval();
                 int count = 0;
@@ -124,7 +120,14 @@ public class NewtonActivity extends AppCompatActivity {
                 }
                 String tempscale=tol_et.getText().toString();
                 scale=tempscale.substring(tempscale.indexOf('.')).length();
-                tableIterations.add(createProcedureIteration(count+1, x0, y, dy, error));
+
+                String x00= conversion(x0.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String yy= conversion(y.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String dyy= conversion(dy.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                String errorr= conversion(error.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+
+
+                tableIterations.add(createProcedureIteration(count+1, x00, yy, dyy, errorr));
                 while (error.compareTo(tol) > 0 && y.compareTo(BigDecimal.ZERO) != 0 && dy.compareTo(BigDecimal.ZERO) != 0 && count < niter) {
                     //x1 = x0 - (y/dy)
                     BigDecimal div= new BigDecimal(y.divide(dy,5,BigDecimal.ROUND_HALF_EVEN).toString());
@@ -134,21 +137,21 @@ public class NewtonActivity extends AppCompatActivity {
                     error = x1.subtract(x0).abs();
                     x0 = x1;
                     count++;
-                    BigDecimal x00= x0.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                    BigDecimal yy= y.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                    BigDecimal dyy= dy.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
-                    BigDecimal errorr= error.setScale(scale,BigDecimal.ROUND_HALF_EVEN);
+                     x00= conversion(x0.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     yy= conversion(y.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     dyy= conversion(dy.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     errorr= conversion(error.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
 
                     tableIterations.add(createProcedureIteration(count+1, x00, yy, dyy, errorr));
                 }
 
                 if (y.compareTo(BigDecimal.ZERO) == 0) {
-                    tableIterations.add(createProcedureIteration(count+1, x0, y, dy, error));
+                    tableIterations.add(createProcedureIteration(count+1, x00, yy, dyy, errorr));
                     message = "x = " + x0.toString() + " is a root";
                     displayProcedure = true;
                 } else if (error.compareTo(tol) < 0) {
                     message = "x = " + x0.toString() + " is an approximated root\nwith E = " + error.toString();
-                    tableIterations.add(createProcedureIteration(count+1, x0, y, dy, error));
+                    tableIterations.add(createProcedureIteration(count+1, x00, yy, dyy, errorr));
                     displayProcedure = true;
                 } else if (dy.compareTo(BigDecimal.ZERO) == 0) {
                     message = "at x = " + x0.toString() + " there are possibly multiple roots";
@@ -159,16 +162,19 @@ public class NewtonActivity extends AppCompatActivity {
                     displayProcedure = false;
                 }
 
-            }catch (Expression.ExpressionException
-                    | ArithmeticException | NumberFormatException e) {
+            }catch (Expression.ExpressionException e) {
                 return null;
+            }catch ( ArithmeticException | NumberFormatException e){
+                displayProcedure=false;
+                message="OUT RANGE OR ARE MISSING DATA FIELDS";
+
             }
             return new Pair(message, displayProcedure);
         }
 
 
-    private TableRow createProcedureIteration(int count, BigDecimal x,
-                                              BigDecimal y, BigDecimal dy , BigDecimal Error) {
+    private TableRow createProcedureIteration(int count, String x,
+                                              String y, String dy , String Error) {
         TableRow iterationResult = new TableRow(this);
 
         iterations = new TextView(this);
@@ -207,5 +213,30 @@ public class NewtonActivity extends AppCompatActivity {
         for (TableRow tableRow : tableIterations) {
             procedure.addView(tableRow);
         }
+    }
+    int veces=0;
+    public  String conversionAux(BigDecimal l){
+        if(l.compareTo(BigDecimal.ZERO)!=0) {
+
+            if (l.toString().charAt(0) == '0' || (l.toString().length() > 1 && l.toString().substring(0, 2).equals("-0"))) {
+                veces++;
+                return conversionAux(l.movePointRight(1));
+            } else {
+                if (veces != 0) {
+                    return l + "E-" + veces;
+                } else {
+                    return l.toString();
+                }
+            }
+        }
+        else{
+            return "0";
+        }
+
+    }
+    public String conversion(BigDecimal l, int zero){
+        veces=zero;
+        return conversionAux(l);
+
     }
     }

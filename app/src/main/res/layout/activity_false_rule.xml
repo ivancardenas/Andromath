@@ -144,6 +144,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.1" />
+
         <HorizontalScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -151,91 +152,84 @@
                 android:id="@+id/tableLayoutProcedure"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="50dp"
                 android:visibility="gone" >
 
                 <TableRow
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:id="@+id/tableRowLegend"
-                    android:padding="10dp" >
+                    android:padding="0dp" >
 
                     <TextView
                         android:id="@+id/textViewIterations"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="50dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="Iter" />
 
                     <TextView
                         android:id="@+id/textViewXi"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="100dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="Xi" />
 
                     <TextView
                         android:id="@+id/textViewFa"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="100dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="F(Xi)" />
 
                     <TextView
                         android:id="@+id/textViewXs"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="100dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="Xs" />
 
                     <TextView
                         android:id="@+id/textViewFb"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="100dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="F(Xs)" />
 
                     <TextView
                         android:id="@+id/textViewXm"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="100dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="Xm" />
 
                     <TextView
                         android:id="@+id/textViewSolution"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="100dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="F(Xm)" />
 
                     <TextView
                         android:id="@+id/textViewTol"
                         android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
+                        android:layout_width="100dp"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:text="error" />
                 </TableRow>
