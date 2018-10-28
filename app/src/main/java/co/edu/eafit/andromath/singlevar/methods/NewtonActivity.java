@@ -1,8 +1,8 @@
 package co.edu.eafit.andromath.singlevar.methods;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
@@ -11,15 +11,19 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
 import com.udojava.evalex.Expression;
+
 import java.math.BigDecimal;
-import co.edu.eafit.andromath.R;
-import co.edu.eafit.andromath.util.Messages;
-import static co.edu.eafit.andromath.util.Constants.ErrorCodes.INVALID_ITER;
-import static co.edu.eafit.andromath.util.Constants.ErrorCodes.X_ROOT;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import co.edu.eafit.andromath.R;
+import co.edu.eafit.andromath.util.Messages;
+
+import static co.edu.eafit.andromath.util.Constants.ErrorCodes.INVALID_ITER;
+import static co.edu.eafit.andromath.util.Constants.ErrorCodes.X_ROOT;
 
 public class NewtonActivity extends AppCompatActivity {
 
@@ -92,8 +96,8 @@ public class NewtonActivity extends AppCompatActivity {
 
             results.setVisibility(View.VISIBLE);
 
-            //expr = new Expression("(x^3)+(4*x^2)-10");
-            //gexpr = new Expression("(3*x^2)+(8*x)");
+            //expressionF = new Expression("(x^3)+(4*x^2)-10");
+            //expressionG = new Expression("(3*x^2)+(8*x)");
             //Method Begins
             try {
                 String temp;
@@ -101,9 +105,9 @@ public class NewtonActivity extends AppCompatActivity {
                 BigDecimal tol = BigDecimal.valueOf(Double.parseDouble(tol_et.getText().toString()));
                 BigDecimal x1;
                 int niter = Integer.parseInt(niter_et.getText().toString());
-                //We have to trust in whoever set up the expression to not screw things up
+                //We have to trust in whoever set up the expressionF to not screw things up
                 //TODO: We have to add checks to this function, otherwise this might crash the app.
-                //gexpr = new Expression(gx_et.getText().toString());
+                //expressionG = new Expression(gFunctionInput.getText().toString());
 
                 BigDecimal y = expr.with("x", x0).eval();
                 BigDecimal dy = gexpr.with("x", x0).eval();

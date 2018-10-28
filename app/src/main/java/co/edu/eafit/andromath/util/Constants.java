@@ -5,11 +5,14 @@ public class Constants {
     public static final String VARIABLE = "x";
     public static final String EQUATION = "equation";
     public static final String POINTS = "points";
+    public static final String NOTATION_FORMAT = "0.0E0";
 
     public enum ErrorCodes {
         X_ROOT("The entered X is a root", false),
         INVALID_DELTA("Delta is not valid", false),
-        INVALID_ITER("Wrong number of iterations", false);
+        INVALID_ITER("Wrong number of iterations", false),
+        INVALID_RANGE("Not suitable range", false),
+        OUT_OF_RANGE("Out of range", false);
 
         private String message;
         private boolean displayProcedure;

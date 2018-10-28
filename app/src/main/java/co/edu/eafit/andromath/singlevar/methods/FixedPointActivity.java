@@ -1,85 +1,97 @@
 package co.edu.eafit.andromath.singlevar.methods;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.view.animation.Interpolator;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.TextView;
-
-import android.view.View;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import co.edu.eafit.andromath.util.Messages;
-import static co.edu.eafit.andromath.util.Constants.EQUATION;
-import static co.edu.eafit.andromath.util.Constants.VARIABLE;
-import static co.edu.eafit.andromath.util.Constants.ErrorCodes.INVALID_ITER;
-import static co.edu.eafit.andromath.util.Constants.ErrorCodes.X_ROOT;
+import android.widget.TextView;
 
 import com.udojava.evalex.Expression;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import co.edu.eafit.andromath.R;
+import co.edu.eafit.andromath.util.Messages;
+
+import static co.edu.eafit.andromath.util.Constants.EQUATION;
+import static co.edu.eafit.andromath.util.Constants.ErrorCodes.INVALID_ITER;
+import static co.edu.eafit.andromath.util.Constants.ErrorCodes.OUT_OF_RANGE;
+import static co.edu.eafit.andromath.util.Constants.ErrorCodes.X_ROOT;
+import static co.edu.eafit.andromath.util.Constants.NOTATION_FORMAT;
+import static co.edu.eafit.andromath.util.Constants.VARIABLE;
 
 public class FixedPointActivity extends AppCompatActivity {
 
-    private static final String tag = FixedPointActivity.class.getSimpleName();   //
+    private static final String tag = FixedPointActivity.class.getSimpleName();
 
-    EditText xa_et, gx_et, tol_et, niter_et;
-    TextView func,results, iterations, tol, x, fx;
-    Expression expr, gexpr;
-    int scale=5;
-    TableLayout procedure;  //
-    Expression expression;  //
+    EditText approximatedXInput, gFunctionInput, toleranceInput, iterationsInput;
+    TextView function, result, iterations, tolerance, x, fx;
+    Expression expressionF, expressionG;
+    TableLayout procedure;
 
-    private List<TableRow> tableIterations;  //
+    private List<TableRow> tableIterations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fixed_point);
-        Objects.requireNonNull(getSupportActionBar()).hide();   //
-        procedure = (TableLayout) findViewById(R.id.tableLayoutProcedure);   //
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
-        xa_et = (EditText)findViewById(R.id.fixed_point_xa);
-        gx_et = (EditText)findViewById(R.id.fixed_point_gx);
-        tol_et  = (EditText)findViewById(R.id.fixed_point_tolerance);
-        niter_et = (EditText)findViewById(R.id.fixed_point_niter);
-        func = (TextView)findViewById(R.id.fixed_point_func);
-        results = (TextView) findViewById(R.id.fixed_point_result);
+        approximatedXInput = (EditText)findViewById(R.id.textViewApproximatedX);
+        gFunctionInput = (EditText)findViewById(R.id.textViewGFunction);
+        toleranceInput = (EditText)findViewById(R.id.textViewTolerance);
+        iterationsInput = (EditText)findViewById(R.id.textViewIterations);
+
+        function = (TextView)findViewById(R.id.textViewFunction);
+        result = (TextView) findViewById(R.id.textViewResult);
+
+        procedure = (TableLayout) findViewById(R.id.tableLayoutProcedure);
     }
 
     @Override
     protected void onStart(){
         super.onStart();
-        Intent i = getIntent();
-        String s = "f(x) = " + i.getStringExtra("equation");
-        func.setText(s);
-        expr = new Expression(i.getStringExtra("equation"));
 
-        procedure.setStretchAllColumns(true);   //
+        Intent intent = getIntent();
+        String equation = "f(x) = " + intent.
+                getStringExtra(EQUATION);
+        function.setText(equation);
+
+        expressionF = new Expression(intent.
+                getStringExtra(EQUATION));
+
+        procedure.setStretchAllColumns(true);
     }
 
-    public void FixedPoint(View v) { //
+    public void fixedPoint(View v) {
+
+        approximatedXInput.setSelected(false);
+        gFunctionInput.setSelected(false);
+        toleranceInput.setSelected(false);
+        iterationsInput.setSelected(false);
+        result.setVisibility(View.VISIBLE);
+
         tableIterations = new ArrayList<>();
 
         procedure.removeViews(1,
                 procedure.getChildCount() - 1);
 
         Pair<String, Boolean> solution =
-                runFixedPoint(tableIterations);
+                fixedPoint(tableIterations);
 
         if (solution != null) {
-            results.setText(solution.first);
+            result.setText(solution.first);
             createTableProcedure(tableIterations);
             procedure.setVisibility(solution.second ?
                     View.VISIBLE : View.INVISIBLE);
@@ -90,41 +102,30 @@ public class FixedPointActivity extends AppCompatActivity {
     }
 
     /**
-     * @return Pair<String , Boolean>
-     * String parameter is the message.
-     * Boolean parameter is a flag to show the procedure.
+     * @return Pair<String, Boolean>
+     *     String parameter is the message.
+     *     Boolean parameter is a flag to show the procedure.
      */
-
-    private Pair<String, Boolean> runFixedPoint(List<TableRow> tableIterations){
+    private Pair<String, Boolean> fixedPoint(List<TableRow> tableIterations){
 
         String message;
 
-        boolean displayProcedure=true;
-
-        InputMethodManager inputManager = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
-        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
-        results.setVisibility(View.VISIBLE);
-
+        boolean displayProcedure;
 
         try{
-            BigDecimal xa = BigDecimal.valueOf(Double.parseDouble(xa_et.getText().toString()));
-            BigDecimal tol = BigDecimal.valueOf(Double.parseDouble(tol_et.getText().toString()));
+            BigDecimal xa = BigDecimal.valueOf(Double.parseDouble(approximatedXInput.getText().toString()));
+            BigDecimal tol = BigDecimal.valueOf(Double.parseDouble(toleranceInput.getText().toString()));
             BigDecimal xn;
-            int niter = Integer.parseInt(niter_et.getText().toString());
-            String tempscale=tol_et.getText().toString();
-            scale=tempscale.substring(tempscale.indexOf('.')).length();
-            //We have to trust in whoever set up the expression to not screw things up
-            //TODO: We have to add checks to this function, otherwise this might crash the app.
-            gexpr = new Expression(gx_et.getText().toString());
+            int niter = Integer.parseInt(iterationsInput.getText().toString());
+            expressionG = new Expression(gFunctionInput.getText().toString());
 
 
-            BigDecimal y = expr.with("x", xa).eval();
+            BigDecimal y = expressionF.with(VARIABLE, xa).eval();
             int count = 0;
             BigDecimal error = tol.add(BigDecimal.ONE);
-            String xaa= conversion(xa.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-            String yaa= conversion(y.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-            String errorr= conversion(error.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+            BigDecimal xaa= xa;
+            BigDecimal yaa= y;
+            BigDecimal errorr= error;
 
             tableIterations.add(createProcedureIteration(count, xaa, yaa, errorr));
 
@@ -137,15 +138,15 @@ public class FixedPointActivity extends AppCompatActivity {
             }else{
                 //Method Begins
                 while (y.compareTo(BigDecimal.ZERO) != 0 && error.compareTo(tol) > 0 && count < niter) {
-                    xn = gexpr.with("x", xa).eval();
-                    y = expr.with("x", xn).eval();
+                    xn = expressionG.with(VARIABLE, xa).eval();
+                    y = expressionF.with(VARIABLE, xn).eval();
                     error = xn.subtract(xa).abs();
                     xa = xn;
                     count++;
 
-                     xaa= conversion(xa.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                     yaa= conversion(y.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                     errorr= conversion(error.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
+                     xaa= xa;
+                     yaa= y;
+                     errorr= error;
 
                     tableIterations.add(createProcedureIteration(count, xaa, yaa, errorr));
                 }
@@ -163,38 +164,48 @@ public class FixedPointActivity extends AppCompatActivity {
                     displayProcedure = false;
                 }
             }
-        }catch (Expression.ExpressionException e) {
-            return null;
-        }catch ( ArithmeticException | NumberFormatException e){
-            displayProcedure=false;
-            message="OUT RANGE OR ARE MISSING DATA FIELDS";}
+        } catch (Expression.ExpressionException e) {
+            return null; // The equation is not valid.
+        } catch ( ArithmeticException | NumberFormatException e) {
+            displayProcedure = OUT_OF_RANGE.isDisplayProcedure();
+            message = OUT_OF_RANGE.getMessage();
+        }
+
         return new Pair(message, displayProcedure);
     }
 
-    private TableRow createProcedureIteration(int count, String xa,
-                                              String y, String Error) {
+    private TableRow createProcedureIteration(int count, BigDecimal xa,
+                                              BigDecimal y, BigDecimal Error) {
         TableRow iterationResult = new TableRow(this);
 
+        NumberFormat formatter = new DecimalFormat(NOTATION_FORMAT);
+        formatter.setRoundingMode(RoundingMode.HALF_UP);
+        formatter.setMinimumFractionDigits(3);
+
         iterations = new TextView(this);
+        iterations.setPadding(15, 10, 15, 10);
         iterations.setGravity(Gravity.CENTER);
         iterations.setText(String.valueOf(count));
 
         x = new TextView(this);
+        x.setPadding(15, 10, 15, 10);
         x.setGravity(Gravity.CENTER);
         x.setText(xa.toString());
 
         fx = new TextView(this);
+        fx.setPadding(15, 10, 15, 10);
         fx.setGravity(Gravity.CENTER);
-        fx.setText(y.toString());
+        fx.setText(formatter.format(y));
 
-        tol = new TextView(this);
-        tol.setGravity(Gravity.CENTER);
-        tol.setText(Error.toString());
+        tolerance = new TextView(this);
+        tolerance.setPadding(15, 10, 15, 10);
+        tolerance.setGravity(Gravity.CENTER);
+        tolerance.setText(formatter.format(Error));
 
         iterationResult.addView(iterations);
         iterationResult.addView(x);
         iterationResult.addView(fx);
-        iterationResult.addView(tol);
+        iterationResult.addView(tolerance);
 
         return iterationResult;
     }
@@ -204,24 +215,5 @@ public class FixedPointActivity extends AppCompatActivity {
         for (TableRow tableRow : tableIterations) {
             procedure.addView(tableRow);
         }
-    }
-    int veces=0;
-    public  String conversionAux(BigDecimal l){
-
-        if(l.toString().charAt(0)=='0' || (l.toString().length()>1 && l.toString().substring(0,2).equals("-0"))){
-            veces++;
-            return conversionAux(l.movePointRight(1));
-        }
-        else{
-            if(veces!=0){
-                return l+"E-"+veces;}
-            else{return l.toString();}
-        }
-
-    }
-    public String conversion(BigDecimal l, int zero){
-        veces=zero;
-        return conversionAux(l);
-
     }
 }

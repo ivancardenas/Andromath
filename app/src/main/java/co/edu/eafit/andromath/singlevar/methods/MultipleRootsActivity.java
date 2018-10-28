@@ -1,8 +1,8 @@
 package co.edu.eafit.andromath.singlevar.methods;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
@@ -100,12 +100,12 @@ public class MultipleRootsActivity extends AppCompatActivity {
                 BigDecimal tol = BigDecimal.valueOf(Double.parseDouble(tol_et.getText().toString()));
                 BigDecimal x1;
                 int niter = Integer.parseInt(niter_et.getText().toString());
-                //We have to trust in whoever set up the expression to not screw things up
+                //We have to trust in whoever set up the expressionF to not screw things up
                 //TODO: We have to add checks to this function, otherwise this might crash the app.
                 gexpr = new Expression(gx_et.getText().toString());
                 jexpr = new Expression(jx_et.getText().toString());
-                //expr = new Expression("(x^3)+(4*x^2)-10");
-                //gexpr = new Expression("(3*x^2)+(8*x)");
+                //expressionF = new Expression("(x^3)+(4*x^2)-10");
+                //expressionG = new Expression("(3*x^2)+(8*x)");
                 //jexpr = new Expression("(6*x)+8");
                 if (niter < 1) {
                     message = INVALID_ITER.getMessage();

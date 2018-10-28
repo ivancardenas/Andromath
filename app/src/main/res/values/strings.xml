@@ -10,4 +10,20 @@
     <string name="iterations">ITERATIONS</string>
     <string name="continue_button">CONTINUE</string>
     <string name="tolerance">TOLERANCE</string>
+    <string name="g_function">G(X)</string>
+    <string name="approximated_x">XA</string>
+
+    <string name="xMin">XMIN</string>
+    <string name="xMax">XMAX</string>
+
+    <string name="table_iterations">ITER</string>
+    <string name="table_error">E</string>
+    <string name="table_function">F(X)</string>
+    <string name="table_function_xm">F(XM)</string>
+    <string name="table_function_xs">F(XS)</string>
+    <string name="table_function_xi">F(XI)</string>
+    <string name="table_xm">XM</string>
+    <string name="table_xs">XS</string>
+    <string name="table_xi">XI</string>
+    <string name="table_variable">X</string>
 </resources>
