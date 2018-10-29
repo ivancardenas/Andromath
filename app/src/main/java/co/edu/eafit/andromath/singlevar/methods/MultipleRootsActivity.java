@@ -165,6 +165,7 @@ public class MultipleRootsActivity extends AppCompatActivity {
             message = OUT_OF_RANGE.getMessage();
 
         }
+
         return new Pair(message, displayProcedure);
     }
 
