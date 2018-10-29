@@ -30,7 +30,8 @@
         <activity android:name=".singlevar.methods.FixedPointActivity" />
         <activity android:name=".singlevar.methods.NewtonActivity" />
         <activity android:name=".singlevar.methods.SecantActivity" />
-        <activity android:name=".singlevar.methods.MultipleRootsActivity"></activity>
+        <activity android:name=".singlevar.methods.MultipleRootsActivity" />
+        <activity android:name=".linearsystems.LinearSystemsLandingActivity"></activity>
     </application>
 
 </manifest>
