@@ -180,7 +180,7 @@ public class IncrementalSearchActivity extends AppCompatActivity {
             displayProcedure = true;
         }
 
-        return new Pair(message, displayProcedure);
+        return new Pair<>(message, displayProcedure);
     }
 
     private TableRow createProcedureIteration(int count, BigDecimal x0,

@@ -194,7 +194,7 @@ public class BisectionActivity extends AppCompatActivity {
             message = OUT_OF_RANGE.getMessage();
         }
 
-        return new Pair(message, displayProcedure);
+        return new Pair<>(message, displayProcedure);
     }
 
     private TableRow createProcedureIteration(int count, BigDecimal xi,

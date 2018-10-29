@@ -166,7 +166,7 @@ public class MultipleRootsActivity extends AppCompatActivity {
 
         }
 
-        return new Pair(message, displayProcedure);
+        return new Pair<>(message, displayProcedure);
     }
 
     private TableRow createProcedureIteration(int count, BigDecimal x, BigDecimal y,
