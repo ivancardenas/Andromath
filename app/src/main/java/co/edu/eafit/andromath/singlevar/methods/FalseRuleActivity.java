@@ -113,7 +113,6 @@ public class FalseRuleActivity extends AppCompatActivity {
         boolean displayProcedure;
 
         try {
-            String temp;
             BigDecimal xi = BigDecimal.valueOf(Double.parseDouble(xMinInput.getText().toString()));
             BigDecimal xs = BigDecimal.valueOf(Double.parseDouble(xMaxInput.getText().toString()));
             BigDecimal tol = BigDecimal.valueOf(Double.parseDouble(toleranceInput.getText().toString()));

@@ -200,7 +200,7 @@ public class IncrementalSearchActivity extends AppCompatActivity {
         x0Value = new TextView(this);
         x0Value.setPadding(15, 10, 15, 10);
         x0Value.setGravity(Gravity.CENTER);
-        x0Value.setText(x0.toString());
+        x0Value.setText(String.valueOf(x0));
 
         solution0 = new TextView(this);
         solution0.setPadding(15, 10, 15, 10);
@@ -210,7 +210,7 @@ public class IncrementalSearchActivity extends AppCompatActivity {
         x1Value = new TextView(this);
         x1Value.setPadding(15, 10, 15, 10);
         x1Value.setGravity(Gravity.CENTER);
-        x1Value.setText(x1.toString());
+        x1Value.setText(String.valueOf(x1));
 
         solution1 = new TextView(this);
         solution1.setPadding(15, 10, 15, 10);
