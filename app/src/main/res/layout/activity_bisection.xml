@@ -49,7 +49,7 @@
                 android:textAllCaps="true" />
 
             <EditText
-                android:id="@+id/editTextXMin"
+                android:id="@+id/editTextXMinValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
@@ -62,7 +62,7 @@
                 android:textAllCaps="true" />
 
             <EditText
-                android:id="@+id/editTextXMax"
+                android:id="@+id/editTextXMaxValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"

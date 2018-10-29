@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Andromath</string>
+
     <string name="professor">FRANCISCO JOSÉ CORREA ZABALA</string>
     <string name="memberIvan">IVÁN ANTONIO CÁRDENAS OCHOA</string>
     <string name="memberJose">JOSÉ MARÍA MIRA BARRIENTOS</string>
@@ -12,6 +13,9 @@
     <string name="tolerance">TOLERANCE</string>
     <string name="g_function">G(X)</string>
     <string name="approximated_x">XA</string>
+    <string name="delta">DELTA</string>
+    <string name="value_x0">X0</string>
+    <string name="value_x1">X1</string>
 
     <string name="xMin">XMIN</string>
     <string name="xMax">XMAX</string>
@@ -26,4 +30,15 @@
     <string name="table_xs">XS</string>
     <string name="table_xi">XI</string>
     <string name="table_variable">X</string>
+    <string name="table_derivative">F\'(X)</string>
+    <string name="table_second_derivative">F\'\'(X)</string>
+
+    <string name="table_solution_x1">F(X1)</string>
+    <string name="table_function_x1">X1</string>
+
+    <string name="table_solution_x2">F(X2)</string>
+    <string name="table_function_x2">X2</string>
+
+    <string name="function_derivative">F\'(X)</string>
+    <string name="function_second_derivative">F\'\'(X)</string>
 </resources>

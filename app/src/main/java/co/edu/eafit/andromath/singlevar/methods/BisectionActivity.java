@@ -50,8 +50,8 @@ public class BisectionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bisection);
         Objects.requireNonNull(getSupportActionBar()).hide();
 
-        xMinInput = (EditText) findViewById(R.id.editTextXMin);
-        xMaxInput = (EditText) findViewById(R.id.editTextXMax);
+        xMinInput = (EditText) findViewById(R.id.editTextXMinValue);
+        xMaxInput = (EditText) findViewById(R.id.editTextXMaxValue);
         toleranceInput = (EditText) findViewById(R.id.editTextTolerance);
         iterationsInput = (EditText) findViewById(R.id.editTextIterations);
 
@@ -141,23 +141,15 @@ public class BisectionActivity extends AppCompatActivity {
                 // ys*yi < 0
             } else if (yi.multiply(ys).compareTo(BigDecimal.ZERO) < 0) {
                 //xm = (xi + xs)/2
-                BigDecimal xm = (xi.add(xs)).divide(BigDecimal.valueOf(2)/*, BigDecimal.ROUND_HALF_EVEN*/);
+                BigDecimal xm = (xi.add(xs)).divide(BigDecimal.valueOf(2));
                 //ym = f(xm)
                 BigDecimal ym = expression.with("x", xm).eval();
                 int count = 1;
                 //error = tolerance + 1
                 BigDecimal error = tol.add(BigDecimal.ONE);
 
-                BigDecimal xii = xi;
-                BigDecimal xss = xs;
-                BigDecimal yii = yi;
-                BigDecimal yss = ys;
-                BigDecimal xmm = xm;
-                BigDecimal ymm = ym;
-                BigDecimal errorr = error;
-
                 //error > tolerance && ym != 0 && count < niter
-                tableIterations.add(createProcedureIteration(count, xii, xss, yii, yss, xmm, ymm, errorr));
+                tableIterations.add(createProcedureIteration(count, xi, xs, yi, ys, xm, ym, error));
                 //while ( ym != 0 and e > tolerance and count < iter) do
                 while (ym.compareTo(BigDecimal.ZERO) != 0 && error.compareTo(tol) > 0 && count < niter) {
                     //yi*ys < 0
@@ -173,26 +165,19 @@ public class BisectionActivity extends AppCompatActivity {
                     /*, BigDecimal.ROUND_HALF_EVEN*/
                     xm = (xi.add(xs)).divide(BigDecimal.valueOf(2));
                     //ym = f(xm)
-                    ym = expression.with("x", xm).eval();
+                    ym = expression.with(VARIABLE, xm).eval();
                     //error = abs(xm-xaux)
                     error = xm.subtract(xaux).abs();
                     count++;
-                    xii = xi;
-                    xss = xs;
-                    yii = yi;
-                    yss = ys;
-                    xmm = xm;
-                    ymm = ym;
-                    errorr = error;
 
-                    tableIterations.add(createProcedureIteration(count, xii, xss, yii, yss, xmm, ymm, errorr));
+                    tableIterations.add(createProcedureIteration(count, xi, xs, yi, ys, xm, ym, error));
                 }
                 if (ym.compareTo(BigDecimal.ZERO) == 0) {
-                    tableIterations.add(createProcedureIteration(count + 1, xii, xss, yii, yss, xmm, ymm, errorr));
+                    tableIterations.add(createProcedureIteration(count + 1, xi, xs, yi, ys, xm, ym, error));
                     message = "x = " + xm.toString() + " is a root";
                     displayProcedure = true;
                 } else if (error.compareTo(tol) < 0) {
-                    tableIterations.add(createProcedureIteration(count + 1, xii, xss, yii, yss, xmm, ymm, errorr));
+                    tableIterations.add(createProcedureIteration(count + 1, xi, xs, yi, ys, xm, ym, error));
                     message = "x = " + xm.toString() + " is an approximated root\nwith E = " + error.toString();
                     displayProcedure = true;
                 } else {
@@ -232,7 +217,7 @@ public class BisectionActivity extends AppCompatActivity {
         xMin = new TextView(this);
         xMin.setPadding(15, 10, 15, 10);
         xMin.setGravity(Gravity.CENTER);
-        xMin.setText(xi.toString());
+        xMin.setText(String.valueOf(xi));
 
         solutionA = new TextView(this);
         solutionA.setPadding(15, 10, 15, 10);
@@ -242,7 +227,7 @@ public class BisectionActivity extends AppCompatActivity {
         xMax = new TextView(this);
         xMax.setPadding(15, 10, 15, 10);
         xMax.setGravity(Gravity.CENTER);
-        xMax.setText(xs.toString());
+        xMax.setText(String.valueOf(xs));
 
         solutionB = new TextView(this);
         solutionB.setPadding(15, 10, 15, 10);
@@ -252,7 +237,7 @@ public class BisectionActivity extends AppCompatActivity {
         xMed = new TextView(this);
         xMed.setPadding(15, 10, 15, 10);
         xMed.setGravity(Gravity.CENTER);
-        xMed.setText(xm.toString());
+        xMed.setText(String.valueOf(xm));
 
         solution = new TextView(this);
         solution.setPadding(15, 10, 15, 10);

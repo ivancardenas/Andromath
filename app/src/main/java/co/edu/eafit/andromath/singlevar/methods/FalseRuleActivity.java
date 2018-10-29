@@ -50,13 +50,13 @@ public class FalseRuleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_false_rule);
         Objects.requireNonNull(getSupportActionBar()).hide();
 
-        xMinInput = (EditText) findViewById(R.id.falserule_xmin);
-        xMaxInput = (EditText) findViewById(R.id.falserule_xmax);
-        toleranceInput = (EditText) findViewById(R.id.falserule_tolerance);
-        iterationsInput = (EditText) findViewById(R.id.falserule_niter);
+        xMinInput = (EditText) findViewById(R.id.editTextXMinValue);
+        xMaxInput = (EditText) findViewById(R.id.editTextXMaxValue);
+        toleranceInput = (EditText) findViewById(R.id.editTextTolerance);
+        iterationsInput = (EditText) findViewById(R.id.editTextIterations);
 
         function = (TextView) findViewById(R.id.textViewFunction);
-        result = (TextView) findViewById(R.id.falserule_result);
+        result = (TextView) findViewById(R.id.textViewResult);
 
         procedure = (TableLayout) findViewById(R.id.tableLayoutProcedure);
     }
@@ -147,15 +147,7 @@ public class FalseRuleActivity extends AppCompatActivity {
                 int count = 1;
                 BigDecimal error = tol.add(BigDecimal.ONE);
 
-                BigDecimal xii= xi;
-                BigDecimal xss= xs;
-                BigDecimal yii= yi;
-                BigDecimal yss= ys;
-                BigDecimal xmm= xm;
-                BigDecimal ymm= ym;
-                BigDecimal errorr= error;
-
-                tableIterations.add(createProcedureIteration(count, xii, xss, yii, yss, xmm, ymm,errorr));
+                tableIterations.add(createProcedureIteration(count, xi, xs, yi, ys, xm, ym, error));
 
                 while (ym.compareTo(BigDecimal.ZERO) != 0 && error.compareTo(tol) > 0 && count < iterations) {
                     //yi*ys < 0
@@ -175,22 +167,14 @@ public class FalseRuleActivity extends AppCompatActivity {
                     error = xm.subtract(xaux).abs();
                     count++;
 
-                     xii= xi;
-                     xss= xs;
-                     yii= yi;
-                     yss= ys;
-                     xmm= xm;
-                     ymm= ym;
-                     errorr= error;
-
-                    tableIterations.add(createProcedureIteration(count, xii, xss, yii, yss, xmm, ymm, errorr));
+                    tableIterations.add(createProcedureIteration(count, xi, xs, yi, ys, xm, ym, error));
                 }
                 if (ym.compareTo(BigDecimal.ZERO) == 0) {
-                    tableIterations.add(createProcedureIteration(count + 1, xii, xss, yii, yss, xmm, ymm, errorr));
+                    tableIterations.add(createProcedureIteration(count + 1, xi, xs, yi, ys, xm, ym, error));
                     message = "x = " + xm.toString() + " is a root";
                     displayProcedure = true;
                 } else if (error.compareTo(tol) < 0) {
-                    tableIterations.add(createProcedureIteration(count + 1, xii, xss, yii, yss, xmm, ymm, errorr));
+                    tableIterations.add(createProcedureIteration(count + 1, xi, xs, yi, ys, xm, ym, error));
                     message = "x = " + xm.toString() + " is an approximated root\nwith E = " + error.toString();
                     displayProcedure = true;
                 } else {
@@ -230,7 +214,7 @@ public class FalseRuleActivity extends AppCompatActivity {
         xMin = new TextView(this);
         xMin.setPadding(15, 10, 15, 10);
         xMin.setGravity(Gravity.CENTER);
-        xMin.setText(xi.toString());
+        xMin.setText(String.valueOf(xi));
 
         solutionA = new TextView(this);
         solutionA.setPadding(15, 10, 15, 10);
@@ -240,7 +224,7 @@ public class FalseRuleActivity extends AppCompatActivity {
         xMax = new TextView(this);
         xMax.setPadding(15, 10, 15, 10);
         xMax.setGravity(Gravity.CENTER);
-        xMax.setText(xs.toString());
+        xMax.setText(String.valueOf(xs));
 
         solutionB = new TextView(this);
         solutionB.setPadding(15, 10, 15, 10);
@@ -250,7 +234,7 @@ public class FalseRuleActivity extends AppCompatActivity {
         xMed = new TextView(this);
         xMed.setPadding(15, 10, 15, 10);
         xMed.setGravity(Gravity.CENTER);
-        xMed.setText(xm.toString());
+        xMed.setText(String.valueOf(xm));
 
         solution = new TextView(this);
         solution.setPadding(15, 10, 15, 10);

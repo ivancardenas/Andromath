@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
-                android:hint="X0"
+                android:hint="@string/value_x0"
                 android:inputType="numberSigned|numberDecimal"
                 android:paddingTop="10dp"
                 android:paddingBottom="20dp"
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
-                android:hint="DELTA"
+                android:hint="@string/delta"
                 android:inputType="numberSigned|numberDecimal"
                 android:paddingTop="10dp"
                 android:paddingBottom="20dp"
@@ -125,7 +125,6 @@
                     android:visibility="gone">
 
                     <TableRow
-                        android:id="@+id/tableRowLegend"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -148,7 +147,7 @@
                             android:paddingTop="10px"
                             android:paddingRight="15px"
                             android:paddingBottom="10px"
-                            android:text="X"
+                            android:text="@string/table_variable"
                             android:textAlignment="center"
                             android:textAllCaps="true"
                             android:textStyle="bold" />
@@ -160,7 +159,7 @@
                             android:paddingTop="10px"
                             android:paddingRight="15px"
                             android:paddingBottom="10px"
-                            android:text="F(X)"
+                            android:text="@string/table_function"
                             android:textAlignment="center"
                             android:textAllCaps="true"
                             android:textStyle="bold" />
@@ -172,7 +171,7 @@
                             android:paddingTop="10px"
                             android:paddingRight="15px"
                             android:paddingBottom="10px"
-                            android:text="X1"
+                            android:text="@string/table_function_x1"
                             android:textAlignment="center"
                             android:textAllCaps="true"
                             android:textStyle="bold" />
@@ -184,7 +183,7 @@
                             android:paddingTop="10px"
                             android:paddingRight="15px"
                             android:paddingBottom="10px"
-                            android:text="F(X1)"
+                            android:text="@string/table_solution_x1"
                             android:textAlignment="center"
                             android:textAllCaps="true"
                             android:textStyle="bold" />

@@ -48,19 +48,19 @@ public class FixedPointActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fixed_point);
         Objects.requireNonNull(getSupportActionBar()).hide();
 
-        approximatedXInput = (EditText)findViewById(R.id.textViewApproximatedX);
-        gFunctionInput = (EditText)findViewById(R.id.textViewGFunction);
-        toleranceInput = (EditText)findViewById(R.id.textViewTolerance);
-        iterationsInput = (EditText)findViewById(R.id.textViewIterations);
+        approximatedXInput = (EditText) findViewById(R.id.editTextApproximatedX);
+        gFunctionInput = (EditText) findViewById(R.id.editTextGFunction);
+        toleranceInput = (EditText) findViewById(R.id.editTextTolerance);
+        iterationsInput = (EditText) findViewById(R.id.editTextIterations);
 
-        function = (TextView)findViewById(R.id.textViewFunction);
+        function = (TextView) findViewById(R.id.textViewFunction);
         result = (TextView) findViewById(R.id.textViewResult);
 
         procedure = (TableLayout) findViewById(R.id.tableLayoutProcedure);
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
 
         Intent intent = getIntent();
@@ -106,36 +106,32 @@ public class FixedPointActivity extends AppCompatActivity {
      *     String parameter is the message.
      *     Boolean parameter is a flag to show the procedure.
      */
-    private Pair<String, Boolean> fixedPoint(List<TableRow> tableIterations){
+    private Pair<String, Boolean> fixedPoint(List<TableRow> tableIterations) {
 
         String message;
 
         boolean displayProcedure;
 
-        try{
+        try {
             BigDecimal xa = BigDecimal.valueOf(Double.parseDouble(approximatedXInput.getText().toString()));
             BigDecimal tol = BigDecimal.valueOf(Double.parseDouble(toleranceInput.getText().toString()));
             BigDecimal xn;
             int niter = Integer.parseInt(iterationsInput.getText().toString());
             expressionG = new Expression(gFunctionInput.getText().toString());
 
-
             BigDecimal y = expressionF.with(VARIABLE, xa).eval();
             int count = 0;
             BigDecimal error = tol.add(BigDecimal.ONE);
-            BigDecimal xaa= xa;
-            BigDecimal yaa= y;
-            BigDecimal errorr= error;
 
-            tableIterations.add(createProcedureIteration(count, xaa, yaa, errorr));
+            tableIterations.add(createProcedureIteration(count, xa, y, error));
 
             if (niter < 1) {
                 message = INVALID_ITER.getMessage();
                 displayProcedure = INVALID_ITER.isDisplayProcedure();
-            }else if (y.compareTo(BigDecimal.ZERO)==0) {
-                message=X_ROOT.getMessage();
+            } else if (y.compareTo(BigDecimal.ZERO) == 0) {
+                message = X_ROOT.getMessage();
                 displayProcedure = X_ROOT.isDisplayProcedure();
-            }else{
+            } else {
                 //Method Begins
                 while (y.compareTo(BigDecimal.ZERO) != 0 && error.compareTo(tol) > 0 && count < niter) {
                     xn = expressionG.with(VARIABLE, xa).eval();
@@ -144,18 +140,14 @@ public class FixedPointActivity extends AppCompatActivity {
                     xa = xn;
                     count++;
 
-                     xaa= xa;
-                     yaa= y;
-                     errorr= error;
-
-                    tableIterations.add(createProcedureIteration(count, xaa, yaa, errorr));
+                    tableIterations.add(createProcedureIteration(count, xa, y, error));
                 }
                 if (y.compareTo(BigDecimal.ZERO) == 0) {
-                    tableIterations.add(createProcedureIteration(count, xaa, yaa, errorr));
+                    tableIterations.add(createProcedureIteration(count, xa, y, error));
                     message = "x = " + xa.toString() + " is a root";
                     displayProcedure = true;
                 } else if (error.compareTo(tol) < 0) {
-                    tableIterations.add(createProcedureIteration(count, xaa, yaa, errorr));
+                    tableIterations.add(createProcedureIteration(count, xa, y, error));
                     message = "x = " + xa.toString() + " is an approximated root\nwith E = " + error.toString();
                     displayProcedure = true;
                 } else {
@@ -166,7 +158,7 @@ public class FixedPointActivity extends AppCompatActivity {
             }
         } catch (Expression.ExpressionException e) {
             return null; // The equation is not valid.
-        } catch ( ArithmeticException | NumberFormatException e) {
+        } catch (ArithmeticException | NumberFormatException e) {
             displayProcedure = OUT_OF_RANGE.isDisplayProcedure();
             message = OUT_OF_RANGE.getMessage();
         }
@@ -190,7 +182,7 @@ public class FixedPointActivity extends AppCompatActivity {
         x = new TextView(this);
         x.setPadding(15, 10, 15, 10);
         x.setGravity(Gravity.CENTER);
-        x.setText(xa.toString());
+        x.setText(String.valueOf(xa));
 
         fx = new TextView(this);
         fx.setPadding(15, 10, 15, 10);

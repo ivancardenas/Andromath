@@ -1,85 +1,97 @@
 package co.edu.eafit.andromath.singlevar.methods;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.view.animation.Interpolator;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.TextView;
-
-import android.view.View;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import co.edu.eafit.andromath.util.Messages;
-import static co.edu.eafit.andromath.util.Constants.EQUATION;
-import static co.edu.eafit.andromath.util.Constants.VARIABLE;
-import static co.edu.eafit.andromath.util.Constants.ErrorCodes.INVALID_ITER;
-import static co.edu.eafit.andromath.util.Constants.ErrorCodes.X_ROOT;
+import android.widget.TextView;
 
 import com.udojava.evalex.Expression;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import co.edu.eafit.andromath.R;
+import co.edu.eafit.andromath.util.Messages;
+
+import static co.edu.eafit.andromath.util.Constants.EQUATION;
+import static co.edu.eafit.andromath.util.Constants.ErrorCodes.INVALID_ITER;
+import static co.edu.eafit.andromath.util.Constants.ErrorCodes.OUT_OF_RANGE;
+import static co.edu.eafit.andromath.util.Constants.ErrorCodes.X_ROOT;
+import static co.edu.eafit.andromath.util.Constants.NOTATION_FORMAT;
+import static co.edu.eafit.andromath.util.Constants.VARIABLE;
 
 public class SecantActivity extends AppCompatActivity {
 
-    private static final String tag = SecantActivity.class.getSimpleName();   //
+    private static final String tag = SecantActivity.class.getSimpleName();
 
-    EditText x0_et, x1_et, tol_et, niter_et;
-    TextView func, results, x1a, x2a, fx1, fx2, tol, iterations;
-    Expression expr;
-    int scale=5;
-    TableLayout procedure;  //
-    Expression expression;  //
+    EditText x0ValueInput, x1ValueInput, toleranceInput, iterationsInput;
+    TextView function, result, x1a, x2a, fx1, fx2, tolerance, iterations;
+    Expression expression;
+    TableLayout procedure;
 
-    private List<TableRow> tableIterations;  //
+    private List<TableRow> tableIterations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secant);
-        Objects.requireNonNull(getSupportActionBar()).hide();   //
-        procedure = (TableLayout) findViewById(R.id.tableLayoutProcedure);   //
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
-        x0_et = (EditText)findViewById(R.id.secant_x0);
-        x1_et = (EditText)findViewById(R.id.secant_x1);
-        tol_et  = (EditText)findViewById(R.id.secant_tolerance);
-        niter_et = (EditText)findViewById(R.id.secant_niter);
-        func = (TextView)findViewById(R.id.secant_func);
-        results = (TextView)findViewById(R.id.secant_result);
+        x0ValueInput = (EditText) findViewById(R.id.editTextX0Value);
+        x1ValueInput = (EditText) findViewById(R.id.editTextX1Value);
+        toleranceInput = (EditText) findViewById(R.id.editTextTolerance);
+        iterationsInput = (EditText) findViewById(R.id.editTextIterations);
+
+        function = (TextView) findViewById(R.id.textViewFunction);
+        result = (TextView) findViewById(R.id.textViewResult);
+
+        procedure = (TableLayout) findViewById(R.id.tableLayoutProcedure);
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
-        Intent i = getIntent();
-        String s = "f(x) = " + i.getStringExtra("equation");
-        func.setText(s);
-        expr = new Expression(i.getStringExtra("equation"));
 
-        procedure.setStretchAllColumns(true);   //
+        Intent intent = getIntent();
+        String equation = "f(x) = " + intent.
+                getStringExtra(EQUATION);
+        function.setText(equation);
+
+        expression = new Expression(intent.
+                getStringExtra(EQUATION));
+
+        procedure.setStretchAllColumns(true);
     }
 
-    public void Secant(View v) { //
+    public void secant(View v) {
+
+        x0ValueInput.setSelected(false);
+        x1ValueInput.setSelected(false);
+        toleranceInput.setSelected(false);
+        iterationsInput.setSelected(false);
+        result.setVisibility(View.VISIBLE);
+
         tableIterations = new ArrayList<>();
 
         procedure.removeViews(1,
                 procedure.getChildCount() - 1);
 
         Pair<String, Boolean> solution =
-                runSecant(tableIterations);
+                secant(tableIterations);
 
         if (solution != null) {
-            results.setText(solution.first);
+            result.setText(solution.first);
             createTableProcedure(tableIterations);
             procedure.setVisibility(solution.second ?
                     View.VISIBLE : View.INVISIBLE);
@@ -90,84 +102,67 @@ public class SecantActivity extends AppCompatActivity {
     }
 
     /**
-     * @return Pair<String , Boolean>
-     * String parameter is the message.
-     * Boolean parameter is a flag to show the procedure.
+     * @return Pair<String, Boolean>
+     *     String parameter is the message.
+     *     Boolean parameter is a flag to show the procedure.
      */
-
-    public Pair<String, Boolean> runSecant(List<TableRow> tableIterations){
+    public Pair<String, Boolean> secant(List<TableRow> tableIterations) {
 
         String message;
-        boolean displayProcedure = true;
 
+        boolean displayProcedure;
 
-        InputMethodManager inputManager = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
-        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        try {
+            BigDecimal x0 = BigDecimal.valueOf(Double.
+                    parseDouble(x0ValueInput.getText().toString()));
 
-        results.setVisibility(View.VISIBLE);
+            BigDecimal x1 = BigDecimal.valueOf(Double.
+                    parseDouble(x1ValueInput.getText().toString()));
 
+            BigDecimal tol = BigDecimal.valueOf(Double.
+                    parseDouble(toleranceInput.getText().toString()));
 
-        //Method Begins
-        try{
-            String temp;
-            BigDecimal x0 = BigDecimal.valueOf(Double.parseDouble(x0_et.getText().toString()));
-            BigDecimal x1 = BigDecimal.valueOf(Double.parseDouble(x1_et.getText().toString()));
-            BigDecimal tol = BigDecimal.valueOf(Double.parseDouble(tol_et.getText().toString()));
             BigDecimal x2;
-            int niter = Integer.parseInt(niter_et.getText().toString());
 
+            int niter = Integer.parseInt(iterationsInput.getText().toString());
 
-            BigDecimal y0 = expr.with("x",x0).eval();
+            BigDecimal y0 = expression.with(VARIABLE, x0).eval();
 
             if (niter < 1) {
                 message = INVALID_ITER.getMessage();
                 displayProcedure = INVALID_ITER.isDisplayProcedure();
-            }
-            else if(y0.compareTo(BigDecimal.ZERO) == 0){
+            } else if (y0.compareTo(BigDecimal.ZERO) == 0) {
                 message = X_ROOT.getMessage();
                 displayProcedure = X_ROOT.isDisplayProcedure();
             } else {
-                BigDecimal y1 = expr.with("x",x1).eval();
+                BigDecimal y1 = expression.with(VARIABLE, x1).eval();
                 int count = 0;
                 BigDecimal error = tol.add(BigDecimal.ONE);
                 BigDecimal den = y1.subtract(y0);
-                String tempscale=tol_et.getText().toString();
-                scale=tempscale.substring(tempscale.indexOf('.')).length();
 
-                String x00= conversion(x0.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                String x11= conversion(x1.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                String y00= conversion(y0.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                String y11= conversion(y1.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                String errorr= conversion(error.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-
-                tableIterations.add(createProcedureIteration(count, x00, x11, y00, y11, errorr));
-                while(error.compareTo(tol) > 0 && y1.compareTo(BigDecimal.ZERO) != 0 && den.compareTo(BigDecimal.ZERO) != 0 && count < niter){
+                tableIterations.add(createProcedureIteration(count, x0, x1, y0, y1, error));
+                while (error.compareTo(tol) > 0 && y1.compareTo(BigDecimal.ZERO) != 0 && den.compareTo(BigDecimal.ZERO) != 0 && count < niter) {
                     //x2 = x1 - (y1*(x1-x0)/den)
-                    x2 = x1.subtract(y1.multiply(x1.subtract(x0)).divide(den,BigDecimal.ROUND_HALF_EVEN));
+                    x2 = x1.subtract(y1.multiply(x1.subtract(x0)).divide(den, BigDecimal.ROUND_HALF_EVEN));
                     error = x2.subtract(x1).abs();
                     x0 = x1;
                     y0 = y1;
                     x1 = x2;
-                    y1 = expr.with("x",x1).eval();
+                    y1 = expression.with(VARIABLE, x1).eval();
                     den = y1.subtract(y0);
                     count++;
 
-                     x00= conversion(x0.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                     x11= conversion(x1.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                     y00= conversion(y0.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-                     y11= conversion(y1.setScale(scale,BigDecimal.ROUND_HALF_EVEN),0);
-
-
-
-                    tableIterations.add(createProcedureIteration(count, x00, x11, y00, y11, errorr));
+                    tableIterations.add(createProcedureIteration(count, x0, x1, y0, y1, error));
                 }
+
                 if (y1.compareTo(BigDecimal.ZERO) == 0) {
                     message = "x = " + x1.toString() + " is a root";
                     displayProcedure = true;
                 } else if (error.compareTo(tol) < 0) {
-                    message = "x = " + x1.toString() + " is an approximated root\nwith E = " + error.toString();
+                    message = "x = " + x1.toString() + " is an approximated root\n" +
+                            "with E = " + error.toString();
                     displayProcedure = true;
-                } else if(den.compareTo(BigDecimal.ZERO) == 0){
+                } else if (den.compareTo(BigDecimal.ZERO) == 0) {
                     message = "There are possibly multiple roots";
                     displayProcedure = false;
                 } else {
@@ -176,49 +171,61 @@ public class SecantActivity extends AppCompatActivity {
                     displayProcedure = true;
                 }
             }
-        }catch (Expression.ExpressionException e) {
-            return null;
-        }catch ( ArithmeticException | NumberFormatException e){
-            displayProcedure=false;
-            message="OUT RANGE OR ARE MISSING DATA FIELDS";}
+        } catch (Expression.ExpressionException e) {
+            return null; // The equation is not valid.
+        } catch (ArithmeticException | NumberFormatException e) {
+            displayProcedure = OUT_OF_RANGE.isDisplayProcedure();
+            message = OUT_OF_RANGE.getMessage();
+        }
+
         return new Pair(message, displayProcedure);
     }
 
-    private TableRow createProcedureIteration(int count, String x1,
-                                              String x2, String y1, String y2,
-                                              String Error) {
+    private TableRow createProcedureIteration(int count, BigDecimal x1, BigDecimal x2,
+                                              BigDecimal y1, BigDecimal y2, BigDecimal error) {
+
         TableRow iterationResult = new TableRow(this);
 
+        NumberFormat formatter = new DecimalFormat(NOTATION_FORMAT);
+        formatter.setRoundingMode(RoundingMode.HALF_UP);
+        formatter.setMinimumFractionDigits(3);
+
         iterations = new TextView(this);
+        iterations.setPadding(15, 10, 15, 10);
         iterations.setGravity(Gravity.CENTER);
         iterations.setText(String.valueOf(count));
 
         x1a = new TextView(this);
+        x1a.setPadding(15, 10, 15, 10);
         x1a.setGravity(Gravity.CENTER);
-        x1a.setText(x1.toString());
+        x1a.setText(String.valueOf(x1));
 
         fx1 = new TextView(this);
+        fx1.setPadding(15, 10, 15, 10);
         fx1.setGravity(Gravity.CENTER);
-        fx1.setText(y1.toString());
+        fx1.setText(formatter.format(y1));
 
         x2a = new TextView(this);
+        x2a.setPadding(15, 10, 15, 10);
         x2a.setGravity(Gravity.CENTER);
-        x2a.setText(x2.toString());
+        x2a.setText(String.valueOf(x2));
 
         fx2 = new TextView(this);
+        fx2.setPadding(15, 10, 15, 10);
         fx2.setGravity(Gravity.CENTER);
-        fx2.setText(y2.toString());
+        fx2.setText(formatter.format(y2));
 
-        tol = new TextView(this);
-        tol.setGravity(Gravity.CENTER);
-        tol.setText(Error.toString());
+        tolerance = new TextView(this);
+        tolerance.setPadding(15, 10, 15, 10);
+        tolerance.setGravity(Gravity.CENTER);
+        tolerance.setText(formatter.format(error));
 
         iterationResult.addView(iterations);
         iterationResult.addView(x1a);
         iterationResult.addView(fx1);
         iterationResult.addView(x2a);
         iterationResult.addView(fx2);
-        iterationResult.addView(tol);
+        iterationResult.addView(tolerance);
 
         return iterationResult;
     }
@@ -228,24 +235,5 @@ public class SecantActivity extends AppCompatActivity {
         for (TableRow tableRow : tableIterations) {
             procedure.addView(tableRow);
         }
-    }
-    int veces=0;
-    public  String conversionAux(BigDecimal l){
-
-        if(l.toString().charAt(0)=='0' || (l.toString().length()>1 && l.toString().substring(0,2).equals("-0"))){
-            veces++;
-            return conversionAux(l.movePointRight(1));
-        }
-        else{
-            if(veces!=0){
-                return l+"E-"+veces;}
-            else{return l.toString();}
-        }
-
-    }
-    public String conversion(BigDecimal l, int zero){
-        veces=zero;
-        return conversionAux(l);
-
     }
 }
