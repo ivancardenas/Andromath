@@ -42,8 +42,6 @@ public class FalseRuleActivity extends AppCompatActivity {
     Expression expression;
     TableLayout procedure;
 
-    private List<TableRow> tableIterations;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +82,7 @@ public class FalseRuleActivity extends AppCompatActivity {
         iterationsInput.setSelected(false);
         result.setVisibility(View.VISIBLE);
 
-        tableIterations = new ArrayList<>();
+        List<TableRow> tableIterations = new ArrayList<>();
 
         procedure.removeViews(1,
                 procedure.getChildCount() - 1);

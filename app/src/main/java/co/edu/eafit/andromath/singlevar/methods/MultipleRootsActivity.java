@@ -39,8 +39,6 @@ public class MultipleRootsActivity extends AppCompatActivity {
     Expression expressionF, expressionG, expressionGG;
     TableLayout procedure;
 
-    private List<TableRow> tableIterations;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +81,7 @@ public class MultipleRootsActivity extends AppCompatActivity {
         iterationsInput.setSelected(false);
         results.setVisibility(View.VISIBLE);
 
-        tableIterations = new ArrayList<>();
+        List<TableRow> tableIterations = new ArrayList<>();
 
         procedure.removeViews(1,
                 procedure.getChildCount() - 1);
