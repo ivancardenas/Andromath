@@ -41,4 +41,8 @@
 
     <string name="function_derivative">F\'(X)</string>
     <string name="function_second_derivative">F\'\'(X)</string>
+
+
+    <string name="add_column_button">ADD COLUMN</string>
+    <string name="add_row_button">ADD ROW</string>
 </resources>
