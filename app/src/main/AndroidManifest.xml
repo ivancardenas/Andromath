@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="co.edu.eafit.andromath">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -30,7 +32,6 @@
         <activity android:name=".singlevar.methods.FixedPointActivity" />
         <activity android:name=".singlevar.methods.NewtonActivity" />
         <activity android:name=".singlevar.methods.SecantActivity" />
-        <activity android:name=".singlevar.methods.MultipleRootsActivity"></activity>
+        <activity android:name=".singlevar.methods.MultipleRootsActivity" />
     </application>
-
 </manifest>
