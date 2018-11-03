@@ -11,6 +11,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/mainLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
@@ -32,7 +33,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Linear Equations Systems"
+                android:paddingBottom="20dp"
+                android:text="@string/linear_equations_systems"
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:textColor="@color/colorAccent"
@@ -43,7 +45,8 @@
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Fill the matrix Ab"
+                android:paddingBottom="10dp"
+                android:text="@string/fill_the_matrix"
                 android:textAlignment="center"
                 android:textAllCaps="true" />
 
@@ -63,7 +66,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginRight="50dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_shape"
@@ -72,172 +74,29 @@
                 android:textColor="@color/textColorButton" />
 
             <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
 
                 <TableLayout
                     android:id="@+id/tableLayoutEquationSystem"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal">
-
-                    <TableRow
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:hint="@string/value_x0"
-                            android:inputType="numberSigned|numberDecimal"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="20dp"
-                            android:textAlignment="center"
-                            android:textAllCaps="true" />
-
-                        <EditText
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:hint="@string/value_x0"
-                            android:inputType="numberSigned|numberDecimal"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="20dp"
-                            android:textAlignment="center"
-                            android:textAllCaps="true" />
-
-                        <EditText
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:hint="@string/value_x0"
-                            android:inputType="numberSigned|numberDecimal"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="20dp"
-                            android:textAlignment="center"
-                            android:textAllCaps="true" />
-
-                        <EditText
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:hint="@string/value_x0"
-                            android:inputType="numberSigned|numberDecimal"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="20dp"
-                            android:textAlignment="center"
-                            android:textAllCaps="true" />
-
-                        <EditText
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:hint="@string/value_x0"
-                            android:inputType="numberSigned|numberDecimal"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="20dp"
-                            android:textAlignment="center"
-                            android:textAllCaps="true" />
-
-                        <EditText
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:hint="@string/value_x0"
-                            android:inputType="numberSigned|numberDecimal"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="20dp"
-                            android:textAlignment="center"
-                            android:textAllCaps="true" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:hint="@string/value_x0"
-                            android:inputType="numberSigned|numberDecimal"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="20dp"
-                            android:textAlignment="center"
-                            android:textAllCaps="true" />
-
-                        <EditText
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:hint="@string/value_x0"
-                            android:inputType="numberSigned|numberDecimal"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="20dp"
-                            android:textAlignment="center"
-                            android:textAllCaps="true" />
-
-                        <EditText
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:hint="@string/value_x0"
-                            android:inputType="numberSigned|numberDecimal"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="20dp"
-                            android:textAlignment="center"
-                            android:textAllCaps="true" />
-
-                        <EditText
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:hint="@string/value_x0"
-                            android:inputType="numberSigned|numberDecimal"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="20dp"
-                            android:textAlignment="center"
-                            android:textAllCaps="true" />
-
-                        <EditText
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:hint="@string/value_x0"
-                            android:inputType="numberSigned|numberDecimal"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="20dp"
-                            android:textAlignment="center"
-                            android:textAllCaps="true" />
-
-                        <EditText
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:hint="@string/value_x0"
-                            android:inputType="numberSigned|numberDecimal"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="20dp"
-                            android:textAlignment="center"
-                            android:textAllCaps="true" />
-                    </TableRow>
-
+                    android:layout_height="wrap_content">
 
                 </TableLayout>
             </HorizontalScrollView>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/button_shape"
+                android:onClick="calculate"
+                android:text="@string/calculate"
+                android:textColor="@color/textColorButton" />
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>
