@@ -1,11 +1,10 @@
 package co.edu.eafit.andromath.linearsystems;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Objects;
 
 import co.edu.eafit.andromath.R;
