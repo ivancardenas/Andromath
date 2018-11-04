@@ -31,7 +31,8 @@
         <activity android:name=".singlevar.methods.NewtonActivity" />
         <activity android:name=".singlevar.methods.SecantActivity" />
         <activity android:name=".singlevar.methods.MultipleRootsActivity" />
-        <activity android:name=".linearsystems.LinearSystemsLandingActivity"></activity>
+        <activity android:name=".linearsystems.LinearSystemsLandingActivity" />
+        <activity android:name=".linearsystems.LinearSystemElectionActivity"></activity>
     </application>
 
 </manifest>

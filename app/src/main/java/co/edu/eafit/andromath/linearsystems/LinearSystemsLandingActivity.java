@@ -1,5 +1,6 @@
 package co.edu.eafit.andromath.linearsystems;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +11,12 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 import co.edu.eafit.andromath.R;
+
+import static co.edu.eafit.andromath.util.Constants.MATRIX;
 
 public class LinearSystemsLandingActivity extends AppCompatActivity {
 
@@ -66,10 +70,10 @@ public class LinearSystemsLandingActivity extends AppCompatActivity {
 
         int rowsQuantity = matrix.getChildCount();
 
-        int columnsQuantity = rowsQuantity == 0 ? 3 : ((TableRow)
+        int colsQuantity = rowsQuantity == 0 ? 3 : ((TableRow)
                 matrix.getChildAt(rowsQuantity - 1)).getChildCount();
 
-        for (int i = 0; i < columnsQuantity; i++)
+        for (int i = 0; i < colsQuantity; i++)
             rowMatrix.addView(getCell(rowsQuantity, i),
                     getPxFromDp(60), getPxFromDp(60));
 
@@ -101,5 +105,44 @@ public class LinearSystemsLandingActivity extends AppCompatActivity {
 
     public void calculate(View v) {
 
+        if (matrix.getChildCount() == 0) {
+            System.out.println("Error matriz vacía");
+        } else {
+            Intent intent = new Intent(this,
+                    LinearSystemElectionActivity.class);
+
+            Bundle bundleMatrix = new Bundle();
+            bundleMatrix.putSerializable(
+                    MATRIX, getMatrixValues());
+            intent.putExtras(bundleMatrix);
+
+            startActivity(intent);
+        }
+    }
+
+    private BigDecimal[][] getMatrixValues() {
+
+        int rowsQuantity = matrix.getChildCount();
+        int colsQuantity = ((TableRow) matrix.
+                getChildAt(0)).getChildCount();
+
+        BigDecimal matrixValues[][] = new BigDecimal[rowsQuantity][colsQuantity];
+
+        for (int i = 0; i < rowsQuantity; i++) {
+            for (int j = 0; j < colsQuantity; j++) {
+
+                TableRow tableRow = (TableRow) matrix.getChildAt(i);
+                EditText editText = (EditText) (tableRow).getChildAt(j);
+
+                String value = editText.getText().toString().isEmpty()
+                        ? "0" : editText.getText().toString();
+
+                BigDecimal cellValue = new BigDecimal(value);
+
+                matrixValues[i][j] = cellValue;
+            }
+        }
+
+        return matrixValues;
     }
 }
