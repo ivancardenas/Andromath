@@ -105,9 +105,8 @@ public class LinearSystemsLandingActivity extends AppCompatActivity {
 
     public void calculate(View v) {
 
-        if (matrix.getChildCount() == 0) {
-            System.out.println("Error matriz vacía");
-        } else {
+        if (matrix.getChildCount() > 1) {
+
             Intent intent = new Intent(this,
                     LinearSystemElectionActivity.class);
 
@@ -129,6 +128,7 @@ public class LinearSystemsLandingActivity extends AppCompatActivity {
         BigDecimal matrixValues[][] = new BigDecimal[rowsQuantity][colsQuantity];
 
         for (int i = 0; i < rowsQuantity; i++) {
+            
             for (int j = 0; j < colsQuantity; j++) {
 
                 TableRow tableRow = (TableRow) matrix.getChildAt(i);
