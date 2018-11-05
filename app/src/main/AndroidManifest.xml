@@ -32,7 +32,10 @@
         <activity android:name=".singlevar.methods.SecantActivity" />
         <activity android:name=".singlevar.methods.MultipleRootsActivity" />
         <activity android:name=".linearsystems.LinearSystemsLandingActivity" />
-        <activity android:name=".linearsystems.LinearSystemElectionActivity"></activity>
+        <activity android:name=".linearsystems.LinearSystemElectionActivity" />
+        <activity android:name=".linearsystems.gaussianelimination.SimpleGaussEliminationActivity" />
+        <activity android:name=".linearsystems.gaussianelimination.PartialPivotingGaussEliminationActivity" />
+        <activity android:name=".linearsystems.gaussianelimination.TotalPivotingGaussEliminationActivity"></activity>
     </application>
 
 </manifest>
