@@ -1,7 +1,6 @@
 package co.edu.eafit.andromath.linearsystems;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -16,6 +15,7 @@ import java.util.Objects;
 
 import co.edu.eafit.andromath.R;
 
+import static co.edu.eafit.andromath.linearsystems.gaussianelimination.util.ViewUtils.getPxFromDp;
 import static co.edu.eafit.andromath.util.Constants.MATRIX;
 
 public class LinearSystemsLandingActivity extends AppCompatActivity {
@@ -98,11 +98,6 @@ public class LinearSystemsLandingActivity extends AppCompatActivity {
         return cell;
     }
 
-    private int getPxFromDp(int dp) {
-        return (int) (dp * Resources.getSystem()
-                .getDisplayMetrics().density);
-    }
-
     public void calculate(View v) {
 
         if (matrix.getChildCount() > 1) {
@@ -128,7 +123,7 @@ public class LinearSystemsLandingActivity extends AppCompatActivity {
         BigDecimal matrixValues[][] = new BigDecimal[rowsQuantity][colsQuantity];
 
         for (int i = 0; i < rowsQuantity; i++) {
-            
+
             for (int j = 0; j < colsQuantity; j++) {
 
                 TableRow tableRow = (TableRow) matrix.getChildAt(i);
