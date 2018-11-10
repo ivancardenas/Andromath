@@ -35,7 +35,14 @@
         <activity android:name=".linearsystems.LinearSystemElectionActivity" />
         <activity android:name=".linearsystems.gaussianelimination.SimpleGaussEliminationActivity" />
         <activity android:name=".linearsystems.gaussianelimination.PartialPivotingGaussEliminationActivity" />
-        <activity android:name=".linearsystems.gaussianelimination.TotalPivotingGaussEliminationActivity"></activity>
+        <activity android:name=".linearsystems.gaussianelimination.TotalPivotingGaussEliminationActivity"/>
+        <activity android:name=".Interpolation.InterpolationLandingActivity" />
+        <activity android:name=".Interpolation.methods.NewtonPolynomialActivity" />
+        <activity android:name=".Interpolation.InterpolationChooseMethodActivity" />
+        <activity android:name=".Interpolation.methods.BasedOnESActivity" />
+        <activity android:name=".Interpolation.methods.LagrangePolynomialActivity" />
+        <activity android:name=".Interpolation.methods.NevillesMethodActivity" />
+        <activity android:name=".Interpolation.methods.NewtonPolynomialDDActivity"></activity>
     </application>
 
 </manifest>
