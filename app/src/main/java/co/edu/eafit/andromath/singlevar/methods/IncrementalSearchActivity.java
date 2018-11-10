@@ -28,6 +28,7 @@ import static co.edu.eafit.andromath.util.Constants.EQUATION;
 import static co.edu.eafit.andromath.util.Constants.ErrorCodes.INVALID_DELTA;
 import static co.edu.eafit.andromath.util.Constants.ErrorCodes.INVALID_ITER;
 import static co.edu.eafit.andromath.util.Constants.ErrorCodes.X_ROOT;
+import static co.edu.eafit.andromath.util.Constants.NOTATION_FORMAT;
 import static co.edu.eafit.andromath.util.Constants.VARIABLE;
 
 public class IncrementalSearchActivity extends AppCompatActivity {
@@ -38,8 +39,6 @@ public class IncrementalSearchActivity extends AppCompatActivity {
     EditText x0Input, deltaInput, iterationsInput;
     TableLayout procedure;
     Expression expression;
-
-    private List<TableRow> tableIterations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,12 +78,13 @@ public class IncrementalSearchActivity extends AppCompatActivity {
         iterationsInput.setSelected(false);
         result.setVisibility(View.VISIBLE);
 
-        tableIterations = new ArrayList<>();
+        List<TableRow> tableIterations = new ArrayList<>();
 
         procedure.removeViews(1,
                 procedure.getChildCount() - 1);
 
-        Pair<String, Boolean> solution = incrementalSearch(tableIterations);
+        Pair<String, Boolean> solution =
+                incrementalSearch(tableIterations);
 
         if (solution != null) {
             result.setText(solution.first);
@@ -180,7 +180,7 @@ public class IncrementalSearchActivity extends AppCompatActivity {
             displayProcedure = true;
         }
 
-        return new Pair(message, displayProcedure);
+        return new Pair<>(message, displayProcedure);
     }
 
     private TableRow createProcedureIteration(int count, BigDecimal x0,
@@ -188,27 +188,32 @@ public class IncrementalSearchActivity extends AppCompatActivity {
 
         TableRow iterationResult = new TableRow(this);
 
-        NumberFormat formatter = new DecimalFormat("0.0E0");
+        NumberFormat formatter = new DecimalFormat(NOTATION_FORMAT);
         formatter.setRoundingMode(RoundingMode.HALF_UP);
         formatter.setMinimumFractionDigits(3);
 
         iterations = new TextView(this);
+        iterations.setPadding(15, 10, 15, 10);
         iterations.setGravity(Gravity.CENTER);
         iterations.setText(String.valueOf(count));
 
         x0Value = new TextView(this);
+        x0Value.setPadding(15, 10, 15, 10);
         x0Value.setGravity(Gravity.CENTER);
-        x0Value.setText(x0.toString());
+        x0Value.setText(String.valueOf(x0));
 
         solution0 = new TextView(this);
+        solution0.setPadding(15, 10, 15, 10);
         solution0.setGravity(Gravity.CENTER);
         solution0.setText(formatter.format(y0));
 
         x1Value = new TextView(this);
+        x1Value.setPadding(15, 10, 15, 10);
         x1Value.setGravity(Gravity.CENTER);
-        x1Value.setText(x1.toString());
+        x1Value.setText(String.valueOf(x1));
 
         solution1 = new TextView(this);
+        solution1.setPadding(15, 10, 15, 10);
         solution1.setGravity(Gravity.CENTER);
         solution1.setText(formatter.format(y1));
 

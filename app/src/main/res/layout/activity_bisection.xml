@@ -8,122 +8,119 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:weightSum="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center_vertical"
             android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
-
-            tools:layout_constraintTop_creator="1"
-            tools:layout_constraintRight_creator="1"
-            tools:layout_constraintBottom_creator="1"
-            tools:layout_constraintLeft_creator="1"
+            android:layout_marginBottom="60dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:weightSum="1"
 
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
 
+            tools:layout_constraintBottom_creator="1"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1">
 
             <TextView
-                android:id="@+id/textViewParameters"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
                 android:paddingTop="20dp"
-                android:textAllCaps="true"
+                android:paddingBottom="10dp"
                 android:text="@string/enter_parameters"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textAllCaps="true" />
 
             <TextView
                 android:id="@+id/textViewFunction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:textAllCaps="true"
                 android:text="@string/function"
-                android:textAlignment="center" />
-
-            <EditText
-                android:id="@+id/bisection_xmin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:paddingBottom="20dp"
-                android:paddingTop="10dp"
-                android:hint="XMIN"
-                android:inputType="numberSigned|numberDecimal"
                 android:textAlignment="center"
                 android:textAllCaps="true" />
 
             <EditText
-                android:id="@+id/bisection_xmax"
+                android:id="@+id/editTextXMinValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
-                android:hint="XMAX"
+                android:hint="@string/xMin"
                 android:inputType="numberSigned|numberDecimal"
-                android:paddingBottom="20dp"
                 android:paddingTop="10dp"
+                android:paddingBottom="20dp"
                 android:textAlignment="center"
                 android:textAllCaps="true" />
 
             <EditText
-                android:id="@+id/bisection_tolerance"
+                android:id="@+id/editTextXMaxValue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:hint="@string/xMax"
+                android:inputType="numberSigned|numberDecimal"
+                android:paddingTop="10dp"
+                android:paddingBottom="20dp"
+                android:textAlignment="center"
+                android:textAllCaps="true" />
+
+            <EditText
+                android:id="@+id/editTextTolerance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:hint="@string/tolerance"
                 android:inputType="numberDecimal"
-                android:paddingBottom="20dp"
                 android:paddingTop="10dp"
+                android:paddingBottom="20dp"
                 android:textAlignment="center"
                 android:textAllCaps="true" />
 
             <EditText
-                android:id="@+id/bisection_niter"
+                android:id="@+id/editTextIterations"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:hint="@string/iterations"
                 android:inputType="number"
-                android:paddingBottom="20dp"
                 android:paddingTop="10dp"
+                android:paddingBottom="20dp"
                 android:textAlignment="center"
                 android:textAllCaps="true" />
 
             <Button
-                android:id="@+id/button9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="50dp"
                 android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
                 android:background="@drawable/button_shape"
-                android:onClick="Bisection"
+                android:onClick="bisection"
                 android:text="@string/continue_button"
                 android:textColor="@color/textColorButton" />
 
             <TextView
-                android:id="@+id/bisection_result"
+                android:id="@+id/textViewResult"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:enabled="false"
-                android:paddingBottom="20dp"
                 android:paddingTop="20dp"
+                android:paddingBottom="20dp"
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:visibility="gone" />
@@ -136,84 +133,106 @@
                     android:id="@+id/tableLayoutProcedure"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="50dp"
+                    android:paddingLeft="10px"
+                    android:paddingRight="10px"
                     android:visibility="gone">
 
                     <TableRow
-                        android:id="@+id/tableRowLegend"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="0dp">
+                        android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/textViewIterations"
-                            android:layout_width="50dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Iter"
+                            android:paddingLeft="15px"
+                            android:paddingTop="10px"
+                            android:paddingRight="15px"
+                            android:paddingBottom="10px"
+                            android:text="@string/table_iterations"
                             android:textAlignment="center"
                             android:textAllCaps="true"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textViewXi"
-                            android:layout_width="100dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Xi"
+                            android:paddingLeft="15px"
+                            android:paddingTop="10px"
+                            android:paddingRight="15px"
+                            android:paddingBottom="10px"
+                            android:text="@string/table_xi"
                             android:textAlignment="center"
                             android:textAllCaps="true"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textViewFa"
-                            android:layout_width="100dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="F(Xi)"
+                            android:paddingLeft="15px"
+                            android:paddingTop="10px"
+                            android:paddingRight="15px"
+                            android:paddingBottom="10px"
+                            android:text="@string/table_function_xi"
                             android:textAlignment="center"
                             android:textAllCaps="true"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textViewXs"
-                            android:layout_width="100dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Xs"
+                            android:paddingLeft="15px"
+                            android:paddingTop="10px"
+                            android:paddingRight="15px"
+                            android:paddingBottom="10px"
+                            android:text="@string/table_xs"
                             android:textAlignment="center"
                             android:textAllCaps="true"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textViewFb"
-                            android:layout_width="100dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="F(Xs)"
+                            android:paddingLeft="15px"
+                            android:paddingTop="10px"
+                            android:paddingRight="15px"
+                            android:paddingBottom="10px"
+                            android:text="@string/table_function_xs"
                             android:textAlignment="center"
                             android:textAllCaps="true"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textViewXm"
-                            android:layout_width="100dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Xm"
+                            android:paddingLeft="15px"
+                            android:paddingTop="10px"
+                            android:paddingRight="15px"
+                            android:paddingBottom="10px"
+                            android:text="@string/table_xm"
                             android:textAlignment="center"
                             android:textAllCaps="true"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textViewSolution"
-                            android:layout_width="100dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="F(Xm)"
+                            android:paddingLeft="15px"
+                            android:paddingTop="10px"
+                            android:paddingRight="15px"
+                            android:paddingBottom="10px"
+                            android:text="@string/table_function_xm"
                             android:textAlignment="center"
                             android:textAllCaps="true"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textViewTol"
-                            android:layout_width="100dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="E"
+                            android:paddingLeft="15px"
+                            android:paddingTop="10px"
+                            android:paddingRight="15px"
+                            android:paddingBottom="10px"
+                            android:text="@string/table_error"
                             android:textAlignment="center"
                             android:textAllCaps="true"
                             android:textStyle="bold" />

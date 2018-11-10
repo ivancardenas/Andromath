@@ -1,14 +1,14 @@
 package co.edu.eafit.andromath;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import java.util.Objects;
 
+import co.edu.eafit.andromath.linearsystems.LinearSystemsLandingActivity;
 import co.edu.eafit.andromath.singlevar.SingleVariableLandingActivity;
-import co.edu.eafit.andromath.LinealSystems.LinearSystemLandingActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void LinealSystemsButton(View v) {
-        Intent intent = new Intent(this, LinearSystemLandingActivity.class);
+    public void linearSystemsButton(View v) {
+        Intent intent = new Intent(this, LinearSystemsLandingActivity.class);
         startActivity(intent);
     }
 }
