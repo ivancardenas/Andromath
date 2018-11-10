@@ -7,6 +7,8 @@ public class Constants {
     public static final String POINTS = "points";
     public static final String NOTATION_FORMAT = "0.0E0";
 
+    public static final String MATRIX = "matrix";
+
     public enum ErrorCodes {
         X_ROOT("The entered X is a root", false),
         INVALID_DELTA("Delta is not valid", false),
