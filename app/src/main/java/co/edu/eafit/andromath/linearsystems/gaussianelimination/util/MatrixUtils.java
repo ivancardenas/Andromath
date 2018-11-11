@@ -64,4 +64,39 @@ public class MatrixUtils {
 
         return solution;
     }
+
+    public static BigDecimal[][] partialPivoting(BigDecimal[][] matrixValues, int k) {
+
+        int n = matrixValues.length;
+        BigDecimal largest = matrixValues[k][k].abs();
+
+        int largestRow = k;
+
+        for (int index = k + 1; index < n; index++) {
+            if (matrixValues[index][k].abs().compareTo(largest) > 0) {
+                largest = matrixValues[index][k].abs();
+                largestRow = index;
+            }
+        }
+
+        if (largest.compareTo(BigDecimal.ZERO) == 0) {
+            return null; // There were an error.
+        } else {
+            if (largestRow != k)
+                matrixValues = exchangeRows(
+                        matrixValues, largestRow, k);
+
+            return matrixValues;
+        }
+    }
+
+    private static BigDecimal[][] exchangeRows(BigDecimal[][] matrixValues,
+                                        int firstRow, int secondRow) {
+
+        BigDecimal row[] = matrixValues[firstRow];
+        matrixValues[firstRow] = matrixValues[secondRow];
+        matrixValues[secondRow] = row;
+
+        return matrixValues;
+    }
 }

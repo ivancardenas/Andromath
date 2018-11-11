@@ -165,8 +165,6 @@ public class SimpleGaussEliminationActivity extends AppCompatActivity {
 
             linearLayoutSolutionStages.addView(systemSolution[i]);
         }
-
-
     }
 
     private TextView getSolutionTextView(LinearLayout.LayoutParams layoutParams) {
