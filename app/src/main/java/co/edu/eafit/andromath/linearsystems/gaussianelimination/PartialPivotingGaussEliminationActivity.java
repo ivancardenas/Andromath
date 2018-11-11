@@ -1,7 +1,6 @@
 package co.edu.eafit.andromath.linearsystems.gaussianelimination;
 
 import android.content.Intent;
-import android.graphics.Matrix;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
