@@ -1,11 +1,16 @@
 package co.edu.eafit.andromath.util;
 
+import java.math.RoundingMode;
+
 public class Constants {
 
     public static final String VARIABLE = "x";
     public static final String EQUATION = "equation";
     public static final String POINTS = "points";
     public static final String NOTATION_FORMAT = "0.0E0";
+
+    public static final int DECIMALS_QUANTITY = 10;
+    public static final RoundingMode ROUNDING_MODE = RoundingMode.DOWN;
 
     public static final String MATRIX = "matrix";
 

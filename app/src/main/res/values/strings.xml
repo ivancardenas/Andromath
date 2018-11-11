@@ -49,4 +49,6 @@
     <string name="linear_equations_systems">LINEAR EQUATIONS SYSTEMS</string>
     <string name="calculate">CALCULATE</string>
     <string name="fill_the_matrix">FILL THE MATRIX AB</string>
+
+    <string name="solution">SOLUTION</string>
 </resources>
