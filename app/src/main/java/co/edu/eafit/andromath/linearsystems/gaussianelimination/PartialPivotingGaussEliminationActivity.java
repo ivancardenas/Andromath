@@ -52,12 +52,11 @@ public class PartialPivotingGaussEliminationActivity extends AppCompatActivity {
         int n = matrixValues.length;
         BigDecimal multiplier;
 
-        for (int k = 0; k < n - 1; k++) {
+        for (int k = 0; k < n - 1 && matrixValues != null; k++) {
 
             matrixValues = MatrixUtils.partialPivoting(matrixValues, k);
 
             if (matrixValues != null) {
-
 
                 for (int i = k + 1; i < n; i++) {
 
