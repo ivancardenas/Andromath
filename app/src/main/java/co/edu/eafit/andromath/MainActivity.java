@@ -7,7 +7,6 @@ import android.view.View;
 
 import java.util.Objects;
 
-import co.edu.eafit.andromath.Interpolation.InterpolationLandingActivity;
 import co.edu.eafit.andromath.linearsystems.LinearSystemsLandingActivity;
 import co.edu.eafit.andromath.singlevar.SingleVariableLandingActivity;
 
@@ -27,11 +26,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void linearSystemsButton(View v) {
         Intent intent = new Intent(this, LinearSystemsLandingActivity.class);
-        startActivity(intent);
-    }
-
-    public void interpolationButton(View v) {
-        Intent intent = new Intent(this, InterpolationLandingActivity.class);
         startActivity(intent);
     }
 }
