@@ -7,6 +7,7 @@ public class Constants {
     public static final String VARIABLE = "x";
     public static final String EQUATION = "equation";
     public static final String POINTS = "points";
+    public static final String SELECTION = "selection";
     public static final String NOTATION_FORMAT = "0.0E0";
 
     public static final int DECIMALS_QUANTITY = 10;

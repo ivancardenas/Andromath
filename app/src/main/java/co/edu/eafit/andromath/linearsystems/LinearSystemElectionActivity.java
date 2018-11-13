@@ -11,11 +11,15 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 import co.edu.eafit.andromath.R;
+import co.edu.eafit.andromath.linearsystems.directfactorization.DirectLUFactorizationActivity;
 import co.edu.eafit.andromath.linearsystems.gaussianelimination.PartialPivotingGaussEliminationActivity;
 import co.edu.eafit.andromath.linearsystems.gaussianelimination.SimpleGaussEliminationActivity;
 import co.edu.eafit.andromath.linearsystems.gaussianelimination.TotalPivotingGaussEliminationActivity;
+import co.edu.eafit.andromath.linearsystems.lufactorization.PivotingGaussLUFactorizationActivity;
+import co.edu.eafit.andromath.linearsystems.lufactorization.SimpleGaussLUFactorizationActivity;
 
 import static co.edu.eafit.andromath.util.Constants.MATRIX;
+import static co.edu.eafit.andromath.util.Constants.SELECTION;
 
 public class LinearSystemElectionActivity extends AppCompatActivity {
 
@@ -39,8 +43,12 @@ public class LinearSystemElectionActivity extends AppCompatActivity {
     }
 
     public void gaussianElimination(View v) {
-        CharSequence[] values = {"SIMPLE ELIMINATION", "PARTIAL PIVOTING", "TOTAL PIVOTING"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(LinearSystemElectionActivity.this);
+        CharSequence[] values = {"SIMPLE ELIMINATION",
+                "PARTIAL PIVOTING", "TOTAL PIVOTING"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(
+                LinearSystemElectionActivity.this);
+
         builder.setTitle("GAUSSIAN ELIMINATION");
 
         builder.setSingleChoiceItems(values, -1, new DialogInterface.OnClickListener() {
@@ -65,6 +73,91 @@ public class LinearSystemElectionActivity extends AppCompatActivity {
                     case 2:
                         intent = new Intent(LinearSystemElectionActivity.this,
                                 TotalPivotingGaussEliminationActivity.class);
+                        intent.putExtras(bundleMatrix);
+                        startActivity(intent);
+                        break;
+                }
+
+                alertGaussianElimination.dismiss();
+            }
+        });
+
+        alertGaussianElimination = builder.create();
+        alertGaussianElimination.show();
+    }
+
+    public void luFactorization(View v) {
+
+        CharSequence[] values = {"SIMPLE ELIMINATION", "PARTIAL PIVOTING"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(
+                LinearSystemElectionActivity.this);
+
+        builder.setTitle("LUMatrix FACTORIZATION");
+
+        builder.setSingleChoiceItems(values, -1, new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int item) {
+
+                Intent intent;
+
+                switch (item) {
+                    case 0:
+                        intent = new Intent(LinearSystemElectionActivity.this,
+                                SimpleGaussLUFactorizationActivity.class);
+                        intent.putExtras(bundleMatrix);
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        intent = new Intent(LinearSystemElectionActivity.this,
+                                PivotingGaussLUFactorizationActivity.class);
+                        intent.putExtras(bundleMatrix);
+                        startActivity(intent);
+                        break;
+                }
+
+                alertGaussianElimination.dismiss();
+            }
+        });
+
+        alertGaussianElimination = builder.create();
+        alertGaussianElimination.show();
+    }
+
+    public void directFactorization(View v) {
+
+        CharSequence[] values = {"DOOLITTLE", "CHOLESKY", "CROUT"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(
+                LinearSystemElectionActivity.this);
+
+        builder.setTitle("DIRECT FACTORIZATION");
+
+        builder.setSingleChoiceItems(values, -1, new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int item) {
+
+                Intent intent;
+
+                switch (item) {
+                    case 0:
+                        bundleMatrix.putSerializable(SELECTION, 0);
+                        intent = new Intent(LinearSystemElectionActivity.this,
+                                DirectLUFactorizationActivity.class);
+                        intent.putExtras(bundleMatrix);
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        bundleMatrix.putSerializable(SELECTION, 1);
+                        intent = new Intent(LinearSystemElectionActivity.this,
+                                DirectLUFactorizationActivity.class);
+                        intent.putExtras(bundleMatrix);
+                        startActivity(intent);
+                        break;
+                    case 2:
+                        bundleMatrix.putSerializable(SELECTION, 2);
+                        intent = new Intent(LinearSystemElectionActivity.this,
+                                DirectLUFactorizationActivity.class);
                         intent.putExtras(bundleMatrix);
                         startActivity(intent);
                         break;
