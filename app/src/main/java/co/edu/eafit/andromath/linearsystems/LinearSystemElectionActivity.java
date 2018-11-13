@@ -15,6 +15,8 @@ import co.edu.eafit.andromath.linearsystems.directfactorization.DirectLUFactoriz
 import co.edu.eafit.andromath.linearsystems.gaussianelimination.PartialPivotingGaussEliminationActivity;
 import co.edu.eafit.andromath.linearsystems.gaussianelimination.SimpleGaussEliminationActivity;
 import co.edu.eafit.andromath.linearsystems.gaussianelimination.TotalPivotingGaussEliminationActivity;
+import co.edu.eafit.andromath.linearsystems.iterativemethods.GaussSeidelActivity;
+import co.edu.eafit.andromath.linearsystems.iterativemethods.JacobiActivity;
 import co.edu.eafit.andromath.linearsystems.lufactorization.PivotingGaussLUFactorizationActivity;
 import co.edu.eafit.andromath.linearsystems.lufactorization.SimpleGaussLUFactorizationActivity;
 
@@ -163,6 +165,40 @@ public class LinearSystemElectionActivity extends AppCompatActivity {
                         break;
                 }
 
+                alertGaussianElimination.dismiss();
+            }
+        });
+
+        alertGaussianElimination = builder.create();
+        alertGaussianElimination.show();
+    }
+
+    public void iterativeMethods(View v) {
+
+        CharSequence[] values = {"JACOBI METHOD","GAUSS SEIDEL"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(LinearSystemElectionActivity.this);
+        builder.setTitle("ITERATIVE METHODS");
+
+        builder.setSingleChoiceItems(values, -1, new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int item) {
+
+                Intent i;
+
+                switch(item) {
+                    case 0:
+                        i = new Intent(LinearSystemElectionActivity.this,
+                                JacobiActivity.class);
+                        i.putExtras(bundleMatrix);
+                        startActivity(i);
+                        break;
+                    case 1:
+                        i = new Intent(LinearSystemElectionActivity.this,
+                                GaussSeidelActivity.class);
+                        i.putExtras(bundleMatrix);
+                        startActivity(i);
+                        break;
+                }
                 alertGaussianElimination.dismiss();
             }
         });

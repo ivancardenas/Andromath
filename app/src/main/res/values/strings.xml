@@ -51,4 +51,5 @@
     <string name="fill_the_matrix">FILL THE MATRIX AB</string>
 
     <string name="solution">SOLUTION</string>
+    <string name="solve">SOLVE SYSTEM</string>
 </resources>

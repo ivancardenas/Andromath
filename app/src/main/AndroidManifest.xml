@@ -38,7 +38,9 @@
         <activity android:name=".linearsystems.gaussianelimination.TotalPivotingGaussEliminationActivity" />
         <activity android:name=".linearsystems.lufactorization.SimpleGaussLUFactorizationActivity" />
         <activity android:name=".linearsystems.lufactorization.PivotingGaussLUFactorizationActivity" />
-        <activity android:name=".linearsystems.directfactorization.DirectLUFactorizationActivity"></activity>
+        <activity android:name=".linearsystems.directfactorization.DirectLUFactorizationActivity" />
+        <activity android:name=".linearsystems.iterativemethods.JacobiActivity" />
+        <activity android:name=".linearsystems.iterativemethods.GaussSeidelActivity"></activity>
     </application>
 
 </manifest>

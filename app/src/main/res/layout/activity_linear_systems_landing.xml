@@ -95,7 +95,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_shape"
                 android:onClick="calculate"
-                android:text="@string/calculate"
+                android:text="@string/solve"
                 android:textColor="@color/textColorButton" />
         </LinearLayout>
     </ScrollView>
