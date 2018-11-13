@@ -199,20 +199,32 @@ public class MatrixUtils {
 
         for (int i = 0; i < n; i++) {
             identityMatrix[i][i] = BigDecimal.ONE;
-            for (int j = i + 1; j < n; j++)
-                identityMatrix[i][j] = BigDecimal.ZERO;
+            for (int j = 0; j < n; j++)
+                if (j != i) identityMatrix[i][j] = BigDecimal.ZERO;
         }
 
         return identityMatrix;
     }
-    // TODO: falta
+
     public static BigDecimal[][] buildUMatrixPartially(int n) {
 
         BigDecimal identityMatrix[][] = new BigDecimal[n][n];
 
         for (int i = 0; i < n; i++) {
             identityMatrix[i][i] = BigDecimal.ONE;
-            for (int j = i + 1; j < n; j++)
+            for (int j = 0; j < n; j++)
+                if (j != i) identityMatrix[i][j] = BigDecimal.ZERO;
+        }
+
+        return identityMatrix;
+    }
+
+    public static BigDecimal[][] initializeZeroesMatrix(int n) {
+
+        BigDecimal identityMatrix[][] = new BigDecimal[n][n];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++)
                 identityMatrix[i][j] = BigDecimal.ZERO;
         }
 
@@ -246,56 +258,9 @@ public class MatrixUtils {
         return independentVector;
     }
 
-    public static LUMatrix LUDoolitle(BigDecimal[][] augmentedMatrix) {
 
-        int n = augmentedMatrix.length;
 
-        LUMatrix luMatrix = new LUMatrix();
-        luMatrix.L = buildLMatrixPartially(n);
-        luMatrix.U = buildUMatrixPartially(n);
 
-        BigDecimal s1, s2, s3;
 
-        for (int k = 0; k < n; k++) {
-            s1 = BigDecimal.ZERO;
 
-            for (int p = 0; p < k; p++)
-                s1 = s1.add(luMatrix.L[k][p].
-                        multiply(luMatrix.U[p][k]));
-
-            luMatrix.U[k][k] = augmentedMatrix[k][k].subtract(s1);
-
-            for (int i = k + 1; i < n; i++) {
-                s2 = BigDecimal.ZERO;
-
-                for (int p = 0; p < k; p++)
-                    s2 = s2.add(luMatrix.L[i][p].
-                            multiply(luMatrix.U[p][k]));
-
-                luMatrix.L[i][k] = (augmentedMatrix[i][k].subtract(s2)).
-                        divide(luMatrix.U[k][k], DECIMALS_QUANTITY, ROUNDING_MODE);
-            }
-
-            for (int j = k + 1; j < n; j++) {
-                s3 = BigDecimal.ZERO;
-
-                for (int p = 0; p < k; p++)
-                    s3 = s3.add(luMatrix.L[k][p].
-                            multiply(luMatrix.U[p][j]));
-
-                luMatrix.U[k][j] = (augmentedMatrix[k][j].subtract(s3)).
-                        divide(luMatrix.L[k][k], DECIMALS_QUANTITY, ROUNDING_MODE);
-            }
-        }
-
-        return luMatrix;
-    }
-
-    public static LUMatrix LUCholesky(BigDecimal[][] augmentedMatrix) {
-        return null;
-    }
-
-    public static LUMatrix LUCroult(BigDecimal[][] augmentedMatrix) {
-        return null;
-    }
 }
