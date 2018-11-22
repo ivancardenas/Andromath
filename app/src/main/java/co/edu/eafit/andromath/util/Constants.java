@@ -10,6 +10,9 @@ public class Constants {
     public static final String SELECTION = "selection";
     public static final String NOTATION_FORMAT = "0.0E0";
 
+    public static final int NORMAL_METHOD = 0;
+    public static final int RELAXED_METHOD = 1;
+
     public static final int DECIMALS_QUANTITY = 10;
     public static final RoundingMode ROUNDING_MODE = RoundingMode.DOWN;
 

@@ -17,11 +17,16 @@ import co.edu.eafit.andromath.R;
 
 import static co.edu.eafit.andromath.linearsystems.gaussianelimination.util.ViewUtils.getPxFromDp;
 import static co.edu.eafit.andromath.util.Constants.MATRIX;
+import static co.edu.eafit.andromath.util.Constants.NORMAL_METHOD;
+import static co.edu.eafit.andromath.util.Constants.RELAXED_METHOD;
 
 public class JacobiActivity extends AppCompatActivity {
 
     TableLayout matrix;
     LinearLayout mainLayout;
+    EditText editTextLambda;
+
+    BigDecimal[][] augmentedMatrix;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +37,11 @@ public class JacobiActivity extends AppCompatActivity {
         mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
         matrix = (TableLayout) findViewById(R.id.tableLayoutEquationSystem);
 
+        editTextLambda = (EditText) findViewById(R.id.editTextLambda);
+
         Intent intent = getIntent();
 
-        BigDecimal[][] augmentedMatrix = (BigDecimal[][]) intent.
+        augmentedMatrix = (BigDecimal[][]) intent.
                 getExtras().getSerializable(MATRIX);
 
         setInitialValueFields(augmentedMatrix.length);
@@ -68,5 +75,41 @@ public class JacobiActivity extends AppCompatActivity {
         cell.setAllCaps(true);
 
         return cell;
+    }
+
+    public void execute(View v) {
+
+        int n = augmentedMatrix.length;
+        BigDecimal[] result = new BigDecimal[n];
+
+        String lambdaValue = editTextLambda.getText().toString();
+
+        int choice = lambdaValue.isEmpty()
+                ? NORMAL_METHOD : RELAXED_METHOD;
+
+        switch (choice) {
+            default:
+            case NORMAL_METHOD: {
+                result = gaussSeidel(augmentedMatrix, getInitialValues(),
+                        tolerance, lambda, iterations, false);
+                break;
+            }
+            case RELAXED_METHOD: {
+                result = gaussSeidel(augmentedMatrix, getInitialValues(),
+                        tolerance, lambda, iterations, true);
+                break;
+            }
+        }
+    }
+
+    private BigDecimal[] getInitialValues() {
+        return null;
+    }
+
+    private BigDecimal[] gaussSeidel(BigDecimal[][] augmentedMatrix, BigDecimal[] initialValues,
+                                BigDecimal tolerance, int iterations, boolean relaxed) {
+
+
+        return null;
     }
 }
