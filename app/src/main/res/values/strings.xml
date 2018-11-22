@@ -43,8 +43,7 @@
     <string name="function_second_derivative">F\'\'(X)</string>
 
 
-    <string name="add_column_button">ADD COLUMN</string>
-    <string name="add_row_button">ADD ROW</string>
+    <string name="add_variable_button">ADD VARIABLE</string>
 
     <string name="linear_equations_systems">LINEAR EQUATIONS SYSTEMS</string>
     <string name="calculate">CALCULATE</string>

@@ -51,7 +51,13 @@ public class LinearSystemsLandingActivity extends AppCompatActivity {
         }
     }
 
-    public void addColumn(View v) {
+    public void addVariable(View v) {
+
+        addColumn();
+        addRow();
+    }
+
+    public void addColumn() {
 
         TableRow rowMatrix;
 
@@ -63,7 +69,7 @@ public class LinearSystemsLandingActivity extends AppCompatActivity {
         }
     }
 
-    public void addRow(View v) {
+    public void addRow() {
 
         TableRow rowMatrix = new TableRow(
                 this.getApplicationContext());
