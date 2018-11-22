@@ -125,6 +125,4 @@
                 android:textColor="@color/textColorButton" />
         </LinearLayout>
     </ScrollView>
-
-
 </android.support.constraint.ConstraintLayout>
