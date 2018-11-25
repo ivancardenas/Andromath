@@ -59,7 +59,7 @@
                 android:paddingRight="20dp"
                 android:paddingBottom="10dp"
                 android:text="FILL IN THE FOLLOWING FIELDS. IF YOU DO NOT WANT
-                    TO EXECUTE THE RELAXED METHOD, JUMP TO THE EXECUTE BUTTON"
+                    TO EXECUTE THE RELAXED METHOD, COMPLETE TOLERANCE AND ITERATIONS"
                 android:textAlignment="center"
                 android:textAllCaps="true" />
 
@@ -72,10 +72,11 @@
                 <TextView
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:text="TOLERANCE ="
+                    android:text="TOLERANCE"
                     android:textAllCaps="true" />
 
                 <EditText
+                    android:id="@+id/editTextTolerance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -97,7 +98,7 @@
                 <TextView
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:text="LAMBDA λ ="
+                    android:text="LAMBDA λ"
                     android:textAllCaps="true" />
 
                 <EditText
@@ -109,6 +110,32 @@
                     android:ems="5"
                     android:hint="1.2"
                     android:inputType="numberDecimal"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="ITERATIONS"
+                    android:textAllCaps="true" />
+
+                <EditText
+                    android:id="@+id/editTextIterations"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:ems="5"
+                    android:hint="15"
+                    android:inputType="number"
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
                     android:textAlignment="center" />

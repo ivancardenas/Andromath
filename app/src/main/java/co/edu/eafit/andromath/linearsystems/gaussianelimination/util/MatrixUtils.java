@@ -258,9 +258,17 @@ public class MatrixUtils {
         return independentVector;
     }
 
+    public static BigDecimal euclideanNorm(BigDecimal[] iterationValues,
+                                     BigDecimal[] lastIteration) {
 
+        int n = iterationValues.length;
 
+        BigDecimal summation = BigDecimal.ZERO;
 
+        for (int i = 0; i < n; i++)
+            summation = summation.add((iterationValues[i].subtract(lastIteration[i]))
+                    .multiply(iterationValues[i].subtract(lastIteration[i])));
 
-
+        return new BigDecimal(Math.sqrt(summation.doubleValue()));
+    }
 }
