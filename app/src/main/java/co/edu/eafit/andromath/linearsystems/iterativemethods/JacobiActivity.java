@@ -1,6 +1,7 @@
 package co.edu.eafit.andromath.linearsystems.iterativemethods;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -14,6 +15,9 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Objects;
 
 import co.edu.eafit.andromath.R;
@@ -23,6 +27,7 @@ import static co.edu.eafit.andromath.linearsystems.gaussianelimination.util.View
 import static co.edu.eafit.andromath.util.Constants.DECIMALS_QUANTITY;
 import static co.edu.eafit.andromath.util.Constants.MATRIX;
 import static co.edu.eafit.andromath.util.Constants.NORMAL_METHOD;
+import static co.edu.eafit.andromath.util.Constants.NOTATION_FORMAT;
 import static co.edu.eafit.andromath.util.Constants.RELAXED_METHOD;
 import static co.edu.eafit.andromath.util.Constants.ROUNDING_MODE;
 
@@ -31,6 +36,8 @@ public class JacobiActivity extends AppCompatActivity {
     TableLayout matrix;
     LinearLayout mainLayout;
     EditText editTextLambda, editTextTolerance, editTextIterations;
+
+    TableLayout resultsMatrix;
 
     BigDecimal[][] augmentedMatrix;
 
@@ -46,6 +53,19 @@ public class JacobiActivity extends AppCompatActivity {
         editTextLambda = (EditText) findViewById(R.id.editTextLambda);
         editTextTolerance = (EditText) findViewById(R.id.editTextTolerance);
         editTextIterations = (EditText) findViewById(R.id.editTextIterations);
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
+
+        HorizontalScrollView horizontalScrollView = new
+                HorizontalScrollView(this.getApplicationContext());
+        horizontalScrollView.setLayoutParams(layoutParams);
+        horizontalScrollView.setHorizontalScrollBarEnabled(false);
+
+        resultsMatrix = new TableLayout(this.getApplicationContext());
+        horizontalScrollView.addView(resultsMatrix);
+        mainLayout.addView(horizontalScrollView);
 
         Intent intent = getIntent();
 
@@ -87,6 +107,10 @@ public class JacobiActivity extends AppCompatActivity {
 
     public void execute(View v) {
 
+        resultsMatrix.removeAllViews(); // Remove all existing views.
+
+        addResultsMatrixLegends(getInitialValues().length);
+
         String lambdaValue = editTextLambda.getText().toString();
         String iterationsValue = editTextIterations.getText().toString();
         String toleranceValue = editTextTolerance.getText().toString();
@@ -114,6 +138,29 @@ public class JacobiActivity extends AppCompatActivity {
                 break;
             }
         }
+    }
+
+    private void addResultsMatrixLegends(int variablesQuantity) {
+
+        TableRow tableRowMatrix = new TableRow(
+                this.getApplicationContext());
+
+        TextView iterationCell = getHeaderTextView("ITER");
+        tableRowMatrix.addView(iterationCell, TableRow.
+                LayoutParams.WRAP_CONTENT, getPxFromDp(35));
+
+        for (int i = 0; i < variablesQuantity; i++) {
+            TextView textViewCell = getHeaderTextView("X" + (i + 1));
+
+            tableRowMatrix.addView(textViewCell, TableRow.
+                    LayoutParams.WRAP_CONTENT, getPxFromDp(35));
+        }
+
+        TextView errorCell = getHeaderTextView("ERROR");
+        tableRowMatrix.addView(errorCell, TableRow.
+                LayoutParams.WRAP_CONTENT, getPxFromDp(35));
+
+        resultsMatrix.addView(tableRowMatrix);
     }
 
     private BigDecimal[] getInitialValues() {
@@ -150,7 +197,7 @@ public class JacobiActivity extends AppCompatActivity {
             initialValues = iterationValues;
             iteration++;
 
-            addJacobiStep(iterationValues);
+            addJacobiStep(iteration, iterationValues, error);
         }
 
         if (error.compareTo(tolerance) < 0) {
@@ -188,43 +235,77 @@ public class JacobiActivity extends AppCompatActivity {
         return iterationValues;
     }
 
-    private void addJacobiStep(BigDecimal[] systemSolved) {
-
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
-
-        HorizontalScrollView horizontalScrollView = new
-                HorizontalScrollView(this.getApplicationContext());
-        horizontalScrollView.setLayoutParams(layoutParams);
-        horizontalScrollView.setHorizontalScrollBarEnabled(false);
-
-        TableLayout tableLayoutStage = new TableLayout(
-                this.getApplicationContext());
+    private void addJacobiStep(int iteration, BigDecimal[] systemSolved, BigDecimal error) {
 
         TableRow tableRowMatrix = new TableRow(
                 this.getApplicationContext());
 
+        TextView iterationCell = getHeaderTextView(iteration);
+        tableRowMatrix.addView(iterationCell, TableRow.
+                LayoutParams.WRAP_CONTENT, getPxFromDp(35));
+
         for (int j = 0; j < systemSolved.length; j++) {
-            TextView textViewCell = getCellTextView(systemSolved[j]);
+            TextView textViewCell = getHeaderTextView(systemSolved[j]);
 
             tableRowMatrix.addView(textViewCell, TableRow.
                     LayoutParams.WRAP_CONTENT, getPxFromDp(35));
         }
 
-        tableLayoutStage.addView(tableRowMatrix);
+        NumberFormat formatter = new DecimalFormat(NOTATION_FORMAT);
+        formatter.setRoundingMode(RoundingMode.HALF_UP);
+        formatter.setMinimumFractionDigits(3);
 
-        horizontalScrollView.addView(tableLayoutStage);
-        mainLayout.addView(horizontalScrollView);
+        TextView errorCell = getCellTextView(formatter.format(error));
+        tableRowMatrix.addView(errorCell, TableRow.
+                LayoutParams.WRAP_CONTENT, getPxFromDp(35));
+
+        resultsMatrix.addView(tableRowMatrix);
     }
 
-    private TextView getCellTextView(BigDecimal cellValue) {
+    private TextView getHeaderTextView(BigDecimal cellValue) {
 
         TextView textViewCell = new TextView(
                 this.getApplicationContext());
 
         textViewCell.setText(String.valueOf(cellValue.
                 setScale(10, ROUNDING_MODE).doubleValue()));
+        textViewCell.setPadding(20, 10, 20, 10);
+        textViewCell.setGravity(Gravity.CENTER);
+
+        return textViewCell;
+    }
+
+    private TextView getHeaderTextView(int cellValue) {
+
+        TextView textViewCell = new TextView(
+                this.getApplicationContext());
+
+        textViewCell.setText(String.valueOf(cellValue));
+        textViewCell.setPadding(20, 10, 20, 10);
+        textViewCell.setGravity(Gravity.CENTER);
+
+        return textViewCell;
+    }
+
+    private TextView getCellTextView(String cellValue) {
+
+        TextView textViewCell = new TextView(
+                this.getApplicationContext());
+
+        textViewCell.setText(cellValue);
+        textViewCell.setPadding(20, 10, 20, 10);
+        textViewCell.setGravity(Gravity.CENTER);
+
+        return textViewCell;
+    }
+
+    private TextView getHeaderTextView(String cellValue) {
+
+        TextView textViewCell = new TextView(
+                this.getApplicationContext());
+
+        textViewCell.setText(cellValue);
+        textViewCell.setTypeface(null, Typeface.BOLD);
         textViewCell.setPadding(20, 10, 20, 10);
         textViewCell.setGravity(Gravity.CENTER);
 
