@@ -2,6 +2,7 @@ package co.edu.eafit.andromath.linearsystems.gaussianelimination;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -10,6 +11,11 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.RpcClient;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -183,5 +189,29 @@ public class SimpleGaussEliminationActivity extends AppCompatActivity {
         textViewSolution.setAllCaps(true);
 
         return textViewSolution;
+    }
+
+    public void remoteSolution() {
+
+        StrictMode.ThreadPolicy policy = new StrictMode.
+                ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        try {
+            String uri = "amqp://sbvfmqsr:TyV5Xs3YxndY8n-jqCIM4eDhFQgqM7gW@otter.rmq.cloudamqp.com/sbvfmqsr";
+
+            ConnectionFactory factory = new ConnectionFactory();
+            factory.setUri(uri);
+
+            Connection conn = factory.newConnection();
+            Channel ch = conn.createChannel();
+            RpcClient service = new RpcClient(ch, "", "Hello");
+
+            System.out.println(service.stringCall("Here is the equation"));
+            conn.close();
+        } catch (Exception e) {
+            System.err.println("Main thread caught exception: " + e);
+            e.printStackTrace();
+        }
     }
 }
