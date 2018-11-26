@@ -1,16 +1,20 @@
 package co.edu.eafit.andromath.linearsystems.gaussianelimination;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.os.StrictMode;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -32,6 +36,8 @@ public class SimpleGaussEliminationActivity extends AppCompatActivity {
 
     LinearLayout linearLayoutSolutionStages;
 
+    BigDecimal[][] matrixValues, remoteMatrix;
+
     String solution;
 
     @Override
@@ -47,7 +53,10 @@ public class SimpleGaussEliminationActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        BigDecimal[][] matrixValues = (BigDecimal[][]) intent.
+        matrixValues = (BigDecimal[][]) intent.
+                getExtras().getSerializable(MATRIX);
+
+        remoteMatrix = (BigDecimal[][]) intent.
                 getExtras().getSerializable(MATRIX);
 
         addMatrixSolution(gaussElimination(matrixValues));
@@ -191,7 +200,11 @@ public class SimpleGaussEliminationActivity extends AppCompatActivity {
         return textViewSolution;
     }
 
-    public void remoteSolution() {
+    public void remoteExecution(View v) {
+        remoteSolution(MatrixUtils.matrixAsString(remoteMatrix));
+    }
+
+    public void remoteSolution(String matrix) {
 
         StrictMode.ThreadPolicy policy = new StrictMode.
                 ThreadPolicy.Builder().permitAll().build();
@@ -203,15 +216,38 @@ public class SimpleGaussEliminationActivity extends AppCompatActivity {
             ConnectionFactory factory = new ConnectionFactory();
             factory.setUri(uri);
 
-            Connection conn = factory.newConnection();
-            Channel ch = conn.createChannel();
-            RpcClient service = new RpcClient(ch, "", "Hello");
+            Connection connection = factory.newConnection();
+            Channel channel = connection.createChannel();
+            RpcClient service = new RpcClient(
+                    channel, "", "SimpleGaussElimination");
 
-            System.out.println(service.stringCall("Here is the equation"));
-            conn.close();
+            Toast.makeText(this.getApplicationContext(), "Sending", Toast.LENGTH_LONG).show();
+
+            showRemoteSolution(service.stringCall(matrix));
+            connection.close();
         } catch (Exception e) {
             System.err.println("Main thread caught exception: " + e);
             e.printStackTrace();
         }
+    }
+
+    private void showRemoteSolution(String solution) {
+
+        AlertDialog.Builder builderDialog =
+                new AlertDialog.Builder(this);
+
+        builderDialog.setTitle("REMOTE EXECUTION");
+        builderDialog.setMessage(solution);
+        builderDialog.setCancelable(true);
+
+        builderDialog.setNeutralButton(android.R.string.ok,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog solutionDialog = builderDialog.create();
+        solutionDialog.show();
     }
 }

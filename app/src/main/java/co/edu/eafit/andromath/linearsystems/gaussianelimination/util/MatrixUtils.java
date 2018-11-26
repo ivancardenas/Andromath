@@ -271,4 +271,20 @@ public class MatrixUtils {
 
         return new BigDecimal(Math.sqrt(summation.doubleValue()));
     }
+
+    public static String matrixAsString(BigDecimal[][] augmentedMatrix) {
+
+        StringBuilder matrixAsAString = new StringBuilder();
+
+        for (int i = 0; i < augmentedMatrix.length; i++) {
+            for (int j = 0; j < augmentedMatrix[0].length; j++) {
+                matrixAsAString.append(augmentedMatrix[i][j]);
+                matrixAsAString.append("|");
+            }
+        }
+
+        matrixAsAString.append(augmentedMatrix.length);
+
+        return matrixAsAString.toString();
+    }
 }
