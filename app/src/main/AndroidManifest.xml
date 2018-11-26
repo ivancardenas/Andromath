@@ -47,7 +47,11 @@
         <activity android:name=".interpolation.methods.NevillesMethodActivity" />
         <activity android:name=".interpolation.methods.LagrangePolynomialActivity" />
         <activity android:name=".interpolation.methods.BasedOnESActivity" />
-        <activity android:name=".interpolation.InterpolationChooseMethodActivity"></activity>
+        <activity android:name=".interpolation.InterpolationChooseMethodActivity"/>
+        <activity android:name=".diff.DiffLandingActivity" />
+        <activity android:name=".diff.methods.FivePointDiffActivity" />
+        <activity android:name=".diff.methods.ThreePointDiffActivity" />
+        <activity android:name=".diff.methods.TwoPointActivity"></activity>
     </application>
 
 </manifest>

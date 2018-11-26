@@ -10,6 +10,7 @@ import java.util.Objects;
 import co.edu.eafit.andromath.interpolation.InterpolationLandingActivity;
 import co.edu.eafit.andromath.linearsystems.LinearSystemsLandingActivity;
 import co.edu.eafit.andromath.singlevar.SingleVariableLandingActivity;
+import co.edu.eafit.andromath.diff.DiffLandingActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +33,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void InterpolationButton(View v) {
         Intent intent = new Intent(this, InterpolationLandingActivity.class);
+        startActivity(intent);
+    }
+
+    public void DiffButton(View v) {
+        Intent intent = new Intent(this, DiffLandingActivity.class);
         startActivity(intent);
     }
 }
